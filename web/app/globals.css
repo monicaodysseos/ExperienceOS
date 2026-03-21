@@ -1,0 +1,208 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  /* Pedestal-inspired Color Palette */
+  /* Main Soft White/Off-white for clean breathing room */
+  --color-sand-50: #ffffff;
+  --color-sand-100: #f9f9fa;
+  --color-sand-200: #f1f2f4;
+  --color-sand-300: #e5e7eb;
+
+  /* Neutrals / Charcoals for text instead of heavy navy */
+  --color-navy-50: #f8fafc;
+  --color-navy-100: #f1f5f9;
+  --color-navy-200: #e2e8f0;
+  --color-navy-300: #cbd5e1;
+  --color-navy-400: #94a3b8;
+  --color-navy-500: #64748b;
+  --color-navy-600: #475569;
+  --color-navy-700: #334155;
+  --color-navy-800: #1e293b;
+  --color-navy-900: #1a1a1a;
+  --color-navy-950: #0f172a;
+
+  /* Accents - "Colourful Noise" (Dusty Pink, Forest Green, Mushroom) */
+  --color-crimson-50: #fdf2f8;
+  --color-crimson-100: #fce7f3;
+  --color-crimson-200: #fbcfe8;
+  --color-crimson-300: #f9a8d4;
+  --color-crimson-400: #f472b6;
+  --color-crimson-500: #ec4899;
+  --color-crimson-600: #db2777;
+  --color-crimson-700: #be185d;
+  --color-crimson-800: #d68995;
+  /* Dusty Pink Accent */
+  --color-crimson-900: #c07a86;
+
+  --color-purple-50: #f0fdf4;
+  --color-purple-100: #dcfce7;
+  --color-purple-200: #2d5a27;
+  /* Forest Green Accent */
+  --color-purple-300: #86efac;
+  --color-purple-400: #4ade80;
+  --color-purple-500: #22c55e;
+  --color-purple-600: #16a34a;
+  --color-purple-700: #15803d;
+  --color-purple-800: #166534;
+  --color-purple-900: #14532d;
+
+  --color-taupe-500: #b3b0a5;
+  /* Mushroom */
+
+  /* Semantic tokens */
+  --color-primary: var(--color-navy-900);
+  --color-primary-hover: var(--color-navy-800);
+  --color-primary-light: var(--color-navy-100);
+  --color-accent: var(--color-crimson-800);
+  --color-accent-hover: var(--color-crimson-900);
+  --color-background: var(--color-sand-50);
+  --color-background-warm: var(--color-sand-100);
+  --color-foreground: var(--color-navy-900);
+  --color-muted: var(--color-navy-500);
+  --color-border: var(--color-sand-300);
+  --color-border-hover: var(--color-navy-300);
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-bold: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Border Radius - Modern elegant rounded corners */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows - Soft diffused drop shadows */
+  --shadow-soft: 0px 4px 12px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0px 8px 24px rgba(0, 0, 0, 0.04);
+  --shadow-elevated: 0px 12px 32px rgba(0, 0, 0, 0.06);
+  --shadow-floating: 0px 16px 48px rgba(0, 0, 0, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-foreground);
+  background: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-sand-300);
+  color: var(--color-navy-900);
+}
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@utility animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Leaflet Map Overrides */
+.leaflet-container {
+  font-family: var(--font-sans);
+  border-radius: var(--radius-lg);
+}
+
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevated);
+  border: 2px solid var(--color-navy-900);
+}
+
+.leaflet-popup-tip {
+  border: 2px solid var(--color-navy-900);
+}
+
+.leaflet-popup-content {
+  margin: 0;
+}
+
+.leaflet-control-zoom a {
+  border: 2px solid var(--color-navy-900) !important;
+  background: white !important;
+  color: var(--color-navy-900) !important;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.leaflet-control-zoom a:hover {
+  background: var(--color-sand-100) !important;
+  border-color: var(--color-navy-800) !important;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+}
+
+.leaflet-control-zoom a:first-child {
+  border-bottom: 2px solid var(--color-navy-900) !important;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important;
+}
+
+.leaflet-control-zoom a:last-child {
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm) !important;
+}
+
+/* Custom experience marker styling */
+.custom-experience-marker {
+  transition: transform 0.2s ease-out, filter 0.2s ease-out;
+  cursor: pointer;
+}
+
+.custom-experience-marker:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 4px 12px rgba(192, 122, 134, 0.5));
+}
+
+/* Tile loading transition */
+.leaflet-tile-loaded {
+  opacity: 1;
+  transition: opacity 0.3s;
+}

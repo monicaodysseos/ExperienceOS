@@ -1,0 +1,279 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { api, type Category } from "@/lib/api";
+import { ProviderGuard } from "@/components/ProviderGuard";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
+import { Select } from "@/components/ui/Select";
+import { LocationPickerMap } from "@/components/LocationPickerMap";
+import { ImageManager, type ImageItem } from "@/components/ImageAddModal";
+import { cn } from "@/lib/utils";
+
+const CITIES = [
+  { label: "Nicosia", value: "Nicosia" },
+  { label: "Limassol", value: "Limassol" },
+  { label: "Paphos", value: "Paphos" },
+  { label: "Larnaca", value: "Larnaca" },
+  { label: "Ayia Napa", value: "Ayia Napa" },
+];
+
+const LANGUAGES = ["English", "Greek", "Russian", "German", "French"];
+const STEPS = ["Basic Info", "Details", "Images", "Review"];
+
+const schema = z.object({
+  title: z.string().min(5, "Title must be at least 5 characters"),
+  category_id: z.string().min(1, "Select a category"),
+  city: z.string().min(1, "Select a city"),
+  duration_minutes: z.string().min(1, "Required"),
+  price_per_person: z.string().min(1, "Required"),
+  min_participants: z.string().optional(),
+  max_participants: z.string().optional(),
+  description: z.string().min(20, "Description must be at least 20 characters"),
+  what_included: z.string().optional(),
+  what_to_bring: z.string().optional(),
+});
+
+type FormData = z.infer<typeof schema>;
+
+function CreateExperienceContent() {
+  const router = useRouter();
+  const [step, setStep] = useState(0);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedLangs, setSelectedLangs] = useState<string[]>(["English"]);
+  const [location, setLocation] = useState<{ lat: number; lng: number; address: string } | null>(null);
+  const [meetingAddress, setMeetingAddress] = useState("");
+  const [images, setImages] = useState<ImageItem[]>([]);
+
+  useEffect(() => {
+    api.getCategories().then(setCategories).catch(() => {});
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    trigger,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      min_participants: "1",
+      max_participants: "10",
+      duration_minutes: "60",
+    },
+  });
+
+  const values = watch();
+
+  const nextStep = async () => {
+    if (step === 0) {
+      const valid = await trigger(["title", "category_id", "city", "duration_minutes", "price_per_person"]);
+      if (!valid) return;
+    } else if (step === 1) {
+      const valid = await trigger(["description"]);
+      if (!valid) return;
+    }
+    setStep((s) => Math.min(s + 1, STEPS.length - 1));
+  };
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      const experience = await api.createExperience({
+        title: data.title,
+        description: data.description,
+        what_included: data.what_included,
+        what_to_bring: data.what_to_bring,
+        meeting_point: meetingAddress,
+        city: data.city,
+        latitude: location ? parseFloat(location.lat.toFixed(6)) : undefined,
+        longitude: location ? parseFloat(location.lng.toFixed(6)) : undefined,
+        duration_minutes: parseInt(data.duration_minutes),
+        price_per_person: parseFloat(data.price_per_person),
+        min_participants: parseInt(data.min_participants || "1"),
+        max_participants: parseInt(data.max_participants || "10"),
+        languages: selectedLangs,
+        category_id: parseInt(data.category_id),
+      });
+
+      // Upload images
+      for (let i = 0; i < images.length; i++) {
+        await api.uploadExperienceImage(experience.slug, {
+          image_url: images[i].url,
+          is_cover: images[i].isCover,
+          display_order: i,
+        });
+      }
+
+      toast.success("Experience created!");
+      router.push("/dashboard/provider/experiences");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to create experience");
+    }
+  };
+
+  return (
+    <div className="mx-auto max-w-2xl">
+      <h1 className="text-2xl font-bold text-navy-900">Create Experience</h1>
+
+      {/* Progress */}
+      <div className="mt-6 flex items-center gap-2">
+        {STEPS.map((s, i) => (
+          <div key={s} className="flex items-center gap-2">
+            <div
+              className={cn(
+                "flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold",
+                i < step
+                  ? "bg-teal-700 text-white"
+                  : i === step
+                    ? "bg-teal-100 text-teal-700 ring-2 ring-teal-700"
+                    : "bg-navy-100 text-navy-400"
+              )}
+            >
+              {i < step ? <Check className="h-4 w-4" /> : i + 1}
+            </div>
+            <span className={cn("hidden text-sm sm:block", i === step ? "font-medium text-navy-900" : "text-navy-400")}>
+              {s}
+            </span>
+            {i < STEPS.length - 1 && <div className="mx-2 h-px w-8 bg-navy-200" />}
+          </div>
+        ))}
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
+        {/* Step 1: Basic Info */}
+        {step === 0 && (
+          <div className="space-y-5">
+            <Input label="Title" placeholder="e.g., Traditional Cypriot Cooking Class" error={errors.title?.message} {...register("title")} />
+            <Select
+              label="Category"
+              options={categories.map((c) => ({ label: c.name, value: c.id.toString() }))}
+              value={values.category_id}
+              onValueChange={(v) => setValue("category_id", v)}
+              error={errors.category_id?.message}
+            />
+            <Select
+              label="City"
+              options={CITIES}
+              value={values.city}
+              onValueChange={(v) => setValue("city", v)}
+              error={errors.city?.message}
+            />
+            <div className="grid grid-cols-2 gap-4">
+              <Input label="Duration (minutes)" type="number" error={errors.duration_minutes?.message} {...register("duration_minutes")} />
+              <Input label="Price per person (EUR)" type="number" step="0.01" error={errors.price_per_person?.message} {...register("price_per_person")} />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <Input label="Min participants" type="number" {...register("min_participants")} />
+              <Input label="Max participants" type="number" {...register("max_participants")} />
+            </div>
+          </div>
+        )}
+
+        {/* Step 2: Details */}
+        {step === 1 && (
+          <div className="space-y-5">
+            <Textarea label="Description" placeholder="Describe your experience in detail..." error={errors.description?.message} {...register("description")} />
+            <Textarea label="What's included (one item per line)" placeholder="All materials&#10;Light refreshments&#10;Certificate of completion" {...register("what_included")} />
+            <Textarea label="What to bring" placeholder="Comfortable shoes, camera..." {...register("what_to_bring")} />
+
+            <LocationPickerMap
+              value={location ?? undefined}
+              onChange={(val) => setLocation(val)}
+              addressValue={meetingAddress}
+              onAddressChange={setMeetingAddress}
+            />
+
+            <div>
+              <p className="mb-2 text-sm font-medium text-navy-700">Languages</p>
+              <div className="flex flex-wrap gap-2">
+                {LANGUAGES.map((lang) => (
+                  <button
+                    key={lang}
+                    type="button"
+                    onClick={() =>
+                      setSelectedLangs((prev) =>
+                        prev.includes(lang) ? prev.filter((l) => l !== lang) : [...prev, lang]
+                      )
+                    }
+                    className={cn(
+                      "rounded-full border px-3 py-1.5 text-sm transition-colors",
+                      selectedLangs.includes(lang) ? "border-teal-700 bg-teal-50 text-teal-700" : "border-navy-200 text-navy-600 hover:border-navy-300"
+                    )}
+                  >
+                    {lang}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Step 3: Images */}
+        {step === 2 && (
+          <div className="space-y-5">
+            <p className="text-sm text-navy-500">
+              Add images for your experience. Click ★ on any image to set it as the cover photo.
+            </p>
+            <ImageManager images={images} onChange={setImages} />
+          </div>
+        )}
+
+        {/* Step 4: Review */}
+        {step === 3 && (
+          <div className="space-y-4 rounded-xl border border-navy-200 p-6">
+            <h3 className="font-semibold text-navy-900">Review your experience</h3>
+            <div className="space-y-2 text-sm text-navy-600">
+              <p><strong>Title:</strong> {values.title}</p>
+              <p><strong>City:</strong> {values.city}</p>
+              <p><strong>Duration:</strong> {values.duration_minutes} min</p>
+              <p><strong>Price:</strong> &euro;{values.price_per_person}/person</p>
+              <p><strong>Participants:</strong> {values.min_participants}–{values.max_participants}</p>
+              <p><strong>Languages:</strong> {selectedLangs.join(", ")}</p>
+              <p><strong>Images:</strong> {images.length}</p>
+              {meetingAddress && <p><strong>Meeting point:</strong> {meetingAddress}</p>}
+              {location && <p><strong>Pin:</strong> {location.lat.toFixed(5)}, {location.lng.toFixed(5)}</p>}
+            </div>
+            <p className="mt-2 text-sm text-navy-600 line-clamp-3">{values.description}</p>
+          </div>
+        )}
+
+        {/* Navigation */}
+        <div className="mt-8 flex justify-between">
+          {step > 0 ? (
+            <Button type="button" variant="ghost" onClick={() => setStep((s) => s - 1)}>
+              <ArrowLeft className="h-4 w-4" /> Back
+            </Button>
+          ) : (
+            <div />
+          )}
+          {step < STEPS.length - 1 ? (
+            <Button type="button" onClick={nextStep}>
+              Next <ArrowRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button type="submit" loading={isSubmitting} variant="secondary">
+              Publish Experience
+            </Button>
+          )}
+        </div>
+      </form>
+    </div>
+  );
+}
+
+export default function CreateExperiencePage() {
+  return (
+    <ProviderGuard>
+      <CreateExperienceContent />
+    </ProviderGuard>
+  );
+}
