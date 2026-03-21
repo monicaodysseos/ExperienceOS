@@ -79,14 +79,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
-# Handle empty DATABASE_URL from Railway if reference fails to resolve
-DATABASE_URL = env('DATABASE_URL', default='sqlite:///db.sqlite3')
-if DATABASE_URL and DATABASE_URL != '':
+# Check if DATABASE_URL is set to a real PostgreSQL URL (not empty or default)
+DATABASE_URL = env('DATABASE_URL', default='')
+if DATABASE_URL and DATABASE_URL.startswith(('postgres://', 'postgresql://')):
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL)
     }
 else:
-    # Fallback to SQLite for local development
+    # Fallback to SQLite for local development only
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
