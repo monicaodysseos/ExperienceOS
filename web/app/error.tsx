@@ -13,8 +13,11 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log to Sentry when available
-    if (typeof window !== "undefined" && (window as { Sentry?: { captureException: (e: Error) => void } }).Sentry) {
-      (window as { Sentry: { captureException: (e: Error) => void } }).Sentry.captureException(error);
+    if (typeof window !== "undefined") {
+      const win = window as any;
+      if (win.Sentry?.captureException) {
+        win.Sentry.captureException(error);
+      }
     }
   }, [error]);
 

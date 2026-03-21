@@ -708,6 +708,7 @@ export interface User {
   preferred_language: string;
   has_provider_profile: boolean;
   is_email_verified: boolean;
+  is_staff: boolean;
   org_id: number | null;
   org_name: string | null;
   date_joined: string;
