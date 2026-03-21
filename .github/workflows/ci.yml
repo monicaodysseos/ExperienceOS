@@ -43,7 +43,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ExperienceOS/backend
+        working-directory: backend
 
     steps:
       - uses: actions/checkout@v4
@@ -88,7 +88,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ExperienceOS/web
+        working-directory: web
 
     steps:
       - uses: actions/checkout@v4
@@ -98,7 +98,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
-          cache-dependency-path: ExperienceOS/web/package-lock.json
+          cache-dependency-path: web/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -131,7 +131,7 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: railway up --service backend --detach
-        working-directory: ExperienceOS/backend
+        working-directory: backend
 
   deploy-frontend:
     name: Deploy Frontend → Vercel
@@ -148,5 +148,5 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: ExperienceOS/web
+          working-directory: web
           vercel-args: "--prod"
