@@ -1,0 +1,62 @@
+[
+  {
+    "model": "experiences.category",
+    "pk": 1,
+    "fields": {
+      "name": "Adventure",
+      "slug": "adventure",
+      "icon": "⛰️",
+      "is_active": true
+    }
+  },
+  {
+    "model": "experiences.category",
+    "pk": 2,
+    "fields": {
+      "name": "Food & Drink",
+      "slug": "food-drink",
+      "icon": "🍷",
+      "is_active": true
+    }
+  },
+  {
+    "model": "experiences.category",
+    "pk": 3,
+    "fields": {
+      "name": "Culture",
+      "slug": "culture",
+      "icon": "🏛️",
+      "is_active": true
+    }
+  },
+  {
+    "model": "experiences.category",
+    "pk": 4,
+    "fields": {
+      "name": "Water Sports",
+      "slug": "water-sports",
+      "icon": "🏄",
+      "is_active": true
+    }
+  },
+  {
+    "model": "experiences.category",
+    "pk": 5,
+    "fields": {
+      "name": "Wellness",
+      "slug": "wellness",
+      "icon": "🧘",
+      "is_active": true
+    }
+  },
+  {
+    "model": "experiences.category",
+    "pk": 6,
+    "fields": {
+      "name": "Nightlife",
+      "slug": "nightlife",
+      "icon": "🎉",
+      "is_active": true
+    }
+  }
+]
