@@ -26,6 +26,7 @@ interface ExperienceDetail {
   images: { id: number; image_url: string; is_cover: boolean }[];
   provider: {
     id: number;
+    user_id: number;
     display_name: string;
     bio: string;
     tagline: string;
