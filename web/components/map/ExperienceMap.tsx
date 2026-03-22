@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import { Icon } from "leaflet";
 import { ExperienceMapItem } from "@/lib/api";
 import { useMapStore } from "@/lib/map-store";
@@ -57,6 +57,18 @@ interface MappedExperience {
   isExact: boolean;
 }
 
+function MapEventHandler() {
+  const map = useMapEvents({
+    zoomstart: () => {
+      map.closePopup();
+    },
+    dragstart: () => {
+      map.closePopup();
+    },
+  });
+  return null;
+}
+
 export function ExperienceMap({
   experiences,
   height = "h-[600px]",
@@ -95,9 +107,10 @@ export function ExperienceMap({
       <MapContainer
         center={mapCenter}
         zoom={mapZoom}
-        className="w-full h-full rounded-[2.5rem] border-4 border-navy-900 shadow-[6px_6px_0_theme(colors.navy.900)] overflow-hidden"
+        className="w-full h-full rounded-[2.5rem] border-4 border-ink-900 shadow-playful overflow-hidden"
         scrollWheelZoom={true}
       >
+        <MapEventHandler />
         <TileLayer
           attribution='&copy; <a href="https://carto.com/attributions">CartoDB</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
@@ -108,7 +121,7 @@ export function ExperienceMap({
             position={position}
             icon={isExact ? exactIcon : cityIcon}
           >
-            <Popup>
+            <Popup autoPan={true}>
               <MapPopup experience={experience} approximate={!isExact} />
             </Popup>
           </Marker>
