@@ -39,7 +39,7 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95 mb-2">
               <div className="bg-white/10 backdrop-blur-sm p-3 rounded-2xl inline-flex border border-white/20">
-                <img src="/vivido-logo.jpg" alt="ViVi DO Creative Activities" className="h-12 w-auto object-contain" />
+                <img src="/vivido-logo.png" alt="ViVi DO Creative Activities" className="h-14 w-auto object-contain" />
               </div>
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-navy-400">
