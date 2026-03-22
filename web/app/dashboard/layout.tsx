@@ -70,6 +70,14 @@ const PROVIDER_LINKS = [
   { href: "/dashboard/provider/stripe", label: "Stripe Settings", icon: CreditCard },
 ];
 
+const HOVER_COLORS = [
+  "hover:bg-blue-300",
+  "hover:bg-green-300",
+  "hover:bg-red-300",
+  "hover:bg-orange-300",
+  "hover:bg-purple-300",
+];
+
 function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user } = useAuth();
@@ -94,10 +102,11 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
             <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-navy-400">
               {sidebarLabel}
             </p>
-            {primaryLinks.map((link) => {
+            {primaryLinks.map((link, index) => {
               const isActive = link.exact
                 ? pathname === link.href
                 : pathname.startsWith(link.href);
+              const hoverColor = HOVER_COLORS[index % HOVER_COLORS.length];
               return (
                 <Link
                   key={link.href}
@@ -106,7 +115,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
                     "flex items-center gap-4 rounded-[2rem] px-4 py-3 text-base font-bold transition-all duration-300",
                     isActive
                       ? "bg-yellow-400 text-navy-900 shadow-playful border-4 border-navy-900 translate-x-2"
-                      : "text-navy-700 hover:bg-purple-100 border-4 border-transparent hover:border-navy-900 hover:shadow-playful hover:translate-x-1"
+                      : `text-navy-700 ${hoverColor} border-4 border-transparent hover:border-navy-900 hover:shadow-playful hover:translate-x-1`
                   )}
                 >
                   <link.icon className="h-5 w-5" />
@@ -121,10 +130,11 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
                 <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-navy-400">
                   Provider
                 </p>
-                {PROVIDER_LINKS.map((link) => {
+                {PROVIDER_LINKS.map((link, index) => {
                   const isActive = link.exact
                     ? pathname === link.href
                     : pathname.startsWith(link.href);
+                  const hoverColor = HOVER_COLORS[(index + 2) % HOVER_COLORS.length]; // Offset so it looks different
                   return (
                     <Link
                       key={link.href}
@@ -133,7 +143,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
                         "flex items-center gap-4 rounded-[2rem] px-4 py-3 text-sm font-bold transition-all duration-300",
                         isActive
                           ? "bg-light-green-400 text-navy-900 shadow-playful border-4 border-navy-900 translate-x-2"
-                          : "text-navy-700 hover:bg-light-green-100 border-4 border-transparent hover:border-navy-900 hover:shadow-playful hover:translate-x-1"
+                          : `text-navy-700 ${hoverColor} border-4 border-transparent hover:border-navy-900 hover:shadow-playful hover:translate-x-1`
                       )}
                     >
                       <link.icon className="h-4 w-4" />
