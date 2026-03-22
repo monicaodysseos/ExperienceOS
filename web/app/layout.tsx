@@ -4,7 +4,15 @@ import { Toaster } from "sonner";
 import { AuthProvider } from "@/components/AuthProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { Fredoka } from "next/font/google";
 import "./globals.css";
+
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  variable: "--font-fredoka",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "ExperienceOS — Discover Unforgettable Experiences in Cyprus",
@@ -31,17 +39,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-
         {/* PostHog — product analytics + session replay */}
         {POSTHOG_KEY && (
           <Script id="posthog-init" strategy="afterInteractive">{`
@@ -57,7 +54,7 @@ export default function RootLayout({
           `}</Script>
         )}
       </head>
-      <body className="min-h-screen bg-sand-50 text-navy-900 antialiased selection:bg-sand-300 selection:text-navy-900">
+      <body className={`${fredoka.variable} min-h-screen bg-sand-50 text-navy-900 antialiased selection:bg-purple-200 selection:text-navy-900`}>
         <AuthProvider>
           <Toaster position="top-right" richColors closeButton />
           <Navbar />

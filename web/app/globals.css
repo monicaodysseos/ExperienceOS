@@ -133,23 +133,23 @@
   --color-error: var(--color-red-600);
 
   /* Typography */
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-bold: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-fredoka), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-fredoka), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-bold: var(--font-fredoka), ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* Border Radius - Modern elegant rounded corners */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 24px;
+  /* Border Radius - Bubbly and playful */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-2xl: 40px;
   --radius-full: 9999px;
 
-  /* Shadows - Soft diffused drop shadows */
-  --shadow-soft: 0px 4px 12px rgba(0, 0, 0, 0.03);
-  --shadow-card: 0px 8px 24px rgba(0, 0, 0, 0.04);
-  --shadow-elevated: 0px 12px 32px rgba(0, 0, 0, 0.06);
-  --shadow-floating: 0px 16px 48px rgba(0, 0, 0, 0.08);
+  /* Shadows - Playful offset solid shadows */
+  --shadow-soft: 0px 4px 0px rgba(30, 41, 59, 0.1);
+  --shadow-card: 4px 4px 0px rgba(30, 41, 59, 1);
+  --shadow-elevated: 6px 6px 0px rgba(30, 41, 59, 1);
+  --shadow-floating: 8px 8px 0px rgba(30, 41, 59, 1);
 }
 
 html {
@@ -176,6 +176,28 @@ body {
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+@utility shadow-playful {
+  box-shadow: 4px 4px 0px var(--color-navy-900);
+  border: 2px solid var(--color-navy-900);
+}
+
+@utility shadow-playful-hover {
+  box-shadow: 2px 2px 0px var(--color-navy-900);
+  transform: translate(2px, 2px);
+}
+
+@utility blob-shape-1 {
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+}
+
+@utility blob-shape-2 {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+@utility title-shadow {
+  text-shadow: 3px 3px 0px var(--color-navy-900);
 }
 
 @utility animate-fade-in {

@@ -60,20 +60,20 @@ export default function HomePage() {
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 flex flex-col items-center">
           <div className="mx-auto max-w-5xl text-center z-10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-purple-700 shadow-sm ring-1 ring-purple-200 mb-10 transition-transform hover:scale-105 cursor-default">
-              <Sparkles className="h-4 w-4" />
+            <div className="inline-flex items-center gap-2 rounded-full bg-yellow-400 px-5 py-2 text-sm font-bold text-navy-900 border-2 border-navy-900 shadow-playful mb-10 transition-transform hover:scale-105 cursor-default">
+              <Sparkles className="h-5 w-5 text-purple-600" />
               <span>New experiences added weekly</span>
             </div>
 
-            <h1 className="font-display text-6xl font-semibold tracking-tight text-navy-900 sm:text-7xl lg:text-8xl leading-[1.1]">
+            <h1 className="font-display text-6xl font-black tracking-tight text-navy-900 sm:text-7xl lg:text-8xl leading-[1.1] title-shadow">
               Discover unforgettable <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-orange-500 bg-clip-text text-transparent relative whitespace-nowrap">
+              <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 bg-clip-text text-transparent relative whitespace-nowrap drop-shadow-sm">
                 experiences
               </span>
               {" "}in Cyprus
             </h1>
 
-            <p className="mx-auto mt-8 max-w-2xl text-xl text-navy-500 leading-relaxed">
+            <p className="mx-auto mt-8 max-w-2xl text-xl font-medium text-navy-700 leading-relaxed">
               From hidden village cooking classes to sunset yacht tours — find
               your next adventure with local experts who know Cyprus best.
             </p>
@@ -81,8 +81,8 @@ export default function HomePage() {
             {/* Search Bar */}
             <div className="mx-auto mt-16 max-w-4xl">
               <form action="/experiences" method="GET">
-                <div className="flex flex-col sm:flex-row rounded-2xl shadow-floating bg-white ring-1 ring-sand-200 transition-shadow hover:shadow-elevated p-2 gap-2">
-                  <div className="flex flex-1 items-center gap-3 px-4 py-3 sm:py-0 border-b border-sand-200 sm:border-b-0 sm:border-r">
+                <div className="flex flex-col sm:flex-row rounded-3xl sm:rounded-full bg-white border-4 border-navy-900 shadow-playful p-2 gap-2 transition-transform hover:-translate-y-1">
+                  <div className="flex flex-1 items-center gap-3 px-4 py-3 sm:py-0 border-b-2 border-sand-200 sm:border-b-0 sm:border-r-2">
                     <Search className="h-5 w-5 text-navy-400" />
                     <input
                       type="text"
@@ -107,7 +107,7 @@ export default function HomePage() {
                   </div>
                   <button
                     type="submit"
-                    className="rounded-full bg-orange-500 px-8 py-4 text-lg font-medium text-white transition-all hover:bg-orange-600 hover:shadow-md"
+                    className="rounded-full bg-orange-500 px-8 py-4 text-lg font-bold text-white transition-all hover:bg-orange-600 shadow-playful hover:shadow-playful-hover border-2 border-navy-900"
                   >
                     Search
                   </button>
@@ -154,7 +154,7 @@ export default function HomePage() {
                 icon: Search,
                 title: "Browse",
                 desc: "Explore hundreds of unique experiences across Cyprus, curated by passionate locals.",
-                color: "bg-blue-50 text-navy-900 border-blue-100",
+                color: "bg-blue-300 text-navy-900 border-navy-900",
                 iconBg: "bg-white",
                 iconColor: "text-blue-600",
               },
@@ -162,7 +162,7 @@ export default function HomePage() {
                 icon: Calendar,
                 title: "Book",
                 desc: "Pick your perfect date and time, invite your friends, and check out securely.",
-                color: "bg-orange-50 text-navy-900 border-orange-100",
+                color: "bg-orange-300 text-navy-900 border-navy-900",
                 iconBg: "bg-white",
                 iconColor: "text-orange-600",
               },
@@ -170,17 +170,17 @@ export default function HomePage() {
                 icon: Heart,
                 title: "Experience",
                 desc: "Show up, meet your host, and create incredible memories that last a lifetime.",
-                color: "bg-green-50 text-navy-900 border-green-100",
+                color: "bg-green-300 text-navy-900 border-navy-900",
                 iconBg: "bg-white",
                 iconColor: "text-green-600",
               },
             ].map((step, i) => (
-              <div key={step.title} className={`relative p-8 rounded-3xl border ${step.color} transition-all duration-300 hover:shadow-card hover:-translate-y-1`}>
-                <div className={`flex h-14 w-14 mb-8 items-center justify-center rounded-2xl shadow-sm ${step.iconBg} ${step.iconColor}`}>
-                  <step.icon className="h-6 w-6" />
+              <div key={step.title} className={`relative p-8 rounded-[2rem] border-4 ${step.color} transition-all duration-300 shadow-playful hover:shadow-playful-hover hover:-translate-y-2`}>
+                <div className={`flex h-16 w-16 mb-8 items-center justify-center rounded-full border-2 border-navy-900 shadow-playful ${step.iconBg} ${step.iconColor}`}>
+                  <step.icon className="h-8 w-8" />
                 </div>
-                <h3 className="font-display text-2xl font-semibold mb-3">{step.title}</h3>
-                <p className="text-base leading-relaxed opacity-80">{step.desc}</p>
+                <h3 className="font-display text-3xl font-bold mb-3">{step.title}</h3>
+                <p className="text-lg font-medium leading-relaxed opacity-90">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -207,10 +207,10 @@ export default function HomePage() {
               <Link
                 key={cat.slug}
                 href={`/experiences?category=${cat.slug}`}
-                className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${cat.gradient} p-6 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-card hover:-translate-y-1 hover:scale-105`}
+                className={`group relative overflow-hidden rounded-[2rem] bg-gradient-to-br ${cat.gradient} p-6 flex flex-col items-center justify-center transition-all duration-300 shadow-playful hover:shadow-playful-hover hover:-translate-y-2 border-4 border-navy-900`}
               >
-                <span className="text-4xl sm:text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 drop-shadow-md">{cat.icon}</span>
-                <p className="text-lg font-semibold text-white text-center drop-shadow-sm">{cat.name}</p>
+                <span className="text-5xl sm:text-6xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 drop-shadow-md">{cat.icon}</span>
+                <p className="text-xl font-bold text-white text-center title-shadow">{cat.name}</p>
               </Link>
             ))}
           </div>
@@ -291,23 +291,23 @@ export default function HomePage() {
             {TESTIMONIALS.map((t) => (
               <div
                 key={t.name}
-                className="rounded-3xl bg-white p-8 sm:p-10 shadow-sm ring-1 ring-sand-200"
+                className="rounded-[2.5rem] bg-white p-8 sm:p-10 shadow-playful border-4 border-navy-900"
               >
                 <div className="flex items-center gap-1 mb-6">
                   {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-current text-orange-400" />
+                    <Star key={i} className="h-6 w-6 fill-current text-yellow-500" />
                   ))}
                 </div>
-                <p className="text-lg text-navy-700 leading-relaxed mb-8">
+                <p className="text-xl font-medium text-navy-800 leading-relaxed mb-8">
                   &ldquo;{t.text}&rdquo;
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-full bg-sand-200 flex items-center justify-center text-navy-900 font-semibold">
+                  <div className="h-12 w-12 rounded-full border-2 border-navy-900 bg-purple-300 flex items-center justify-center text-navy-900 font-bold text-lg">
                     {t.name.charAt(0)}
                   </div>
                   <div>
-                    <p className="font-semibold text-navy-900">{t.name}</p>
-                    <p className="text-sm text-navy-500">{t.experience}</p>
+                    <p className="font-bold text-navy-900">{t.name}</p>
+                    <p className="text-sm font-medium text-navy-500">{t.experience}</p>
                   </div>
                 </div>
               </div>
@@ -325,17 +325,17 @@ export default function HomePage() {
 
             <div className="grid gap-16 lg:grid-cols-2 items-center relative z-10">
               <div>
-                <h2 className="font-display text-5xl lg:text-7xl font-semibold text-white leading-[1.05] tracking-tight mb-8">
+                <h2 className="font-display text-5xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-8 title-shadow">
                   Share Your<br />Passion
                 </h2>
-                <p className="text-xl text-navy-200 leading-relaxed mb-10 max-w-lg">
+                <p className="text-xl font-medium text-purple-100 leading-relaxed mb-10 max-w-lg">
                   Join our community of local experts in Cyprus. Create unique experiences, set your own schedule, and start earning doing what you love.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link href="/auth/register?role=provider" className="inline-flex items-center justify-center gap-2 bg-orange-500 px-8 py-4 text-lg font-medium text-white rounded-full shadow-sm hover:bg-orange-600 hover:shadow-md transition-all">
+                  <Link href="/auth/register?role=provider" className="inline-flex items-center justify-center gap-2 bg-yellow-400 border-2 border-navy-900 px-8 py-4 text-lg font-bold text-navy-900 rounded-full shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all">
                     Start Hosting <ArrowRight className="h-5 w-5" />
                   </Link>
-                  <Link href="/become-provider" className="inline-flex items-center justify-center gap-2 bg-white/10 px-8 py-4 text-lg font-medium text-white rounded-full hover:bg-white/20 transition-all backdrop-blur-sm">
+                  <Link href="/become-provider" className="inline-flex items-center justify-center gap-2 bg-white/10 px-8 py-4 text-lg font-bold text-white border-2 border-transparent rounded-full hover:bg-white/20 transition-all backdrop-blur-sm">
                     Learn More
                   </Link>
                 </div>

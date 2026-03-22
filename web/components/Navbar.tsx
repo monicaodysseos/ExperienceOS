@@ -66,23 +66,12 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className={cn(
-            "flex h-8 w-8 items-center justify-center rounded-lg font-bold text-sm",
-            isTransparent
-              ? "bg-white/20 text-white"
-              : "bg-gradient-to-br from-blue-500 to-purple-500 text-white"
-          )}>
-            EO
-          </div>
-          <span
-            className={cn(
-              "text-lg font-bold tracking-tight",
-              isTransparent ? "text-white" : "text-navy-900"
-            )}
-          >
-            ExperienceOS
-          </span>
+        <Link href="/" className="flex items-center gap-2 transition-transform duration-300 hover:scale-[1.03] active:scale-95">
+          <img 
+            src="/vivido-logo.png" 
+            alt="ViVi DO Creative Activities" 
+            className="h-10 sm:h-12 w-auto object-contain"
+          />
         </Link>
 
         {/* Desktop Nav */}
@@ -136,10 +125,10 @@ export function Navbar() {
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className={cn(
-                  "flex items-center gap-2 rounded-full py-1 pl-1 pr-3 transition-colors",
+                  "flex items-center gap-2 rounded-full py-1 pl-1 pr-3 transition-transform hover:scale-105 active:scale-95",
                   isTransparent
                     ? "hover:bg-white/10"
-                    : "hover:bg-navy-50 border border-navy-200"
+                    : "hover:bg-purple-50 border-2 border-purple-200"
                 )}
               >
                 <Avatar

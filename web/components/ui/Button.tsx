@@ -12,17 +12,17 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles = {
   primary:
-    "bg-blue-600 text-white shadow-sm hover:shadow-md hover:bg-blue-700 hover:-translate-y-0.5 focus-visible:ring-blue-500",
+    "bg-blue-500 text-white shadow-playful hover:shadow-playful-hover focus-visible:ring-blue-500 font-bold",
   secondary:
-    "bg-orange-500 text-white shadow-sm hover:shadow-md hover:bg-orange-600 hover:-translate-y-0.5 focus-visible:ring-orange-500",
+    "bg-orange-500 text-white shadow-playful hover:shadow-playful-hover focus-visible:ring-orange-500 font-bold",
   tertiary:
-    "bg-green-600 text-white shadow-sm hover:shadow-md hover:bg-green-700 hover:-translate-y-0.5 focus-visible:ring-green-500",
+    "bg-green-500 text-white shadow-playful hover:shadow-playful-hover focus-visible:ring-green-500 font-bold",
   outline:
-    "bg-white text-blue-700 shadow-sm ring-2 ring-inset ring-blue-600 hover:bg-blue-50 hover:shadow-md hover:ring-blue-700 focus-visible:ring-blue-500",
+    "bg-white text-navy-900 shadow-playful hover:shadow-playful-hover focus-visible:ring-navy-900 font-bold",
   ghost:
-    "text-navy-900 hover:bg-blue-50",
+    "text-navy-900 hover:bg-purple-100 font-bold",
   danger:
-    "bg-red-600 text-white shadow-sm hover:bg-red-700 hover:shadow-md hover:-translate-y-0.5 focus-visible:ring-red-500",
+    "bg-red-500 text-white shadow-playful hover:shadow-playful-hover focus-visible:ring-red-500 font-bold",
 };
 
 const sizeStyles = {

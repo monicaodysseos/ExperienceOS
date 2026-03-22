@@ -29,19 +29,18 @@ export function Footer() {
   if (pathname.startsWith("/auth")) return null;
 
   return (
-    <footer className="bg-navy-900 text-white">
-      {/* Gradient line at top */}
-      <div className="h-1 bg-gradient-to-r from-teal-500 via-teal-400 to-coral-500" />
+    <footer className="bg-navy-900 text-white overflow-hidden relative">
+      {/* Playful top border */}
+      <div className="h-3 w-full bg-gradient-to-r from-blue-400 via-purple-400 to-orange-400" />
 
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-600 text-sm font-bold text-white">
-                EO
+            <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95 mb-2">
+              <div className="bg-white/10 backdrop-blur-sm p-3 rounded-2xl inline-flex border border-white/20">
+                <img src="/vivido-logo.png" alt="ViVi DO Creative Activities" className="h-12 w-auto object-contain" />
               </div>
-              <span className="text-lg font-bold">ExperienceOS</span>
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-navy-400">
               Discover Cyprus one experience at a time. From cooking classes to
