@@ -24,89 +24,89 @@
   
   --color-ink-900: #2d231a;
 
-  /* 'Blue' mapped to Faded Ocean / Slate Teal */
-  --color-blue-50: #eaf1f1;
-  --color-blue-100: #cadddd;
-  --color-blue-200: #a9c8c8;
-  --color-blue-300: #89b4b4;
-  --color-blue-400: #689f9f;
-  --color-blue-500: #5c8a8a;
-  --color-blue-600: #4c7373;
-  --color-blue-700: #3f5d5d;
-  --color-blue-800: #304848;
-  --color-blue-900: #233333;
+  /* 'Blue' mapped to Vibrant Logo Sky Blue */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
 
-  /* 'Green' mapped to Sage / Moss */
-  --color-green-50: #eef1ec;
-  --color-green-100: #d4dcce;
-  --color-green-200: #bbc7af;
-  --color-green-300: #a1b290;
-  --color-green-400: #889d71;
-  --color-green-500: #7a8c69;
-  --color-green-600: #627054;
-  --color-green-700: #49543f;
-  --color-green-800: #31382a;
-  --color-green-900: #181c15;
+  /* 'Green' mapped to Vibrant Logo Grass Green */
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
 
-  /* 'Red' mapped to Muted Terracotta/Brick */
-  --color-red-50: #f7e9e6;
-  --color-red-100: #eac8c0;
-  --color-red-200: #dda799;
-  --color-red-300: #c27660;
-  --color-red-400: #b56750;
-  --color-red-500: #a65d47;
-  --color-red-600: #8f4b36;
-  --color-red-700: #733c2b;
-  --color-red-800: #572d20;
-  --color-red-900: #3b1e15;
+  /* 'Red' mapped to Vibrant Logo Red */
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-red-900: #7f1d1d;
 
-  /* 'Purple' mapped to Muted Lavender/Mauve */
-  --color-purple-50: #f4ebf2;
-  --color-purple-100: #e4cce0;
-  --color-purple-200: #d3adcd;
-  --color-purple-300: #c38ebb;
-  --color-purple-400: #b26fa8;
-  --color-purple-500: #9e5b94;
-  --color-purple-600: #824a7a;
-  --color-purple-700: #663a60;
-  --color-purple-800: #4a2a46;
-  --color-purple-900: #2e1a2c;
+  /* 'Purple' mapped to Vibrant Logo Pink/Magenta */
+  --color-purple-50: #fdf2f8;
+  --color-purple-100: #fce7f3;
+  --color-purple-200: #fbcfe8;
+  --color-purple-300: #f9a8d4;
+  --color-purple-400: #f472b6;
+  --color-purple-500: #ec4899;
+  --color-purple-600: #db2777;
+  --color-purple-700: #be185d;
+  --color-purple-800: #9d174d;
+  --color-purple-900: #831843;
 
-  /* 'Orange' mapped to Muddy Clay / Sienna */
-  --color-orange-50: #f6ebe6;
-  --color-orange-100: #eaccbd;
-  --color-orange-200: #dfaa92;
-  --color-orange-300: #d38968;
-  --color-orange-400: #c86c3f;
-  --color-orange-500: #b85a2a;
-  --color-orange-600: #964a22;
-  --color-orange-700: #74391a;
-  --color-orange-800: #522812;
-  --color-orange-900: #30170a;
+  /* 'Orange' mapped to Vibrant Logo Orange */
+  --color-orange-50: #fff7ed;
+  --color-orange-100: #ffedd5;
+  --color-orange-200: #fed7aa;
+  --color-orange-300: #fdba74;
+  --color-orange-400: #fb923c;
+  --color-orange-500: #f97316;
+  --color-orange-600: #ea580c;
+  --color-orange-700: #c2410c;
+  --color-orange-800: #9a3412;
+  --color-orange-900: #7c2d12;
 
-  /* 'Yellow' mapped to Antique Gold / Brass */
-  --color-yellow-50: #fbf6ea;
-  --color-yellow-100: #f5e8cc;
-  --color-yellow-200: #eed9ad;
-  --color-yellow-300: #e8d08b;
-  --color-yellow-400: #dcb96a;
-  --color-yellow-500: #d4b872;
-  --color-yellow-600: #b39755;
-  --color-yellow-700: #917942;
-  --color-yellow-800: #6e5b30;
-  --color-yellow-900: #4c3e21;
+  /* 'Yellow' mapped to Bright Logo Yellow */
+  --color-yellow-50: #fefce8;
+  --color-yellow-100: #fef9c3;
+  --color-yellow-200: #fef08a;
+  --color-yellow-300: #fde047;
+  --color-yellow-400: #facc15;
+  --color-yellow-500: #eab308;
+  --color-yellow-600: #ca8a04;
+  --color-yellow-700: #a16207;
+  --color-yellow-800: #854d0e;
+  --color-yellow-900: #713f12;
 
-  /* 'Light Green' mapped to Pale Olive */
-  --color-light-green-50: #f2f5ed;
-  --color-light-green-100: #dee6ce;
-  --color-light-green-200: #cbd7af;
-  --color-light-green-300: #b7c890;
-  --color-light-green-400: #a4b971;
-  --color-light-green-500: #9cb08a;
-  --color-light-green-600: #7d8d6e;
-  --color-light-green-700: #5d6952;
-  --color-light-green-800: #3e4637;
-  --color-light-green-900: #1f231b;
+  /* 'Light Green' mapped to Vibrant Logo Lime */
+  --color-light-green-50: #f7fee7;
+  --color-light-green-100: #ecfccb;
+  --color-light-green-200: #d9f99d;
+  --color-light-green-300: #bef264;
+  --color-light-green-400: #a3e635;
+  --color-light-green-500: #84cc16;
+  --color-light-green-600: #65a30d;
+  --color-light-green-700: #4d7c0f;
+  --color-light-green-800: #3f6212;
+  --color-light-green-900: #365314;
 
   /* Semantic avatars */
   --color-primary: var(--color-blue-600);
