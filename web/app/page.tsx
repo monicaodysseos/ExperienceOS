@@ -53,10 +53,6 @@ export default function HomePage() {
     <div className="bg-sand-50">
       {/* ─── Hero ───────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-sand-50 pt-24 pb-32 sm:pt-32 sm:pb-40">
-        {/* VIVI DO colorful background gradients */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-blue-400 to-purple-400 opacity-40 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-green-300 to-light-green-400 opacity-40 blur-3xl pointer-events-none" />
-        <div className="absolute top-20 left-1/2 -ml-40 w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-orange-400 to-yellow-300 opacity-30 blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 flex flex-col items-center">
           <div className="mx-auto max-w-5xl text-center z-10">
@@ -67,7 +63,7 @@ export default function HomePage() {
 
             <h1 className="font-display text-6xl font-bold tracking-tight text-navy-900 sm:text-7xl lg:text-8xl leading-[1.1] ">
               Discover unforgettable <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 bg-clip-text text-transparent relative whitespace-nowrap drop-shadow-sm">
+              <span className="text-orange-600 relative whitespace-nowrap drop-shadow-sm">
                 experiences
               </span>
               {" "}in Cyprus
@@ -319,9 +315,7 @@ export default function HomePage() {
       {/* ─── Become a Provider CTA ─────────────────────────── */}
       <section className="bg-sand-50 py-32 px-4 sm:px-6">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-[3rem] bg-navy-900 p-10 sm:p-20 relative overflow-hidden">
-            {/* Background Soft Glow */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-3xl -mr-40 -mt-40 pointer-events-none" />
+          <div className="rounded-[3rem] bg-navy-900 p-10 sm:p-20 relative overflow-hidden shadow-playful">
 
             <div className="grid gap-16 lg:grid-cols-2 items-center relative z-10">
               <div>

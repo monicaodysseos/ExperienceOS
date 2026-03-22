@@ -4,14 +4,14 @@ import { Toaster } from "sonner";
 import { AuthProvider } from "@/components/AuthProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Fredoka } from "next/font/google";
+import { Balsamiq_Sans } from "next/font/google";
 import "./globals.css";
 
-const fredoka = Fredoka({
+const balsamiq = Balsamiq_Sans({
   subsets: ["latin"],
-  variable: "--font-fredoka",
+  variable: "--font-balsamiq",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -54,7 +54,7 @@ export default function RootLayout({
           `}</Script>
         )}
       </head>
-      <body className={`${fredoka.variable} min-h-screen bg-sand-50 text-navy-900 antialiased selection:bg-purple-200 selection:text-navy-900`}>
+      <body className={`${balsamiq.variable} min-h-screen bg-sand-50 text-navy-900 antialiased selection:bg-sand-300 selection:text-navy-900`}>
         <AuthProvider>
           <Toaster position="top-right" richColors closeButton />
           <Navbar />
