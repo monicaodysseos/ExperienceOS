@@ -68,9 +68,9 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 transition-transform duration-300 hover:scale-[1.03] active:scale-95">
           <img 
-            src="/vivido-logo.png" 
+            src="/vivido-logo.jpg" 
             alt="ViVi DO Creative Activities" 
-            className="h-16 w-16 md:h-20 md:w-20 object-contain drop-shadow-sm"
+            className="h-16 w-16 md:h-20 md:w-20 object-contain mix-blend-multiply drop-shadow-sm"
           />
         </Link>
 
