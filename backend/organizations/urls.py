@@ -15,6 +15,7 @@ urlpatterns = [
     path('team/', views.TeamMembersView.as_view(), name='org-team'),
     path('team/invite/', views.TeamInviteView.as_view(), name='org-invite'),
     path('invite/accept/', views.AcceptInviteView.as_view(), name='org-invite-accept'),
+    path('invite/lookup/', views.LookupInviteView.as_view(), name='org-invite-lookup'),
 
     # Departments
     path('departments/', views.DepartmentListCreateView.as_view(), name='org-departments'),

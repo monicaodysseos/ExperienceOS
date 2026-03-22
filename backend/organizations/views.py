@@ -208,32 +208,45 @@ class TeamInviteView(APIView):
             expires_at=timezone.now() + timedelta(days=7),
         )
         send_team_invite_email.delay(invite.id)
+        invite_url = f"{settings.FRONTEND_URL}/join?code={invite.short_code}"
         return Response(
-            {'detail': f'Invitation sent to {email}.'},
+            {
+                'detail': f'Invitation sent to {email}.',
+                'short_code': invite.short_code,
+                'invite_url': invite_url,
+            },
             status=status.HTTP_201_CREATED
         )
 
 
 class AcceptInviteView(APIView):
-    """Accept an org invite by token — called after user registers."""
+    """Accept an org invite by token or short_code — called after user registers."""
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         token = request.data.get('token')
-        if not token:
-            return Response({'detail': 'Token is required.'}, status=400)
+        short_code = request.data.get('short_code')
+        if not token and not short_code:
+            return Response({'detail': 'Token or short_code is required.'}, status=400)
 
         try:
-            invite = OrganisationInvite.objects.get(
-                token=token, accepted_at__isnull=True
-            )
+            if token:
+                invite = OrganisationInvite.objects.get(
+                    token=token, accepted_at__isnull=True
+                )
+            else:
+                invite = OrganisationInvite.objects.get(
+                    short_code=short_code.upper().strip(), accepted_at__isnull=True
+                )
         except OrganisationInvite.DoesNotExist:
             return Response({'detail': 'Invalid or expired invitation.'}, status=400)
 
         if invite.expires_at < timezone.now():
             return Response({'detail': 'This invitation has expired.'}, status=400)
 
-        if invite.email.lower() != request.user.email.lower():
+        # Only enforce email match for direct token invites (email-specific)
+        # Short code invites are shareable — anyone can use them
+        if token and invite.email.lower() != request.user.email.lower():
             return Response({'detail': 'This invitation was sent to a different email.'}, status=403)
 
         # Accept invite
@@ -265,6 +278,35 @@ class AcceptInviteView(APIView):
         invite.save(update_fields=['accepted_at'])
 
         return Response(OrganisationSerializer(invite.org).data)
+
+
+class LookupInviteView(APIView):
+    """Public endpoint: look up an invite by short_code to preview org info."""
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        code = request.query_params.get('code', '').upper().strip()
+        if not code:
+            return Response({'detail': 'Code is required.'}, status=400)
+
+        try:
+            invite = OrganisationInvite.objects.select_related('org').get(
+                short_code=code, accepted_at__isnull=True
+            )
+        except OrganisationInvite.DoesNotExist:
+            return Response({'detail': 'Invalid or expired invite code.'}, status=404)
+
+        if invite.expires_at < timezone.now():
+            return Response({'detail': 'This invite code has expired.'}, status=400)
+
+        return Response({
+            'org_name': invite.org.name,
+            'org_logo': invite.org.logo_url or '',
+            'target_role': invite.target_role,
+            'short_code': invite.short_code,
+            'email': invite.email,
+            'expires_at': invite.expires_at.isoformat(),
+        })
 
 
 # ─── Department CRUD (HR Admin only) ────────────────────────────────────────

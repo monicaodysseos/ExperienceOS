@@ -250,6 +250,24 @@ class ApiClient {
     });
   }
 
+  async acceptOrgInviteByCode(short_code: string) {
+    return this.fetch<Organisation>("/api/v1/org/invite/accept/", {
+      method: "POST",
+      body: JSON.stringify({ short_code }),
+    });
+  }
+
+  async lookupInvite(code: string) {
+    return this.fetch<{
+      org_name: string;
+      org_logo: string;
+      target_role: string;
+      short_code: string;
+      email: string;
+      expires_at: string;
+    }>(`/api/v1/org/invite/lookup/?code=${encodeURIComponent(code)}`);
+  }
+
   async getOrgInvoices() {
     return this.fetch<{ results: Invoice[]; count: number }>("/api/v1/org/invoices/");
   }

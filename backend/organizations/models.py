@@ -1,5 +1,18 @@
+import secrets
+import string
+
 from django.conf import settings
 from django.db import models
+
+
+def _generate_short_code(length=8):
+    """Generate a human-readable invite code like 'VIVI-A3K9'."""
+    chars = string.ascii_uppercase + string.digits
+    # Remove confusing chars: 0/O, 1/I/L
+    chars = chars.replace('O', '').replace('0', '').replace('I', '').replace('1', '').replace('L', '')
+    part1 = ''.join(secrets.choice(chars) for _ in range(4))
+    part2 = ''.join(secrets.choice(chars) for _ in range(4))
+    return f'{part1}-{part2}'
 
 
 class Organisation(models.Model):
@@ -290,6 +303,10 @@ class OrganisationInvite(models.Model):
         null=True, related_name='org_invites_sent'
     )
     token = models.CharField(max_length=64, unique=True)
+    short_code = models.CharField(
+        max_length=9, unique=True, blank=True,
+        help_text='Human-readable invite code, e.g. VIVI-A3K9'
+    )
     target_role = models.CharField(
         max_length=20, choices=OrganisationMember.ROLE_CHOICES, default='member'
     )
@@ -310,3 +327,13 @@ class OrganisationInvite(models.Model):
 
     def __str__(self):
         return f'Invite: {self.email} → {self.org.name}'
+
+    def save(self, *args, **kwargs):
+        if not self.short_code:
+            # Generate unique short code
+            for _ in range(20):
+                code = _generate_short_code()
+                if not OrganisationInvite.objects.filter(short_code=code).exists():
+                    self.short_code = code
+                    break
+        super().save(*args, **kwargs)

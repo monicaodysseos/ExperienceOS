@@ -13,6 +13,7 @@ import { NotificationBell } from "./NotificationBell";
 const NAV_LINKS = [
   { href: "/experiences", label: "Experiences" },
   { href: "/map", label: "Map", hideIfProvider: true },
+  { href: "/join", label: "Join Team", hideForRoles: ["hr_manager"], hideIfProvider: true },
   { href: "/how-it-works", label: "How It Works", hideForRoles: ["hr_manager"], hideIfProvider: true },
   { href: "/become-provider", label: "Become a Provider", hideForRoles: ["hr_manager"], hideIfProvider: true },
 ];

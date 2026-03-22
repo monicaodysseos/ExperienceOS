@@ -49,7 +49,11 @@ function RegisterContent() {
   const searchParams = useSearchParams();
   const registerUser = useAuth((s) => s.register);
   const [role, setRole] = useState<Role>(
-    searchParams.get("role") === "provider" ? "provider" : null
+    searchParams.get("invite")
+      ? "explorer"
+      : searchParams.get("role") === "provider"
+        ? "provider"
+        : null
   );
   const [showPassword, setShowPassword] = useState(false);
 
@@ -83,18 +87,45 @@ function RegisterContent() {
 
   const strength = getPasswordStrength(password);
 
+  const inviteCode = searchParams.get("invite");
+
   const onSubmit = async (data: RegisterForm) => {
     try {
+      // If coming from an invite, default to participant (employee) role
+      const effectiveRole = inviteCode
+        ? "participant"
+        : role === "provider"
+          ? "provider"
+          : role === "hr_manager"
+            ? "hr_manager"
+            : "participant";
+
       await registerUser({
         email: data.email,
         password: data.password,
         first_name: data.first_name,
         last_name: data.last_name,
-        role: role === "provider" ? "provider" : role === "hr_manager" ? "hr_manager" : "participant",
+        role: effectiveRole,
         gdpr_accepted: true,
       });
+
+      // Auto-accept invite if code is present
+      if (inviteCode) {
+        try {
+          const { api } = await import("@/lib/api");
+          await api.acceptOrgInviteByCode(inviteCode);
+          toast.success("Welcome! You've joined the team.");
+          router.push("/dashboard");
+          return;
+        } catch {
+          // Accept might fail if email doesn't match — still redirect
+          toast.success("Welcome to ExperienceOS!");
+          router.push("/dashboard");
+          return;
+        }
+      }
+
       toast.success("Welcome to ExperienceOS!");
-      // Redirect to verify-email notice (email is queued automatically on register)
       if (role === "provider") {
         router.push("/dashboard/provider/onboarding");
       } else if (role === "hr_manager") {

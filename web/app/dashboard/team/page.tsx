@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Users, Mail, Building2, Crown, UserCircle2, ChevronDown, ChevronRight, Wallet, Plus, X } from "lucide-react";
+import { Users, Mail, Building2, Crown, UserCircle2, ChevronDown, ChevronRight, Wallet, Plus, X, Copy, Check, QrCode } from "lucide-react";
 import { toast } from "sonner";
 import { api, type OrganisationMember, type Organisation, type Department, type Team } from "@/lib/api";
 import { useAuth } from "@/lib/auth-store";
@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { QRCodeSVG } from "qrcode.react";
+
 
 const inviteSchema = z.object({
   email: z.string().email("Enter a valid email address"),
@@ -42,6 +44,8 @@ export default function TeamPage() {
   const [newDeptBudget, setNewDeptBudget] = useState("");
   const [showCreateTeam, setShowCreateTeam] = useState<number | null>(null);
   const [newTeamName, setNewTeamName] = useState("");
+  const [lastInvite, setLastInvite] = useState<{ short_code: string; invite_url: string; email: string } | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const {
     register: registerInvite,
@@ -86,9 +90,17 @@ export default function TeamPage() {
   const onInvite = async (data: InviteForm) => {
     setInviting(true);
     try {
-      await api.inviteTeamMember({ email: data.email });
+      const response = await api.inviteTeamMember({ email: data.email }) as { detail: string; short_code?: string; invite_url?: string };
       toast.success(`Invitation sent to ${data.email}`);
       resetInvite();
+      // Show invite code if returned (new invite, not direct add)
+      if (response.short_code) {
+        setLastInvite({
+          short_code: response.short_code,
+          invite_url: response.invite_url || '',
+          email: data.email,
+        });
+      }
       // Refresh members
       const teamData = await api.getOrgTeam();
       setMembers(teamData.results || []);
@@ -246,6 +258,55 @@ export default function TeamPage() {
             Send Invite
           </Button>
         </form>
+
+        {/* Shareable invite code card */}
+        {lastInvite && (
+          <div className="mt-6 rounded-2xl bg-white border-2 border-navy-200 p-5">
+            <div className="flex items-start gap-5">
+              <div className="bg-white p-2 rounded-xl border-2 border-navy-200 flex-shrink-0">
+                <QRCodeSVG
+                  value={lastInvite.invite_url}
+                  size={120}
+                  bgColor="transparent"
+                  fgColor="#1a1a2e"
+                  level="M"
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-navy-500">Invite sent to {lastInvite.email}</p>
+                <p className="text-xs text-navy-400 mt-1 mb-3">
+                  Share this code or QR so they can join:
+                </p>
+                <div className="flex items-center gap-2">
+                  <code className="px-4 py-2 bg-navy-50 rounded-lg font-mono text-xl font-bold text-navy-900 tracking-widest border-2 border-navy-200">
+                    {lastInvite.short_code}
+                  </code>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(lastInvite.short_code);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                      toast.success("Code copied!");
+                    }}
+                    className="p-2 rounded-lg hover:bg-navy-100 transition-colors"
+                    title="Copy code"
+                  >
+                    {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4 text-navy-500" />}
+                  </button>
+                </div>
+                <p className="text-xs text-navy-400 mt-2">
+                  Or share the link: <a href={lastInvite.invite_url} className="underline">{lastInvite.invite_url}</a>
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setLastInvite(null)}
+              className="mt-3 text-xs text-navy-400 underline hover:text-navy-600"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ─── Departments Section (always visible) ─── */}
