@@ -76,8 +76,8 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-navy-900">Profile Settings</h1>
-      <p className="mt-1 text-navy-500">Manage your account information</p>
+      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Profile Settings</h1>
+      <p className="mt-2 text-lg font-bold text-navy-500">Manage your account information</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8 max-w-lg space-y-5">
         <div className="grid grid-cols-2 gap-4">
@@ -125,22 +125,21 @@ export default function ProfilePage() {
           onValueChange={(v) => setValue("preferred_language", v)}
         />
 
-        <Button type="submit" loading={isSubmitting}>
+        <Button type="submit" size="lg" className="rounded-full border-4 border-navy-900 bg-blue-400 shadow-[4px_4px_0_theme(colors.navy.900)] hover:shadow-playful-hover hover:-translate-y-1 transition-all text-navy-900 font-black w-full mt-6" loading={isSubmitting}>
           Save Changes
         </Button>
       </form>
 
       {/* Danger Zone */}
-      <div className="mt-12 max-w-lg rounded-xl border border-red-200 bg-red-50/50 p-6">
-        <h3 className="font-semibold text-red-700">Danger Zone</h3>
-        <p className="mt-1 text-sm text-red-600">
+      <div className="mt-16 max-w-lg rounded-[2.5rem] border-4 border-navy-900 bg-orange-400 p-8 shadow-playful blob-shape-3 relative">
+        <h3 className="font-display text-2xl font-black text-navy-900 title-shadow">Danger Zone</h3>
+        <p className="mt-3 text-base font-bold text-navy-900">
           Once you delete your account, there is no going back. All your data
           will be permanently removed.
         </p>
         <Button
-          variant="danger"
-          size="sm"
-          className="mt-4"
+          size="lg"
+          className="mt-6 rounded-full border-4 border-navy-900 bg-white shadow-[4px_4px_0_theme(colors.navy.900)] text-navy-900 font-black hover:-translate-y-1 transition-all"
           onClick={() => setDeleteOpen(true)}
         >
           Delete Account

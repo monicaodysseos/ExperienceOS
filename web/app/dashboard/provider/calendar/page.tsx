@@ -67,24 +67,24 @@ function ProviderCalendarContent() {
     <div className="mx-auto max-w-5xl">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-navy-900">Calendar</h1>
-          <p className="mt-1 text-navy-500">All your sessions across all experiences</p>
+          <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Calendar</h1>
+          <p className="mt-2 text-lg font-bold text-navy-500">All your sessions across all experiences</p>
         </div>
       </div>
 
       {/* Experience filter chips */}
       {experiences.length > 1 && (
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-6 flex flex-wrap gap-3">
           {experiences.map((exp) => (
             <button
               key={exp.slug}
               type="button"
               onClick={() => toggleFilter(exp.slug)}
               className={cn(
-                "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                "rounded-full border-4 px-4 py-2 text-sm font-black transition-all",
                 activeFilters.has(exp.slug)
-                  ? "border-teal-600 bg-teal-50 text-teal-700"
-                  : "border-navy-200 text-navy-600 hover:border-navy-300"
+                  ? "border-navy-900 bg-blue-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] -translate-y-0.5"
+                  : "border-transparent bg-white text-navy-600 hover:border-navy-200 hover:bg-sand-50"
               )}
             >
               {exp.title}
@@ -94,7 +94,7 @@ function ProviderCalendarContent() {
             <button
               type="button"
               onClick={() => setActiveFilters(new Set())}
-              className="rounded-full border border-navy-200 px-3 py-1 text-xs text-navy-400 hover:border-navy-300"
+              className="rounded-full border-4 border-navy-200 bg-white px-4 py-2 text-sm font-black text-navy-400 hover:border-navy-300"
             >
               Clear
             </button>
@@ -102,7 +102,7 @@ function ProviderCalendarContent() {
         </div>
       )}
 
-      <div className="mt-6 overflow-hidden rounded-2xl border border-navy-200 bg-white shadow-sm">
+      <div className="mt-8 overflow-hidden rounded-[2.5rem] border-4 border-navy-900 bg-white shadow-playful">
         {/* Calendar Header */}
         <div className="flex items-center justify-between border-b border-navy-100 px-6 py-4">
           <h2 className="text-lg font-semibold text-navy-900">

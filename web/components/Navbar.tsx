@@ -70,7 +70,7 @@ export function Navbar() {
           <img 
             src="/vivido-logo.png" 
             alt="ViVi DO Creative Activities" 
-            className="h-10 sm:h-12 w-auto object-contain"
+            className="h-16 w-16 md:h-20 md:w-20 object-contain drop-shadow-sm"
           />
         </Link>
 

@@ -34,12 +34,12 @@ function ExperiencesListContent() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-navy-900">My Experiences</h1>
-          <p className="mt-1 text-navy-500">Manage your listed experiences</p>
+          <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">My Experiences</h1>
+          <p className="mt-2 text-lg font-bold text-navy-500">Manage your listed experiences</p>
         </div>
         <Link href="/dashboard/provider/experiences/new">
-          <Button>
-            <Plus className="h-4 w-4" /> Create New
+          <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all bg-purple-400 text-navy-900 font-black">
+            <Plus className="h-5 w-5 mr-1 border-2 border-navy-900 rounded-full" /> Create New
           </Button>
         </Link>
       </div>
@@ -58,50 +58,52 @@ function ExperiencesListContent() {
           className="mt-8"
         />
       ) : (
-        <div className="mt-6 space-y-3">
+        <div className="mt-8 space-y-4">
           {experiences.map((exp) => (
             <div
               key={exp.id}
-              className="flex items-center justify-between rounded-xl border border-navy-200 bg-white p-5"
+              className="flex items-center justify-between rounded-[2rem] border-4 border-navy-900 bg-white p-6 shadow-playful transition-all hover:-translate-y-1 hover:shadow-playful-hover"
             >
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3">
-                  <h3 className="font-semibold text-navy-900 truncate">
+                <div className="flex items-center gap-4">
+                  <h3 className="font-display text-2xl font-black text-navy-900 truncate">
                     {exp.title}
                   </h3>
-                  <Badge variant={STATUS_VARIANT[exp.status || "active"] || "default"}>
-                    {(exp.status || "active").replace(/_/g, " ")}
-                  </Badge>
+                  <div className="origin-left scale-110">
+                    <Badge variant={STATUS_VARIANT[exp.status || "active"] || "default"}>
+                      {(exp.status || "active").replace(/_/g, " ")}
+                    </Badge>
+                  </div>
                 </div>
-                <p className="mt-1 text-sm text-navy-500">
+                <p className="mt-3 text-sm font-bold text-navy-500">
                   {exp.city} · {exp.category.name} ·{" "}
                   &euro;{parseFloat(exp.price_per_person).toFixed(0)}/person ·{" "}
                   {exp.booking_count} booking{exp.booking_count !== 1 ? "s" : ""}
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 ml-4">
+              <div className="flex items-center gap-3 ml-6">
                 <Link
                   href={`/dashboard/provider/experiences/${exp.slug}/slots`}
-                  className="rounded-lg p-2 text-navy-400 hover:bg-navy-50 hover:text-navy-600"
+                  className="rounded-full border-2 border-navy-900 bg-light-green-400 p-3 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:shadow-sm hover:-translate-y-0.5 transition-all"
                   title="Manage time slots"
                 >
-                  <Calendar className="h-4 w-4" />
+                  <Calendar className="h-5 w-5" />
                 </Link>
                 <Link
                   href={`/dashboard/provider/experiences/${exp.slug}/edit`}
-                  className="rounded-lg p-2 text-navy-400 hover:bg-navy-50 hover:text-navy-600"
+                  className="rounded-full border-2 border-navy-900 bg-yellow-400 p-3 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:shadow-sm hover:-translate-y-0.5 transition-all"
                   title="Edit"
                 >
-                  <Settings className="h-4 w-4" />
+                  <Settings className="h-5 w-5" />
                 </Link>
                 <Link
                   href={`/experiences/${exp.slug}`}
-                  className="rounded-lg p-2 text-navy-400 hover:bg-navy-50 hover:text-navy-600"
+                  className="rounded-full border-2 border-navy-900 bg-blue-400 p-3 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:shadow-sm hover:-translate-y-0.5 transition-all"
                   title="View public page"
                   target="_blank"
                 >
-                  <ExternalLink className="h-4 w-4" />
+                  <ExternalLink className="h-5 w-5" />
                 </Link>
               </div>
             </div>

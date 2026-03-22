@@ -52,15 +52,15 @@ export default function ProviderOnboardingPage() {
   };
 
   return (
-    <div className="mx-auto max-w-lg">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-coral-50 text-coral-600">
-        <Sparkles className="h-7 w-7" />
+    <div className="mx-auto max-w-lg mt-12 rounded-[2.5rem] bg-white p-10 shadow-playful border-4 border-navy-900 relative blob-shape-3">
+      <div className="flex h-20 w-20 items-center justify-center rounded-3xl border-4 border-navy-900 bg-coral-400 text-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] -translate-y-16 absolute">
+        <Sparkles className="h-10 w-10" />
       </div>
 
-      <h1 className="mt-6 text-2xl font-bold text-navy-900">
+      <h1 className="mt-4 font-display text-4xl font-black text-navy-900 title-shadow">
         Set up your provider profile
       </h1>
-      <p className="mt-2 text-navy-500">
+      <p className="mt-4 font-bold text-navy-500">
         Tell potential guests about yourself. You can always update this later.
       </p>
 
@@ -97,7 +97,7 @@ export default function ProviderOnboardingPage() {
           {...register("instagram")}
         />
 
-        <Button type="submit" loading={isSubmitting} size="lg" className="w-full" variant="secondary">
+        <Button type="submit" loading={isSubmitting} size="lg" className="w-full mt-8 rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-light-green-400 text-navy-900 font-black hover:-translate-y-1 transition-all">
           Create Provider Profile
         </Button>
       </form>

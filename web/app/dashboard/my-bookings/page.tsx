@@ -38,12 +38,12 @@ function BookingList({ bookings, emptyMessage }: { bookings: Booking[]; emptyMes
         <Link
           key={booking.id}
           href={`/bookings/${booking.booking_reference}`}
-          className="block rounded-xl border border-navy-200 bg-white p-5 transition-all hover:shadow-card hover:border-navy-300"
+          className="block rounded-[2rem] border-4 border-navy-900 bg-white p-6 transition-all shadow-playful hover:shadow-playful-hover hover:-translate-y-1"
         >
           <div className="flex items-start justify-between">
             <div>
-              <h3 className="font-semibold text-navy-900">{booking.experience_title}</h3>
-              <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-navy-500">
+              <h3 className="font-display text-2xl font-black text-navy-900">{booking.experience_title}</h3>
+              <div className="mt-3 flex flex-wrap items-center gap-4 text-sm font-bold text-navy-500">
                 <span className="flex items-center gap-1.5">
                   <Calendar className="h-4 w-4 text-navy-400" />
                   {formatDate(booking.time_slot.start_datetime)} at{" "}
@@ -60,10 +60,12 @@ function BookingList({ bookings, emptyMessage }: { bookings: Booking[]; emptyMes
               </div>
             </div>
             <div className="text-right">
-              <Badge variant={STATUS_VARIANTS[booking.status] || "default"}>
-                {booking.status.replace(/_/g, " ")}
-              </Badge>
-              <p className="mt-2 text-sm font-semibold text-navy-900">
+              <div className="scale-110 origin-right">
+                <Badge variant={STATUS_VARIANTS[booking.status] || "default"}>
+                  {booking.status.replace(/_/g, " ")}
+                </Badge>
+              </div>
+              <p className="mt-3 font-display text-2xl font-black text-navy-900 title-shadow">
                 &euro;{parseFloat(booking.total_charged).toFixed(2)}
               </p>
             </div>
@@ -97,8 +99,8 @@ export default function MyBookingsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-navy-900">My Bookings</h1>
-      <p className="mt-1 text-navy-500">Manage your upcoming and past experiences</p>
+      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">My Bookings</h1>
+      <p className="mt-2 text-lg font-bold text-navy-500">Manage your upcoming and past experiences</p>
 
       {loading ? (
         <div className="mt-8 space-y-4">

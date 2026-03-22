@@ -33,11 +33,11 @@ export default function InvoicesPage() {
 
   return (
     <div className="max-w-4xl mx-auto py-8">
-      <h1 className="font-display text-3xl font-semibold text-navy-900">Invoices</h1>
-      <p className="mt-1 text-navy-500">
+      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Invoices</h1>
+      <p className="mt-2 text-lg font-bold text-navy-500">
         B2B invoices for all team bookings
         {invoices.length > 0 && (
-          <span className="ml-1 text-navy-400">({invoices.length} total)</span>
+          <span className="ml-2 text-navy-400">({invoices.length} total)</span>
         )}
       </p>
 
@@ -49,9 +49,9 @@ export default function InvoicesPage() {
             description="Invoices are generated automatically after each confirmed booking."
           />
         ) : (
-          <div className="rounded-2xl bg-white shadow-sm ring-1 ring-sand-200 overflow-hidden">
+          <div className="rounded-[2.5rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden">
             {/* Table header */}
-            <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 border-b border-sand-100 px-5 py-3 text-xs font-semibold uppercase tracking-wide text-navy-400">
+            <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 border-b-4 border-navy-900 bg-yellow-400 px-6 py-4 text-xs font-black uppercase tracking-wide text-navy-900">
               <span>Invoice</span>
               <span className="w-32 text-right">Experience</span>
               <span className="w-28 text-right">Date</span>
@@ -59,11 +59,11 @@ export default function InvoicesPage() {
               <span className="w-16 text-center">PDF</span>
             </div>
 
-            <div className="divide-y divide-sand-100">
+            <div className="divide-y-2 divide-navy-100">
               {invoices.map((inv) => (
                 <div
                   key={inv.id}
-                  className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-4 px-5 py-4"
+                  className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-4 px-6 py-5 hover:bg-navy-50 transition-colors"
                 >
                   <div>
                     <p className="font-mono text-sm font-medium text-navy-900">

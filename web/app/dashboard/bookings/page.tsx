@@ -71,34 +71,36 @@ function BookingsContent() {
 
   return (
     <div className="max-w-5xl mx-auto py-8">
-      <h1 className="font-display text-3xl font-semibold text-navy-900">Team Bookings</h1>
-      <p className="mt-1 text-navy-500">
-        All experiences booked by your organisation
-        {total > 0 && <span className="ml-1 text-navy-400">({total} total)</span>}
+      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Team Bookings</h1>
+      <p className="mt-2 text-lg font-bold text-navy-500">
+        Your previously scheduled experiences
+        {total > 0 && <span className="ml-2 text-navy-400">({total} total)</span>}
       </p>
 
       {/* Filters */}
-      <div className="mt-6 flex flex-wrap gap-3">
-        <form onSubmit={handleSearch} className="flex gap-2">
+      <div className="mt-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <form onSubmit={handleSearch} className="flex gap-2 w-full sm:w-auto">
           <Input
             placeholder="Search by name or reference…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            leftIcon={<Search className="h-4 w-4" />}
-            className="w-72"
+            leftIcon={<Search className="h-5 w-5" />}
+            className="w-full sm:w-80 border-4 border-navy-900 rounded-full"
           />
-          <Button type="submit" variant="outline" size="sm">Search</Button>
+          <Button type="submit" size="lg" className="rounded-full border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 font-black hover:-translate-y-0.5 transition-transform">
+            Search
+          </Button>
         </form>
 
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap sm:justify-end">
           {STATUS_OPTIONS.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setParam("status", opt.value)}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              className={`rounded-full px-4 py-2 text-sm font-black border-4 transition-all ${
                 statusFilter === opt.value
-                  ? "bg-navy-900 text-white"
-                  : "bg-white text-navy-600 ring-1 ring-sand-200 hover:bg-sand-50"
+                  ? "bg-blue-400 border-navy-900 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] -translate-y-0.5"
+                  : "bg-white border-transparent text-navy-600 hover:border-navy-200 hover:bg-sand-50"
               }`}
             >
               {opt.label}
@@ -123,38 +125,40 @@ function BookingsContent() {
             action={{ label: "Browse Experiences", href: "/experiences" }}
           />
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {bookings.map((booking) => (
               <Link
                 key={booking.id}
                 href={`/dashboard/bookings/${booking.booking_reference}`}
-                className="flex items-center justify-between rounded-xl bg-white px-5 py-4 shadow-sm ring-1 ring-sand-200 transition-all hover:-translate-y-0.5 hover:shadow-card"
+                className="flex items-center justify-between rounded-[2rem] border-4 border-navy-900 bg-white p-6 shadow-playful transition-all hover:-translate-y-1 hover:shadow-playful-hover"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-3">
-                    <p className="font-medium text-navy-900 truncate">{booking.experience_title}</p>
-                    <span className="shrink-0 font-mono text-xs text-navy-400">{booking.booking_reference}</span>
+                    <p className="font-display text-2xl font-black text-navy-900 truncate">{booking.experience_title}</p>
+                    <span className="shrink-0 font-mono text-xs font-bold text-navy-400 bg-sand-100 px-2 py-1 rounded-full">{booking.booking_reference}</span>
                   </div>
-                  <div className="mt-1.5 flex flex-wrap items-center gap-3 text-sm text-navy-500">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5 text-navy-400" />
+                  <div className="mt-3 flex flex-wrap items-center gap-4 text-sm font-bold text-navy-500">
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="h-4 w-4 text-purple-500" />
                       {formatDate(booking.time_slot.start_datetime)} at {formatTime(booking.time_slot.start_datetime)}
                     </span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="h-3.5 w-3.5 text-navy-400" />
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="h-4 w-4 text-orange-500" />
                       {booking.experience_city}
                     </span>
-                    <span className="flex items-center gap-1">
-                      <Users className="h-3.5 w-3.5 text-navy-400" />
+                    <span className="flex items-center gap-1.5">
+                      <Users className="h-4 w-4 text-blue-500" />
                       {booking.num_participants} person{booking.num_participants > 1 ? "s" : ""}
                     </span>
                   </div>
                 </div>
-                <div className="ml-4 flex shrink-0 items-center gap-4">
-                  <span className="text-sm font-semibold text-navy-900">
+                <div className="ml-6 flex shrink-0 items-center gap-6">
+                  <span className="font-display text-2xl font-black text-navy-900 title-shadow">
                     €{parseFloat(booking.total_price).toFixed(2)}
                   </span>
-                  <BookingStatusBadge status={booking.status} />
+                  <div className="scale-110 origin-right">
+                    <BookingStatusBadge status={booking.status} />
+                  </div>
                 </div>
               </Link>
             ))}

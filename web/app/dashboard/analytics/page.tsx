@@ -93,11 +93,11 @@ export default function AnalyticsPage() {
     );
   }
 
-  if (empty || !data) {
-    return (
-      <div className="max-w-4xl mx-auto py-8">
-        <h1 className="font-display text-3xl font-semibold text-navy-900">Analytics</h1>
-        <div className="mt-8">
+    if (empty || !data) {
+      return (
+        <div className="max-w-4xl mx-auto py-8">
+          <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Analytics</h1>
+          <div className="mt-8">
           <EmptyState
             icon={<BarChart3 className="h-7 w-7" />}
             title="No data yet"
@@ -123,22 +123,24 @@ export default function AnalyticsPage() {
   return (
     <div className="max-w-4xl mx-auto py-8 space-y-8">
       <div>
-        <h1 className="font-display text-3xl font-semibold text-navy-900">Analytics</h1>
-        <p className="mt-1 text-navy-500">Team spend and booking trends</p>
+        <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Analytics</h1>
+        <p className="mt-2 text-lg font-bold text-navy-500">Team spend and booking trends</p>
       </div>
 
       {/* Spend by category */}
-      <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200">
-        <div className="flex items-center justify-between mb-6">
+      <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful relative blob-shape-3">
+        <div className="flex items-center justify-between mb-8 relative z-10">
           <div>
-            <h2 className="font-semibold text-navy-900">Spend by category</h2>
-            <p className="text-sm text-navy-400 mt-0.5">
+            <h2 className="font-display text-2xl font-black text-navy-900 title-shadow">Spend by category</h2>
+            <p className="text-base font-bold text-navy-900 mt-2">
               Total: €{totalSpend.toFixed(2)}
             </p>
           </div>
-          <BarChart3 className="h-5 w-5 text-navy-300" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-navy-900 bg-yellow-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
+            <BarChart3 className="h-6 w-6" />
+          </div>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-4 relative z-10">
           {data.category_breakdown.map((cat) => (
             <SpendBar
               key={cat.category}
@@ -153,12 +155,14 @@ export default function AnalyticsPage() {
 
       {/* Monthly spend chart */}
       {data.monthly_spend.length > 0 && (
-        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-semibold text-navy-900">Monthly spend</h2>
-            <TrendingUp className="h-5 w-5 text-navy-300" />
+        <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful relative">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-display text-2xl font-black text-navy-900 title-shadow">Monthly spend</h2>
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-navy-900 bg-light-green-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
+              <TrendingUp className="h-6 w-6" />
+            </div>
           </div>
-          <div className="flex items-end gap-2 overflow-x-auto pb-2">
+          <div className="flex items-end gap-3 overflow-x-auto pb-4 pt-4">
             {data.monthly_spend.map((m) => (
               <MonthBar
                 key={m.month}
@@ -173,34 +177,34 @@ export default function AnalyticsPage() {
 
       {/* Top experiences */}
       {data.top_experiences.length > 0 && (
-        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200">
-          <h2 className="font-semibold text-navy-900 mb-4">Top experiences</h2>
-          <div className="space-y-3">
+        <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful relative">
+          <h2 className="font-display text-2xl font-black text-navy-900 title-shadow mb-8">Top experiences</h2>
+          <div className="space-y-6">
             {data.top_experiences.map((exp, i) => (
               <div
                 key={exp.slug}
                 className="flex items-center justify-between"
               >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sand-100 text-xs font-semibold text-navy-500">
+                <div className="flex items-center gap-4">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-navy-900 bg-purple-400 font-black text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
                     {i + 1}
                   </span>
                   <div>
-                    <p className="font-medium text-navy-900">{exp.title}</p>
-                    <p className="text-xs text-navy-400">
+                    <p className="font-display text-xl font-black text-navy-900">{exp.title}</p>
+                    <p className="text-sm font-bold text-navy-500 mt-1">
                       {exp.count} booking{exp.count !== 1 ? "s" : ""}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="font-semibold text-navy-900">
+                <div className="flex items-center gap-4">
+                  <span className="font-display text-2xl font-black text-navy-900 title-shadow">
                     €{parseFloat(exp.spend).toFixed(0)}
                   </span>
                   <Link
                     href={`/experiences/${exp.slug}`}
-                    className="text-teal-600 hover:text-teal-700 transition-colors"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-navy-900 bg-orange-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:shadow-sm hover:-translate-y-0.5 transition-all"
                   >
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-5 w-5" />
                   </Link>
                 </div>
               </div>

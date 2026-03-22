@@ -122,7 +122,7 @@ function CreateExperienceContent() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="text-2xl font-bold text-navy-900">Create Experience</h1>
+      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Create Experience</h1>
 
       {/* Progress */}
       <div className="mt-6 flex items-center gap-2">
@@ -247,20 +247,20 @@ function CreateExperienceContent() {
         )}
 
         {/* Navigation */}
-        <div className="mt-8 flex justify-between">
+        <div className="mt-12 flex justify-between items-center bg-white p-6 rounded-[2.5rem] border-4 border-navy-900 shadow-[8px_8px_0_theme(colors.navy.900)] blob-shape-2">
           {step > 0 ? (
-            <Button type="button" variant="ghost" onClick={() => setStep((s) => s - 1)}>
-              <ArrowLeft className="h-4 w-4" /> Back
+            <Button type="button" size="lg" className="rounded-full border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-white text-navy-900 font-black hover:-translate-y-1 transition-all" onClick={() => setStep((s) => s - 1)}>
+              <ArrowLeft className="h-5 w-5 mr-1" /> Back
             </Button>
           ) : (
             <div />
           )}
           {step < STEPS.length - 1 ? (
-            <Button type="button" onClick={nextStep}>
-              Next <ArrowRight className="h-4 w-4" />
+            <Button type="button" size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-yellow-400 text-navy-900 font-black hover:-translate-y-1 transition-all" onClick={nextStep}>
+              Next <ArrowRight className="h-5 w-5 ml-1" />
             </Button>
           ) : (
-            <Button type="submit" loading={isSubmitting} variant="secondary">
+            <Button type="submit" size="lg" loading={isSubmitting} className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-light-green-400 text-navy-900 font-black hover:-translate-y-1 transition-all">
               Publish Experience
             </Button>
           )}

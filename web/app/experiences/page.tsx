@@ -127,16 +127,16 @@ export default async function ExperiencesPage({
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-navy-500">
-        <Link href="/" className="hover:text-teal-700">Home</Link>
+      <nav className="flex items-center gap-2 text-sm font-bold text-navy-500">
+        <Link href="/" className="hover:text-blue-500 transition-colors">Home</Link>
         <span>/</span>
-        <span className="text-navy-900">Experiences</span>
+        <span className="text-navy-900 px-3 py-1 bg-yellow-400 rounded-full border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">Experiences</span>
       </nav>
 
       {/* Header + search bar */}
-      <div className="mt-6">
-        <h1 className="text-3xl font-bold text-navy-900">{pageTitle}</h1>
-        <p className="mt-1 text-navy-500">
+      <div className="mt-8">
+        <h1 className="font-display text-5xl font-black text-navy-900 title-shadow">{pageTitle}</h1>
+        <p className="mt-4 text-lg font-bold text-navy-500">
           {total} experience{total !== 1 ? "s" : ""} found
         </p>
 
@@ -152,18 +152,18 @@ export default async function ExperiencesPage({
           {params.date && <input type="hidden" name="date" value={params.date} />}
 
           <div className="relative flex-1">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-navy-400" />
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-navy-400" />
             <input
               type="text"
               name="q"
               defaultValue={params.q}
               placeholder="Search experiences…"
-              className="w-full rounded-xl border border-navy-200 bg-white pl-9 pr-4 py-2.5 text-sm text-navy-900 placeholder-navy-400 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+              className="w-full rounded-full border-4 border-navy-900 shadow-playful bg-white pl-12 pr-4 py-3.5 text-base font-bold text-navy-900 placeholder-navy-400 focus:outline-none focus:-translate-y-1 transition-transform"
             />
           </div>
           <button
             type="submit"
-            className="rounded-xl bg-teal-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-teal-800 transition-colors"
+            className="rounded-full bg-orange-400 px-8 py-3.5 text-base font-black text-navy-900 border-4 border-navy-900 shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all"
           >
             Search
           </button>
@@ -172,19 +172,19 @@ export default async function ExperiencesPage({
 
       {/* Active filter pills */}
       {activeFilters.length > 0 && (
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
           {activeFilters.map((f) => (
             <Link
               key={f.key}
               href={buildUrl(params, f.clear ?? { [f.key]: undefined })}
-              className="inline-flex items-center gap-1 rounded-full bg-teal-50 px-3 py-1 text-xs font-medium text-teal-700 hover:bg-teal-100 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-light-green-400 px-4 py-1.5 text-sm font-bold text-navy-900 border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:-translate-y-0.5 transition-transform"
             >
-              {f.label} &times;
+              {f.label} <span className="text-lg leading-none">&times;</span>
             </Link>
           ))}
           <Link
             href="/experiences"
-            className="text-xs font-medium text-navy-500 hover:text-navy-700 transition-colors"
+            className="text-sm font-bold text-crimson-600 hover:text-crimson-700 transition-colors ml-2 underline decoration-2 underline-offset-4"
           >
             Clear all
           </Link>
@@ -206,8 +206,8 @@ export default async function ExperiencesPage({
                     href={buildUrl(params, { ordering: opt.value })}
                     className={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
                       (params.ordering ?? "-created_at") === opt.value
-                        ? "bg-teal-50 font-medium text-teal-700"
-                        : "text-navy-600 hover:bg-navy-50"
+                        ? "bg-blue-400 font-bold text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] border-2 border-navy-900 -translate-y-0.5"
+                        : "text-navy-600 font-bold hover:bg-sand-100 border-2 border-transparent hover:border-navy-200"
                     }`}
                   >
                     {opt.label}
@@ -228,8 +228,8 @@ export default async function ExperiencesPage({
                       href={buildUrl(params, { city: params.city === val ? undefined : val })}
                       className={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
                         params.city === val
-                          ? "bg-teal-50 font-medium text-teal-700"
-                          : "text-navy-600 hover:bg-navy-50"
+                          ? "bg-blue-400 font-bold text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] border-2 border-navy-900 -translate-y-0.5"
+                          : "text-navy-600 font-bold hover:bg-sand-100 border-2 border-transparent hover:border-navy-200"
                       }`}
                     >
                       {city}
@@ -252,8 +252,8 @@ export default async function ExperiencesPage({
                       })}
                       className={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
                         params.category === cat.slug
-                          ? "bg-teal-50 font-medium text-teal-700"
-                          : "text-navy-600 hover:bg-navy-50"
+                          ? "bg-blue-400 font-bold text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] border-2 border-navy-900 -translate-y-0.5"
+                          : "text-navy-600 font-bold hover:bg-sand-100 border-2 border-transparent hover:border-navy-200"
                       }`}
                     >
                       {cat.name}
@@ -280,8 +280,8 @@ export default async function ExperiencesPage({
                       })}
                       className={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
                         active
-                          ? "bg-teal-50 font-medium text-teal-700"
-                          : "text-navy-600 hover:bg-navy-50"
+                          ? "bg-blue-400 font-bold text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] border-2 border-navy-900 -translate-y-0.5"
+                          : "text-navy-600 font-bold hover:bg-sand-100 border-2 border-transparent hover:border-navy-200"
                       }`}
                     >
                       {range.label}
@@ -309,8 +309,8 @@ export default async function ExperiencesPage({
                     })}
                     className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm transition-colors ${
                       params.group_size === opt.value
-                        ? "bg-teal-50 font-medium text-teal-700"
-                        : "text-navy-600 hover:bg-navy-50"
+                        ? "bg-blue-400 font-bold text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] border-2 border-navy-900 -translate-y-0.5"
+                        : "text-navy-600 font-bold hover:bg-sand-100 border-2 border-transparent hover:border-navy-200"
                     }`}
                   >
                     <Users className="h-3.5 w-3.5" />
@@ -338,19 +338,19 @@ export default async function ExperiencesPage({
                     type="date"
                     name="date"
                     defaultValue={params.date}
-                    className="w-full rounded-lg border border-navy-200 bg-white pl-9 pr-3 py-2 text-sm text-navy-900 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                    className="w-full rounded-xl border-2 border-navy-900 bg-white pl-9 pr-3 py-2 text-sm font-bold text-navy-900 focus:outline-none focus:shadow-[2px_2px_0_theme(colors.navy.900)] transition-shadow"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="mt-2 w-full rounded-lg bg-navy-900 py-1.5 text-sm font-medium text-white hover:bg-navy-800 transition-colors"
+                  className="mt-3 w-full rounded-xl bg-yellow-400 border-2 border-navy-900 py-2 text-sm font-bold text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:-translate-y-0.5 transition-transform"
                 >
                   Apply date
                 </button>
                 {params.date && (
                   <Link
                     href={buildUrl(params, { date: undefined })}
-                    className="mt-1 block text-center text-xs text-navy-500 hover:text-navy-700"
+                    className="mt-2 block text-center text-xs font-bold text-crimson-600 hover:text-crimson-800 underline decoration-2 underline-offset-2"
                   >
                     Clear date
                   </Link>
@@ -386,9 +386,9 @@ export default async function ExperiencesPage({
                 <Link
                   key={exp.id}
                   href={`/experiences/${exp.slug}`}
-                  className="group overflow-hidden rounded-xl border border-navy-200 bg-white transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
+                  className="group overflow-hidden rounded-[2.5rem] border-4 border-navy-900 bg-white transition-all duration-300 shadow-playful hover:shadow-playful-hover hover:-translate-y-2 flex flex-col"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-navy-100">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-navy-100 border-b-4 border-navy-900">
                     {exp.cover_image ? (
                       <Image
                         src={exp.cover_image}
@@ -402,47 +402,49 @@ export default async function ExperiencesPage({
                         <MapPin className="h-12 w-12" />
                       </div>
                     )}
-                    <div className="absolute top-3 left-3">
-                      <span className="inline-flex rounded-full bg-white/90 px-2.5 py-0.5 text-xs font-medium text-teal-700 backdrop-blur-sm">
+                    <div className="absolute top-4 left-4">
+                      <span className="inline-flex rounded-full bg-light-green-400 px-3 py-1 text-xs font-black text-navy-900 border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
                         {exp.category.name}
                       </span>
                     </div>
                   </div>
 
-                  <div className="p-4">
-                    <h3 className="text-base font-semibold text-navy-900 line-clamp-1 group-hover:text-teal-700 transition-colors">
-                      {exp.title}
-                    </h3>
-                    <p className="mt-0.5 text-sm text-navy-500">by {exp.provider_name}</p>
+                  <div className="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-display text-xl font-black text-navy-900 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight">
+                        {exp.title}
+                      </h3>
+                      <p className="mt-1 text-sm font-bold text-navy-500">by {exp.provider_name}</p>
 
-                    <div className="mt-3 flex items-center gap-3 text-xs text-navy-500">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-3.5 w-3.5 text-navy-400" />
-                        {exp.city}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3.5 w-3.5 text-navy-400" />
-                        {exp.duration_minutes >= 60
-                          ? `${Math.floor(exp.duration_minutes / 60)}h${exp.duration_minutes % 60 ? ` ${exp.duration_minutes % 60}m` : ""}`
-                          : `${exp.duration_minutes}m`}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Users className="h-3.5 w-3.5 text-navy-400" />
-                        {exp.min_participants}–{exp.max_participants}
-                      </span>
-                      {exp.review_count > 0 && (
-                        <span className="flex items-center gap-1">
-                          <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                          {parseFloat(exp.average_rating).toFixed(1)}
+                      <div className="mt-4 flex flex-wrap items-center gap-3 text-sm font-bold text-navy-600">
+                        <span className="flex items-center gap-1.5">
+                          <MapPin className="h-4 w-4 text-orange-500" />
+                          {exp.city}
                         </span>
-                      )}
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="h-4 w-4 text-purple-500" />
+                          {exp.duration_minutes >= 60
+                            ? `${Math.floor(exp.duration_minutes / 60)}h${exp.duration_minutes % 60 ? ` ${exp.duration_minutes % 60}m` : ""}`
+                            : `${exp.duration_minutes}m`}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Users className="h-4 w-4 text-blue-500" />
+                          {exp.min_participants}–{exp.max_participants}
+                        </span>
+                        {exp.review_count > 0 && (
+                          <span className="flex items-center gap-1.5">
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                            {parseFloat(exp.average_rating).toFixed(1)}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="mt-3 flex items-baseline gap-1">
-                      <span className="text-lg font-bold text-navy-900">
+                    <div className="mt-6 flex items-baseline gap-1.5 pt-4 border-t-2 border-dashed border-navy-200">
+                      <span className="font-display text-2xl font-black text-navy-900">
                         €{parseFloat(exp.price_per_person).toFixed(0)}
                       </span>
-                      <span className="text-sm text-navy-500">/ person</span>
+                      <span className="text-sm font-bold text-navy-500">/ person</span>
                     </div>
                   </div>
                 </Link>

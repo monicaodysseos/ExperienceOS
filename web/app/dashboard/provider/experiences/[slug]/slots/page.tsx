@@ -86,24 +86,24 @@ function TimeSlotsContent() {
     <div>
       <Link
         href="/dashboard/provider/experiences"
-        className="mb-6 flex items-center gap-2 text-sm text-navy-500 hover:text-navy-700"
+        className="mb-8 flex items-center gap-2 text-base font-black text-navy-900 hover:-translate-x-1 transition-transform"
       >
-        <ArrowLeft className="h-4 w-4" /> Back to experiences
+        <ArrowLeft className="h-5 w-5" /> Back to experiences
       </Link>
 
-      <h1 className="text-2xl font-bold text-navy-900">Manage Time Slots</h1>
-      <p className="mt-1 text-navy-500">
+      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Manage Time Slots</h1>
+      <p className="mt-2 text-lg font-bold text-navy-500">
         Select a date to view or add time slots
       </p>
 
       {loading ? (
         <Skeleton className="mt-6 h-64 w-full rounded-xl" />
       ) : (
-        <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_1.5fr]">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_1.5fr]">
           {/* Calendar for date selection */}
-          <div className="space-y-4">
-            <div className="rounded-xl border border-navy-200 bg-white p-4">
-              <h3 className="mb-3 text-sm font-semibold text-navy-900">
+          <div className="space-y-6">
+            <div className="rounded-[2.5rem] border-4 border-navy-900 bg-white p-8 shadow-playful relative blob-shape-3">
+              <h3 className="mb-4 font-display text-2xl font-black text-navy-900 title-shadow relative z-10">
                 Select Dates for Time Slots
               </h3>
               <Calendar
@@ -117,42 +117,42 @@ function TimeSlotsContent() {
                 }}
                 markedDates={datesWithSlots}
               />
-              <p className="mt-3 text-xs text-navy-500">
+              <p className="mt-4 text-sm font-bold text-navy-500 relative z-10">
                 Click dates to select them for bulk time slot creation
               </p>
             </div>
 
             {/* View existing slots for date */}
             {viewDate && (
-              <div className="rounded-xl border border-navy-200 bg-white p-4">
-                <h3 className="mb-3 text-sm font-semibold text-navy-900">
+              <div className="rounded-[2.5rem] border-4 border-navy-900 bg-yellow-400 p-8 shadow-playful relative">
+                <h3 className="mb-4 font-display text-xl font-black text-navy-900 title-shadow">
                   Existing Slots: {format(viewDate, "MMM d")}
                 </h3>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {slotsForDate.length === 0 ? (
-                    <p className="text-xs text-navy-500 py-2">
+                    <p className="text-sm font-bold text-navy-500 py-2 bg-white/50 rounded-xl px-4 inline-block">
                       No slots for this date yet
                     </p>
                   ) : (
                     slotsForDate.map((slot) => (
                       <div
                         key={slot.id}
-                        className="flex items-center justify-between rounded-lg border border-sand-300 bg-sand-50 p-2"
+                        className="flex items-center justify-between rounded-2xl border-4 border-navy-900 bg-white p-4 shadow-[4px_4px_0_theme(colors.navy.900)] -translate-x-1 -translate-y-1 hover:translate-x-0 hover:translate-y-0 hover:shadow-none transition-all"
                       >
                         <div>
-                          <p className="text-xs font-medium text-navy-900">
+                          <p className="text-base font-black text-navy-900">
                             {format(parseISO(slot.start_datetime), "HH:mm")} -{" "}
                             {format(parseISO(slot.end_datetime), "HH:mm")}
                           </p>
-                          <p className="text-xs text-navy-500">
+                          <p className="text-sm font-bold text-navy-500 mt-0.5">
                             {slot.spots_remaining}/{slot.spots_total} left
                           </p>
                         </div>
                         <button
                           onClick={() => handleDelete(slot.id)}
-                          className="rounded p-1 text-navy-400 hover:bg-red-50 hover:text-red-600"
+                          className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-navy-900 bg-red-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:-translate-y-0.5 transition-all"
                         >
-                          <Trash2 className="h-3 w-3" />
+                          <Trash2 className="h-5 w-5" />
                         </button>
                       </div>
                     ))
@@ -163,30 +163,30 @@ function TimeSlotsContent() {
           </div>
 
           {/* Create time slots form */}
-          <div className="rounded-xl border border-navy-200 bg-white p-6">
-            <h3 className="text-lg font-semibold text-navy-900">
+          <div className="rounded-[2.5rem] border-4 border-navy-900 bg-white p-8 shadow-playful relative blob-shape-2">
+            <h3 className="font-display text-2xl font-black text-navy-900 title-shadow relative z-10">
               Create Time Slots
             </h3>
-            <p className="mt-1 text-sm text-navy-500">
+            <p className="mt-2 text-base font-bold text-navy-500 relative z-10">
               Select dates on the calendar, then set the time and capacity
             </p>
 
             {/* Selected dates chips */}
             {selectedDates.length > 0 && (
-              <div className="mt-4">
-                <p className="mb-2 text-xs font-medium text-navy-700">
+              <div className="mt-8 relative z-10">
+                <p className="mb-3 text-sm font-black uppercase text-navy-400 tracking-wider">
                   Selected Dates ({selectedDates.length})
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {selectedDates.map((date) => (
                     <div
                       key={date.toISOString()}
-                      className="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1.5 text-sm font-medium text-teal-700"
+                      className="inline-flex items-center gap-2 rounded-full border-2 border-navy-900 bg-blue-400 px-4 py-2 text-sm font-black text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] -translate-y-0.5"
                     >
                       {format(date, "MMM d")}
                       <button
                         onClick={() => removeDate(date)}
-                        className="hover:text-teal-900"
+                        className="hover:text-red-600 transition-colors"
                       >
                         ×
                       </button>
@@ -197,8 +197,8 @@ function TimeSlotsContent() {
             )}
 
             {/* Time slot form */}
-            <div className="mt-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="mt-8 space-y-6 relative z-10">
+              <div className="grid grid-cols-2 gap-6">
                 <Input
                   label="Start time"
                   type="time"
@@ -219,10 +219,11 @@ function TimeSlotsContent() {
                 onChange={(e) => setSpotsTotal(e.target.value)}
               />
               <Button
+                size="lg"
                 onClick={handleBulkCreate}
                 loading={creating}
                 disabled={selectedDates.length === 0}
-                className="w-full"
+                className="w-full mt-4 rounded-full border-4 border-navy-900 bg-light-green-400 text-navy-900 font-black shadow-[4px_4px_0_theme(colors.navy.900)] hover:-translate-y-1 transition-all"
               >
                 {creating
                   ? "Creating..."

@@ -23,8 +23,8 @@ export default function MessagesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-navy-900">Messages</h1>
-      <p className="mt-1 text-navy-500">Your conversations</p>
+      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Messages</h1>
+      <p className="mt-2 text-lg font-bold text-navy-500">Your conversations</p>
 
       {loading ? (
         <div className="mt-6 space-y-3">
@@ -40,34 +40,36 @@ export default function MessagesPage() {
           className="mt-8"
         />
       ) : (
-        <div className="mt-6 space-y-2">
+        <div className="mt-8 space-y-4">
           {conversations.map((conv) => (
             <Link
               key={conv.id}
               href={`/dashboard/messages/${conv.id}`}
-              className="flex items-center gap-4 rounded-xl border border-navy-200 bg-white p-4 transition-all hover:shadow-card hover:border-navy-300"
+              className="flex items-center gap-4 rounded-[2.5rem] border-4 border-navy-900 bg-white p-6 transition-all shadow-playful hover:shadow-playful-hover hover:-translate-y-1"
             >
               <Avatar name={conv.other_user_name} size="md" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-navy-900 text-sm">
+                  <h3 className="font-display text-xl font-black text-navy-900">
                     {conv.other_user_name}
                   </h3>
-                  <span className="text-xs text-navy-400">
+                  <span className="text-sm font-bold text-navy-400">
                     {getRelativeTime(conv.last_message_at)}
                   </span>
                 </div>
                 {conv.experience_title && (
-                  <p className="text-xs text-teal-600 mt-0.5">
+                  <p className="text-sm font-bold text-blue-500 mt-1">
                     {conv.experience_title}
                   </p>
                 )}
-                <p className="mt-1 text-sm text-navy-500 truncate">
+                <p className="mt-2 text-base font-bold text-navy-500 truncate">
                   {conv.last_message || "No messages yet"}
                 </p>
               </div>
               {conv.unread_count > 0 && (
-                <Badge variant="info">{conv.unread_count}</Badge>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-400 text-navy-900 font-bold border-2 border-navy-900 shadow-sm">
+                  {conv.unread_count}
+                </div>
               )}
             </Link>
           ))}

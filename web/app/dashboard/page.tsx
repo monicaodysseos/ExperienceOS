@@ -38,7 +38,7 @@ function HRDashboard() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="font-display text-5xl sm:text-6xl font-black text-navy-900 title-shadow">
-            Ready to spark some creativity, {user?.first_name}? ✨
+            Ready to spark some creativity, {user?.first_name}? <span style={{ textShadow: "none" }}>✨</span>
           </h1>
           {dashboard?.org && (
             <p className="mt-3 text-xl font-bold text-navy-700 flex items-center gap-2">
@@ -47,9 +47,9 @@ function HRDashboard() {
             </p>
           )}
         </div>
-        <Link href="/experiences">
-          <Button size="sm">
-            <Plus className="h-4 w-4 mr-1.5" />
+        <Link href="/experiences" className="mt-2 sm:mt-0 ml-4 flex-shrink-0">
+          <Button size="lg" className="rounded-[1.5rem] px-6 border-4 border-navy-900 shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all bg-blue-400 text-navy-900 font-black">
+            <Plus className="h-5 w-5 mr-1 border-2 border-navy-900 rounded-full" />
             Book Experience
           </Button>
         </Link>
@@ -147,7 +147,7 @@ function ParticipantDashboard() {
   return (
     <div className="max-w-5xl mx-auto py-8">
       <h1 className="font-display text-5xl sm:text-6xl font-black text-navy-900 title-shadow">
-        Ready for some fun, {user?.first_name}? 🎨
+        Ready for some fun, {user?.first_name}? <span style={{ textShadow: "none" }}>🎨</span>
       </h1>
       <p className="mt-4 text-xl font-bold text-navy-700">Here&apos;s your creative agenda</p>
 

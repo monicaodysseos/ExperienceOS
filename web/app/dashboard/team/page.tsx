@@ -107,19 +107,19 @@ export default function TeamPage() {
   if (!org) {
     return (
       <div className="max-w-xl mx-auto py-8">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-navy-50 text-navy-500 mb-6">
-          <Building2 className="h-7 w-7" />
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 mb-6">
+          <Building2 className="h-8 w-8" />
         </div>
-        <h1 className="font-display text-3xl font-semibold text-navy-900">
+        <h1 className="font-display text-5xl font-black text-navy-900 title-shadow">
           Create your organisation
         </h1>
-        <p className="mt-2 text-navy-500">
+        <p className="mt-4 text-lg font-bold text-navy-500">
           Set up your company account to invite your team and manage group bookings.
         </p>
 
         <form
           onSubmit={handleOrgSubmit(onCreateOrg)}
-          className="mt-8 space-y-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200"
+          className="mt-8 space-y-5 rounded-[2.5rem] bg-white p-8 shadow-playful border-4 border-navy-900"
         >
           <Input
             label="Company name"
@@ -154,9 +154,9 @@ export default function TeamPage() {
     <div className="max-w-3xl mx-auto py-8">
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-semibold text-navy-900">Team</h1>
-          <p className="mt-1 text-navy-500 flex items-center gap-1.5">
-            <Building2 className="h-4 w-4" />
+          <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Team</h1>
+          <p className="mt-2 text-lg font-bold text-navy-500 flex items-center gap-2">
+            <Building2 className="h-5 w-5 text-purple-500" />
             {org.name}
             <span className="text-navy-300">·</span>
             <span>{members.length} member{members.length !== 1 ? "s" : ""}</span>
@@ -165,9 +165,9 @@ export default function TeamPage() {
       </div>
 
       {/* Invite form */}
-      <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200 mb-6">
-        <h2 className="font-semibold text-navy-900 mb-1">Invite a team member</h2>
-        <p className="text-sm text-navy-500 mb-4">
+      <div className="rounded-[2.5rem] bg-yellow-400 p-8 shadow-playful border-4 border-navy-900 mb-8 blob-shape-3 relative">
+        <h2 className="font-display text-2xl font-black text-navy-900 mb-2 title-shadow">Invite a team member</h2>
+        <p className="text-base font-bold text-navy-900 mb-6">
           They&apos;ll receive an email invitation to join {org.name}.
         </p>
         <form
@@ -182,7 +182,7 @@ export default function TeamPage() {
             className="flex-1"
             {...registerInvite("email")}
           />
-          <Button type="submit" loading={inviting} size="sm">
+          <Button type="submit" loading={inviting} size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-black hover:-translate-y-1 transition-all">
             Send Invite
           </Button>
         </form>
@@ -196,13 +196,13 @@ export default function TeamPage() {
           description="Invite colleagues to start booking team experiences together."
         />
       ) : (
-        <div className="rounded-2xl bg-white shadow-sm ring-1 ring-sand-200 overflow-hidden">
-          <div className="divide-y divide-sand-100">
+        <div className="rounded-[2.5rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden">
+          <div className="divide-y-2 divide-navy-100">
             {members.map((member) => (
-              <div key={member.id} className="flex items-center justify-between px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-100 text-navy-600">
-                    <UserCircle2 className="h-5 w-5" />
+              <div key={member.id} className="flex items-center justify-between px-6 py-5 hover:bg-navy-50 transition-colors">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-light-green-400 text-navy-900 border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
+                    <UserCircle2 className="h-6 w-6" />
                   </div>
                   <div>
                     <p className="font-medium text-navy-900">
@@ -226,9 +226,9 @@ export default function TeamPage() {
       )}
 
       {/* Org details */}
-      <div className="mt-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200">
-        <h2 className="font-semibold text-navy-900 mb-4">Organisation details</h2>
-        <dl className="space-y-3 text-sm">
+      <div className="mt-10 rounded-[2.5rem] bg-white p-8 shadow-playful border-4 border-navy-900">
+        <h2 className="font-display text-2xl font-black text-navy-900 mb-6 title-shadow">Organisation details</h2>
+        <dl className="space-y-4 text-base">
           <div className="flex justify-between">
             <dt className="text-navy-500">Name</dt>
             <dd className="font-medium text-navy-900">{org.name}</dd>

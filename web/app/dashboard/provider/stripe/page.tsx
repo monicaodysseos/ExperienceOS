@@ -65,8 +65,8 @@ function StripeContent() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-navy-900">Payment Settings</h1>
-      <p className="mt-1 text-navy-500">
+      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Payment Settings</h1>
+      <p className="mt-2 text-lg font-bold text-navy-500">
         Connect with Stripe to receive payments
       </p>
 
@@ -89,65 +89,64 @@ function StripeContent() {
       )}
 
       {loading ? (
-        <Skeleton className="mt-6 h-48 w-full rounded-xl" />
+        <Skeleton className="mt-8 h-48 w-full rounded-xl" />
       ) : status?.charges_enabled ? (
-        <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 p-8 text-center">
-          <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-600" />
-          <h3 className="mt-4 text-xl font-semibold text-emerald-900">
+        <div className="mt-8 rounded-[2.5rem] border-4 border-navy-900 bg-light-green-400 p-10 text-center shadow-playful blob-shape-3 relative">
+          <CheckCircle2 className="mx-auto h-16 w-16 text-navy-900 relative z-10" />
+          <h3 className="mt-6 font-display text-3xl font-black text-navy-900 title-shadow relative z-10">
             Payments Active
           </h3>
-          <p className="mt-2 text-sm text-emerald-700">
+          <p className="mt-3 text-base font-bold text-navy-900 relative z-10">
             Your Stripe account is connected and ready to receive payments.
           </p>
         </div>
       ) : status?.connected ? (
-        <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-8 text-center">
-          <AlertCircle className="mx-auto h-12 w-12 text-amber-500" />
-          <h3 className="mt-4 text-xl font-semibold text-amber-900">
+        <div className="mt-8 rounded-[2.5rem] border-4 border-navy-900 bg-yellow-400 p-10 text-center shadow-playful relative">
+          <AlertCircle className="mx-auto h-16 w-16 text-navy-900 relative z-10" />
+          <h3 className="mt-6 font-display text-3xl font-black text-navy-900 title-shadow relative z-10">
             Onboarding In Progress
           </h3>
-          <p className="mt-2 text-sm text-amber-700">
+          <p className="mt-3 text-base font-bold text-navy-900 relative z-10">
             Your Stripe account is connected but additional verification may be
             needed.
           </p>
           <Button
-            variant="secondary"
-            className="mt-4"
+            size="lg"
+            className="mt-8 rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-black hover:-translate-y-1 transition-all relative z-10"
             loading={connecting}
             onClick={handleConnect}
           >
             Complete Verification
-            <ExternalLink className="h-4 w-4" />
+            <ExternalLink className="ml-2 h-5 w-5" />
           </Button>
         </div>
       ) : (
-        <div className="mt-6 rounded-xl border border-navy-200 bg-white p-8 text-center">
-          <CreditCard className="mx-auto h-12 w-12 text-navy-400" />
-          <h3 className="mt-4 text-xl font-semibold text-navy-900">
+        <div className="mt-8 rounded-[2.5rem] border-4 border-navy-900 bg-white p-10 text-center shadow-playful relative">
+          <CreditCard className="mx-auto h-16 w-16 text-navy-900" />
+          <h3 className="mt-6 font-display text-3xl font-black text-navy-900 title-shadow">
             Set Up Payments
           </h3>
-          <p className="mt-2 text-sm text-navy-500 max-w-sm mx-auto">
+          <p className="mt-3 text-base font-bold text-navy-500 max-w-sm mx-auto">
             Connect your Stripe account to start receiving payments from
             guests. Setup takes about 5 minutes.
           </p>
           <Button
-            className="mt-6"
+            className="mt-8 rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-blue-400 text-navy-900 font-black hover:-translate-y-1 transition-all"
             size="lg"
             loading={connecting}
             onClick={handleConnect}
           >
             Connect with Stripe
-            <ExternalLink className="h-4 w-4" />
+            <ExternalLink className="ml-2 h-5 w-5" />
           </Button>
 
-          <div className="mt-4 border-t border-navy-100 pt-4">
-            <p className="text-xs text-navy-400 mb-3">Testing only</p>
+          <div className="mt-8 border-t-[3px] border-navy-900/20 pt-6">
+            <p className="text-xs font-black text-navy-400 mb-4 uppercase tracking-wider">Testing only</p>
             <Button
-              variant="outline"
               size="sm"
               loading={mocking}
               onClick={handleMockConnect}
-              className="text-navy-500"
+              className="rounded-full border-2 border-navy-900 bg-sand-100 text-navy-900 font-bold hover:shadow-[2px_2px_0_theme(colors.navy.900)] hover:-translate-y-0.5 transition-all"
             >
               Mock connect (skip Stripe)
             </Button>

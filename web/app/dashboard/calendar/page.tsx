@@ -81,21 +81,21 @@ function HRCalendarContent() {
     <div className="mx-auto max-w-6xl">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-navy-900">Events Calendar</h1>
-          <p className="mt-1 text-navy-500">
+          <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Events Calendar</h1>
+          <p className="mt-2 text-lg font-bold text-navy-500">
             Browse available experiences and book for your team
           </p>
         </div>
         <Link href="/experiences">
-          <Button variant="outline" size="sm">
+          <Button size="lg" className="rounded-full border-4 border-navy-900 bg-yellow-400 shadow-[4px_4px_0_theme(colors.navy.900)] text-navy-900 font-black hover:-translate-y-1 transition-all">
             Browse all experiences
           </Button>
         </Link>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_300px]">
+      <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_320px]">
         {/* Calendar */}
-        <div className="overflow-hidden rounded-2xl border border-navy-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-[2.5rem] border-4 border-navy-900 bg-white shadow-playful">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-navy-100 px-6 py-4">
             <h2 className="text-lg font-semibold text-navy-900">
@@ -208,54 +208,54 @@ function HRCalendarContent() {
         </div>
 
         {/* Side panel */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           {selectedSlot ? (
-            <div className="rounded-2xl border border-navy-200 bg-white p-5 shadow-sm">
-              <h3 className="font-semibold text-navy-900 line-clamp-2">
+            <div className="rounded-[2.5rem] border-4 border-navy-900 bg-purple-400 p-8 shadow-playful blob-shape-3 relative">
+              <h3 className="font-display text-2xl font-black text-navy-900 line-clamp-2 title-shadow relative z-10">
                 {selectedSlot.experienceTitle}
               </h3>
 
-              <div className="mt-4 space-y-2 text-sm text-navy-600">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 shrink-0 text-navy-400" />
+              <div className="mt-6 space-y-3 text-sm font-bold text-navy-900 relative z-10">
+                <div className="flex items-center gap-3">
+                  <Clock className="h-5 w-5 shrink-0 text-navy-900" />
                   <span>
                     {format(new Date(selectedSlot.start_datetime), "EEE, d MMM · HH:mm")}
                     {" – "}
                     {format(new Date(selectedSlot.end_datetime), "HH:mm")}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 shrink-0 text-navy-400" />
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-5 w-5 shrink-0 text-navy-900" />
                   <span>{selectedSlot.experienceCity}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 shrink-0 text-navy-400" />
+                <div className="flex items-center gap-3">
+                  <Users className="h-5 w-5 shrink-0 text-navy-900" />
                   <span>{selectedSlot.spots_remaining} spot{selectedSlot.spots_remaining !== 1 ? "s" : ""} available</span>
                 </div>
               </div>
 
-              <div className="mt-4 border-t border-navy-100 pt-4">
-                <p className="text-lg font-bold text-navy-900">
+              <div className="mt-6 border-t-[3px] border-navy-900/20 pt-6 relative z-10">
+                <p className="font-display text-4xl font-black text-navy-900 title-shadow">
                   {selectedSlot.currency === "EUR" ? "€" : "$"}
                   {parseFloat(selectedSlot.pricePerPerson).toFixed(0)}
-                  <span className="text-sm font-normal text-navy-500"> / person</span>
+                  <span className="text-lg font-bold text-navy-900"> / person</span>
                 </p>
               </div>
 
-              <div className="mt-4 flex flex-col gap-2">
+              <div className="mt-8 flex flex-col gap-4 relative z-10">
                 <Link href={`/experiences/${selectedSlot.experienceSlug}`}>
-                  <Button className="w-full">Book this session</Button>
+                  <Button size="lg" className="w-full rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-black hover:-translate-y-1 transition-all">Book this session</Button>
                 </Link>
                 <Link href={`/experiences/${selectedSlot.experienceSlug}`}>
-                  <Button variant="outline" className="w-full">
+                  <Button size="lg" className="w-full rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 font-black hover:-translate-y-1 transition-all">
                     View experience
                   </Button>
                 </Link>
               </div>
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-navy-200 p-6 text-center">
-              <p className="text-sm text-navy-500">
+            <div className="rounded-[2.5rem] border-4 border-dashed border-navy-300 bg-navy-50 p-8 text-center">
+              <p className="text-lg font-bold text-navy-500">
                 Click a session on the calendar to see details and book
               </p>
             </div>
@@ -263,11 +263,11 @@ function HRCalendarContent() {
 
           {/* Upcoming summary */}
           {!isLoading && allSlots.length > 0 && (
-            <div className="rounded-2xl border border-navy-200 bg-white p-5">
-              <h4 className="text-sm font-semibold text-navy-700">
+            <div className="rounded-[2.5rem] border-4 border-navy-900 bg-light-green-400 p-8 shadow-[4px_4px_0_theme(colors.navy.900)]">
+              <h4 className="font-display text-xl font-black text-navy-900 title-shadow">
                 Upcoming this month
               </h4>
-              <p className="mt-1 text-2xl font-bold text-navy-900">
+              <p className="mt-2 font-display text-5xl font-black text-navy-900 title-shadow">
                 {
                   allSlots.filter((s) =>
                     new Date(s.start_datetime).getMonth() === currentDate.getMonth() &&
@@ -275,7 +275,7 @@ function HRCalendarContent() {
                   ).length
                 }
               </p>
-              <p className="text-xs text-navy-500">available sessions</p>
+              <p className="mt-2 text-sm font-bold text-navy-900">available sessions</p>
             </div>
           )}
         </div>

@@ -73,18 +73,18 @@ export default function PayoutsPage() {
 
   return (
     <div className="max-w-3xl mx-auto py-8">
-      <h1 className="font-display text-3xl font-semibold text-navy-900">Payouts</h1>
-      <p className="mt-1 text-navy-500">Your Stripe payout history</p>
+      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Payouts</h1>
+      <p className="mt-2 text-lg font-bold text-navy-500">Your Stripe payout history</p>
 
       {/* Summary card */}
-      <div className="mt-6 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200">
-        <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
-            <Wallet className="h-6 w-6" />
+      <div className="mt-8 rounded-[2.5rem] bg-light-green-400 border-4 border-navy-900 p-8 shadow-playful relative blob-shape-2">
+        <div className="flex items-center gap-5 relative z-10">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-white text-light-green-600">
+            <Wallet className="h-8 w-8 text-navy-900" />
           </div>
           <div>
-            <p className="text-sm font-medium text-navy-500">Total paid out</p>
-            <p className="text-3xl font-semibold text-navy-900">
+            <p className="text-base font-bold text-navy-900">Total paid out</p>
+            <p className="font-display text-5xl font-black text-navy-900 title-shadow">
               €{parseFloat(totalPaid).toFixed(2)}
             </p>
           </div>
@@ -100,32 +100,32 @@ export default function PayoutsPage() {
             description="Payouts are processed automatically after booking completion. They typically arrive within 2–5 business days."
           />
         ) : (
-          <div className="rounded-2xl bg-white shadow-sm ring-1 ring-sand-200 overflow-hidden">
-            <div className="divide-y divide-sand-100">
+          <div className="rounded-[2.5rem] bg-white shadow-playful border-4 border-navy-900 overflow-hidden">
+            <div className="divide-y-2 divide-navy-100">
               {payouts.map((payout) => (
                 <div
                   key={payout.id}
-                  className="flex items-center justify-between px-5 py-4"
+                  className="flex items-center justify-between px-6 py-5 hover:bg-navy-50 transition-colors"
                 >
-                  <div className="flex items-start gap-3">
-                    <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-teal-50 text-teal-600">
-                      <Wallet className="h-4 w-4" />
+                  <div className="flex items-start gap-4">
+                    <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-navy-900 bg-yellow-400 text-navy-900 shadow-sm">
+                      <Wallet className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-navy-900">
+                      <p className="font-display text-xl font-black text-navy-900">
                         €{parseFloat(payout.amount).toFixed(2)}{" "}
-                        <span className="text-sm font-normal text-navy-400">
+                        <span className="text-sm font-bold text-navy-400">
                           {payout.currency.toUpperCase()}
                         </span>
                       </p>
                       {payout.stripe_payout_id && (
-                        <p className="mt-0.5 font-mono text-xs text-navy-400">
+                        <p className="mt-1 font-mono text-xs font-bold text-navy-400">
                           {payout.stripe_payout_id}
                         </p>
                       )}
                       {payout.period_start && payout.period_end && (
-                        <p className="mt-0.5 flex items-center gap-1 text-xs text-navy-400">
-                          <Calendar className="h-3 w-3" />
+                        <p className="mt-1 flex items-center gap-1.5 text-xs font-bold text-navy-500">
+                          <Calendar className="h-4 w-4" />
                           {format(parseISO(payout.period_start), "d MMM")} –{" "}
                           {format(parseISO(payout.period_end), "d MMM yyyy")}
                         </p>
@@ -133,10 +133,12 @@ export default function PayoutsPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <p className="hidden sm:block text-sm text-navy-400">
+                    <p className="hidden sm:block text-sm font-bold text-navy-400">
                       {format(parseISO(payout.created_at), "d MMM yyyy")}
                     </p>
-                    <PayoutStatusBadge status={payout.status} />
+                    <div className="scale-110 origin-right">
+                      <PayoutStatusBadge status={payout.status} />
+                    </div>
                   </div>
                 </div>
               ))}
