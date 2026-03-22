@@ -10,11 +10,30 @@ interface ExperienceCardProps {
   experience: ExperienceListItem;
 }
 
+// Category → Color mapping based on VIVI DO design
+const getCategoryColors = (categorySlug: string) => {
+  const colors: Record<string, { badge: string, border: string, hover: string }> = {
+    workshops: { badge: "bg-orange-100 text-orange-700", border: "border-l-orange-500", hover: "group-hover:text-orange-600" },
+    tours: { badge: "bg-blue-100 text-blue-700", border: "border-l-blue-500", hover: "group-hover:text-blue-600" },
+    wellness: { badge: "bg-purple-100 text-purple-700", border: "border-l-purple-500", hover: "group-hover:text-purple-600" },
+    "food-drink": { badge: "bg-red-100 text-red-700", border: "border-l-red-500", hover: "group-hover:text-red-600" },
+    outdoor: { badge: "bg-green-100 text-green-700", border: "border-l-green-500", hover: "group-hover:text-green-600" },
+    nightlife: { badge: "bg-dark-green-100 text-dark-green-700", border: "border-l-dark-green-500", hover: "group-hover:text-dark-green-600" },
+    learning: { badge: "bg-yellow-100 text-yellow-700", border: "border-l-yellow-500", hover: "group-hover:text-yellow-600" },
+    arts: { badge: "bg-light-green-100 text-light-green-700", border: "border-l-light-green-500", hover: "group-hover:text-light-green-600" },
+    music: { badge: "bg-purple-100 text-purple-700", border: "border-l-purple-500", hover: "group-hover:text-purple-600" },
+    games: { badge: "bg-blue-100 text-blue-700", border: "border-l-blue-500", hover: "group-hover:text-blue-600" },
+  };
+  return colors[categorySlug] || { badge: "bg-blue-100 text-blue-700", border: "border-l-blue-500", hover: "group-hover:text-blue-600" };
+};
+
 export function ExperienceCard({ experience: exp }: ExperienceCardProps) {
+  const categoryColors = getCategoryColors(exp.category.slug);
+
   return (
     <Link
       href={`/experiences/${exp.slug}`}
-      className="group block overflow-hidden rounded-xl border border-navy-200 bg-white transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
+      className={`group block overflow-hidden rounded-xl border border-l-4 ${categoryColors.border} border-navy-200 bg-white transition-all duration-300 hover:shadow-elevated hover:-translate-y-1`}
     >
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden bg-navy-100">
@@ -32,7 +51,7 @@ export function ExperienceCard({ experience: exp }: ExperienceCardProps) {
           </div>
         )}
         <div className="absolute top-3 left-3">
-          <Badge variant="info" className="backdrop-blur-sm bg-white/90 text-teal-700">
+          <Badge className={`backdrop-blur-sm ${categoryColors.badge}`}>
             {exp.category.name}
           </Badge>
         </div>
@@ -40,7 +59,7 @@ export function ExperienceCard({ experience: exp }: ExperienceCardProps) {
 
       {/* Details */}
       <div className="p-4">
-        <h3 className="text-base font-semibold text-navy-900 line-clamp-1 group-hover:text-teal-700 transition-colors">
+        <h3 className={`text-base font-semibold text-navy-900 line-clamp-1 transition-colors ${categoryColors.hover}`}>
           {exp.title}
         </h3>
         <p className="mt-0.5 text-sm text-navy-500">
@@ -60,7 +79,7 @@ export function ExperienceCard({ experience: exp }: ExperienceCardProps) {
           </span>
           {exp.review_count > 0 && (
             <span className="flex items-center gap-1">
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              <Star className="h-3.5 w-3.5 fill-orange-400 text-orange-400" />
               {parseFloat(exp.average_rating).toFixed(1)}
               <span className="text-navy-400">({exp.review_count})</span>
             </span>

@@ -2,14 +2,13 @@
 @import "leaflet/dist/leaflet.css";
 
 @theme {
-  /* Pedestal-inspired Color Palette */
-  /* Main Soft White/Off-white for clean breathing room */
+  /* VIVI DO Creative Activities Color System */
+  /* Neutrals - Clean backgrounds and grays */
   --color-sand-50: #ffffff;
   --color-sand-100: #f9f9fa;
   --color-sand-200: #f1f2f4;
   --color-sand-300: #e5e7eb;
 
-  /* Neutrals / Charcoals for text instead of heavy navy */
   --color-navy-50: #f8fafc;
   --color-navy-100: #f1f5f9;
   --color-navy-200: #e2e8f0;
@@ -20,51 +19,118 @@
   --color-navy-700: #334155;
   --color-navy-800: #1e293b;
   --color-navy-900: #1a1a1a;
-  --color-navy-950: #0f172a;
 
-  /* Accents - "Colourful Noise" (Dusty Pink, Forest Green, Mushroom) */
-  --color-crimson-50: #fdf2f8;
-  --color-crimson-100: #fce7f3;
-  --color-crimson-200: #fbcfe8;
-  --color-crimson-300: #f9a8d4;
-  --color-crimson-400: #f472b6;
-  --color-crimson-500: #ec4899;
-  --color-crimson-600: #db2777;
-  --color-crimson-700: #be185d;
-  --color-crimson-800: #d68995;
-  /* Dusty Pink Accent */
-  --color-crimson-900: #c07a86;
+  /* VIVI DO Blue - Primary (trust, main CTAs) */
+  --color-blue-50: #e6f4fc;
+  --color-blue-100: #cce9f9;
+  --color-blue-200: #99d3f3;
+  --color-blue-300: #66bded;
+  --color-blue-400: #3d98d6;
+  --color-blue-500: #3d98d6;
+  --color-blue-600: #3d98d6;
+  --color-blue-700: #2d7fb8;
+  --color-blue-800: #1d5f8a;
+  --color-blue-900: #0e405c;
 
-  --color-purple-50: #f0fdf4;
-  --color-purple-100: #dcfce7;
-  --color-purple-200: #2d5a27;
-  /* Forest Green Accent */
-  --color-purple-300: #86efac;
-  --color-purple-400: #4ade80;
-  --color-purple-500: #22c55e;
-  --color-purple-600: #16a34a;
-  --color-purple-700: #15803d;
-  --color-purple-800: #166534;
-  --color-purple-900: #14532d;
+  /* VIVI DO Green - Secondary (success, confirmations) */
+  --color-green-50: #e8f7ee;
+  --color-green-100: #d1efdd;
+  --color-green-200: #a3dfbb;
+  --color-green-300: #75cf99;
+  --color-green-400: #47bf77;
+  --color-green-500: #31a768;
+  --color-green-600: #31a768;
+  --color-green-700: #258753;
+  --color-green-800: #19673e;
+  --color-green-900: #0d4729;
 
-  --color-taupe-500: #b3b0a5;
-  /* Mushroom */
+  /* VIVI DO Red - Alert (errors, warnings) */
+  --color-red-50: #ffe5e5;
+  --color-red-100: #ffcccc;
+  --color-red-200: #ff9999;
+  --color-red-300: #ff6666;
+  --color-red-400: #ff3333;
+  --color-red-500: #f93d3a;
+  --color-red-600: #f93d3a;
+  --color-red-700: #d92e2b;
+  --color-red-800: #b91f1c;
+  --color-red-900: #99100d;
 
-  /* Semantic tokens */
-  --color-primary: var(--color-navy-900);
-  --color-primary-hover: var(--color-navy-800);
-  --color-primary-light: var(--color-navy-100);
-  --color-accent: var(--color-crimson-800);
-  --color-accent-hover: var(--color-crimson-900);
+  /* VIVI DO Purple/Pink - Accent (playful highlights) */
+  --color-purple-50: #fce9f0;
+  --color-purple-100: #f9d3e1;
+  --color-purple-200: #f3a7c3;
+  --color-purple-300: #ed7ba5;
+  --color-purple-400: #e8678f;
+  --color-purple-500: #e8678f;
+  --color-purple-600: #e8678f;
+  --color-purple-700: #d94f7a;
+  --color-purple-800: #b93a5f;
+  --color-purple-900: #992544;
+
+  /* VIVI DO Orange - Energy (urgent CTAs, featured) */
+  --color-orange-50: #fff3e6;
+  --color-orange-100: #ffe7cc;
+  --color-orange-200: #ffcf99;
+  --color-orange-300: #ffb766;
+  --color-orange-400: #ff9f33;
+  --color-orange-500: #ff751f;
+  --color-orange-600: #ff751f;
+  --color-orange-700: #e65f0a;
+  --color-orange-800: #b34a08;
+  --color-orange-900: #803506;
+
+  /* VIVI DO Light Green - Fresh (backgrounds, highlights) */
+  --color-light-green-50: #f5fae6;
+  --color-light-green-100: #ebf5cc;
+  --color-light-green-200: #d7eb99;
+  --color-light-green-300: #c3e166;
+  --color-light-green-400: #c9e265;
+  --color-light-green-500: #c9e265;
+  --color-light-green-600: #c9e265;
+  --color-light-green-700: #b1cc4a;
+  --color-light-green-800: #8fa638;
+  --color-light-green-900: #6d8026;
+
+  /* VIVI DO Dark Green - Stable (provider areas) */
+  --color-dark-green-50: #e6f2ec;
+  --color-dark-green-100: #cce5d9;
+  --color-dark-green-200: #99cbb3;
+  --color-dark-green-300: #66b18d;
+  --color-dark-green-400: #339767;
+  --color-dark-green-500: #25754a;
+  --color-dark-green-600: #25754a;
+  --color-dark-green-700: #1d5c3a;
+  --color-dark-green-800: #15432a;
+  --color-dark-green-900: #0d2a1a;
+
+  /* VIVI DO Yellow - Highlight (special badges) */
+  --color-yellow-50: #fffbeb;
+  --color-yellow-100: #fff7d6;
+  --color-yellow-200: #ffefad;
+  --color-yellow-300: #ffe784;
+  --color-yellow-400: #ffde59;
+  --color-yellow-500: #ffde59;
+  --color-yellow-600: #ffde59;
+  --color-yellow-700: #e6c540;
+  --color-yellow-800: #b39932;
+  --color-yellow-900: #806d24;
+
+  /* Semantic tokens - VIVI DO vibrant system */
+  --color-primary: var(--color-blue-600);
+  --color-primary-hover: var(--color-blue-700);
+  --color-primary-light: var(--color-blue-50);
+  --color-accent: var(--color-purple-600);
+  --color-accent-hover: var(--color-purple-700);
   --color-background: var(--color-sand-50);
   --color-background-warm: var(--color-sand-100);
   --color-foreground: var(--color-navy-900);
   --color-muted: var(--color-navy-500);
   --color-border: var(--color-sand-300);
-  --color-border-hover: var(--color-navy-300);
-  --color-success: #16a34a;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
+  --color-border-hover: var(--color-blue-300);
+  --color-success: var(--color-green-600);
+  --color-warning: var(--color-orange-600);
+  --color-error: var(--color-red-600);
 
   /* Typography */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;

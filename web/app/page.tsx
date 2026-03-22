@@ -15,16 +15,16 @@ import {
 } from "lucide-react";
 
 const CATEGORIES = [
-  { name: "Workshops", slug: "workshops", icon: "🔨", gradient: "from-amber-500 to-orange-600" },
-  { name: "Tours", slug: "tours", icon: "🚶", gradient: "from-teal-500 to-teal-700" },
-  { name: "Wellness", slug: "wellness", icon: "🧘", gradient: "from-violet-500 to-purple-700" },
-  { name: "Food & Drink", slug: "food-drink", icon: "🍽️", gradient: "from-rose-500 to-pink-700" },
-  { name: "Arts", slug: "arts", icon: "🎨", gradient: "from-sky-500 to-blue-700" },
-  { name: "Outdoor", slug: "outdoor", icon: "🌿", gradient: "from-emerald-500 to-green-700" },
-  { name: "Nightlife", slug: "nightlife", icon: "🌙", gradient: "from-indigo-500 to-indigo-800" },
-  { name: "Music", slug: "music", icon: "🎵", gradient: "from-pink-500 to-rose-700" },
-  { name: "Games", slug: "games", icon: "🎮", gradient: "from-cyan-500 to-teal-600" },
-  { name: "Learning", slug: "learning", icon: "📚", gradient: "from-yellow-500 to-amber-700" },
+  { name: "Workshops", slug: "workshops", icon: "🔨", gradient: "from-orange-400 to-orange-600" },
+  { name: "Tours", slug: "tours", icon: "🚶", gradient: "from-blue-400 to-blue-600" },
+  { name: "Wellness", slug: "wellness", icon: "🧘", gradient: "from-purple-400 to-pink-500" },
+  { name: "Food & Drink", slug: "food-drink", icon: "🍽️", gradient: "from-red-400 to-red-600" },
+  { name: "Outdoor", slug: "outdoor", icon: "🌿", gradient: "from-green-400 to-green-600" },
+  { name: "Nightlife", slug: "nightlife", icon: "🌙", gradient: "from-dark-green-500 to-dark-green-700" },
+  { name: "Learning", slug: "learning", icon: "📚", gradient: "from-yellow-400 to-yellow-600" },
+  { name: "Arts", slug: "arts", icon: "🎨", gradient: "from-light-green-400 to-light-green-600" },
+  { name: "Music", slug: "music", icon: "🎵", gradient: "from-purple-500 to-purple-700" },
+  { name: "Games", slug: "games", icon: "🎮", gradient: "from-blue-500 to-blue-700" },
 ];
 
 const TESTIMONIALS = [
@@ -53,24 +53,22 @@ export default function HomePage() {
     <div className="bg-sand-50">
       {/* ─── Hero ───────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-sand-50 pt-24 pb-32 sm:pt-32 sm:pb-40">
-        {/* Abstract background elements - Soft blurred shapes instead of sharp geometric forms */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] rounded-full bg-crimson-100 opacity-60 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[500px] h-[500px] rounded-full bg-purple-100 opacity-60 blur-3xl pointer-events-none" />
+        {/* VIVI DO colorful background gradients */}
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-blue-400 to-purple-400 opacity-40 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-green-300 to-light-green-400 opacity-40 blur-3xl pointer-events-none" />
+        <div className="absolute top-20 left-1/2 -ml-40 w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-orange-400 to-yellow-300 opacity-30 blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 flex flex-col items-center">
           <div className="mx-auto max-w-5xl text-center z-10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-crimson-800 shadow-sm ring-1 ring-sand-200 mb-10 transition-transform hover:scale-105 cursor-default">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-purple-700 shadow-sm ring-1 ring-purple-200 mb-10 transition-transform hover:scale-105 cursor-default">
               <Sparkles className="h-4 w-4" />
               <span>New experiences added weekly</span>
             </div>
 
             <h1 className="font-display text-6xl font-semibold tracking-tight text-navy-900 sm:text-7xl lg:text-8xl leading-[1.1]">
               Discover unforgettable <br className="hidden sm:block" />
-              <span className="text-crimson-800 relative whitespace-nowrap">
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-orange-500 bg-clip-text text-transparent relative whitespace-nowrap">
                 experiences
-                <svg className="absolute w-full h-3 -bottom-1 left-0 text-crimson-200" viewBox="0 0 100 10" preserveAspectRatio="none">
-                  <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="4" fill="transparent" />
-                </svg>
               </span>
               {" "}in Cyprus
             </h1>
@@ -109,7 +107,7 @@ export default function HomePage() {
                   </div>
                   <button
                     type="submit"
-                    className="rounded-xl bg-navy-900 px-8 py-4 text-lg font-medium text-white transition-all hover:bg-navy-800 hover:shadow-md"
+                    className="rounded-full bg-orange-500 px-8 py-4 text-lg font-medium text-white transition-all hover:bg-orange-600 hover:shadow-md"
                   >
                     Search
                   </button>
@@ -120,19 +118,19 @@ export default function HomePage() {
             {/* Trust Badges */}
             <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm font-medium text-navy-600">
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-50 text-purple-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
                   <Shield className="h-4 w-4" />
                 </div>
                 Verified Providers
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-crimson-50 text-crimson-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-600">
                   <BadgeCheck className="h-4 w-4" />
                 </div>
                 Secure Payments
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sand-100 text-navy-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-600">
                   <Clock className="h-4 w-4" />
                 </div>
                 Free Cancellation
@@ -156,25 +154,25 @@ export default function HomePage() {
                 icon: Search,
                 title: "Browse",
                 desc: "Explore hundreds of unique experiences across Cyprus, curated by passionate locals.",
-                color: "bg-sand-50 text-navy-900 border-sand-200",
+                color: "bg-blue-50 text-navy-900 border-blue-100",
                 iconBg: "bg-white",
-                iconColor: "text-navy-900",
+                iconColor: "text-blue-600",
               },
               {
                 icon: Calendar,
                 title: "Book",
                 desc: "Pick your perfect date and time, invite your friends, and check out securely.",
-                color: "bg-crimson-50 text-navy-900 border-crimson-100",
+                color: "bg-orange-50 text-navy-900 border-orange-100",
                 iconBg: "bg-white",
-                iconColor: "text-crimson-600",
+                iconColor: "text-orange-600",
               },
               {
                 icon: Heart,
                 title: "Experience",
                 desc: "Show up, meet your host, and create incredible memories that last a lifetime.",
-                color: "bg-purple-50 text-navy-900 border-purple-100",
+                color: "bg-green-50 text-navy-900 border-green-100",
                 iconBg: "bg-white",
-                iconColor: "text-purple-600",
+                iconColor: "text-green-600",
               },
             ].map((step, i) => (
               <div key={step.title} className={`relative p-8 rounded-3xl border ${step.color} transition-all duration-300 hover:shadow-card hover:-translate-y-1`}>
@@ -209,11 +207,10 @@ export default function HomePage() {
               <Link
                 key={cat.slug}
                 href={`/experiences?category=${cat.slug}`}
-                className="group relative overflow-hidden rounded-2xl bg-white p-6 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-card hover:-translate-y-1 ring-1 ring-sand-100 hover:ring-sand-200"
+                className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${cat.gradient} p-6 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-card hover:-translate-y-1 hover:scale-105`}
               >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 bg-gradient-to-br from-navy-900 to-transparent" />
-                <span className="text-4xl sm:text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">{cat.icon}</span>
-                <p className="text-lg font-medium text-navy-900 text-center">{cat.name}</p>
+                <span className="text-4xl sm:text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 drop-shadow-md">{cat.icon}</span>
+                <p className="text-lg font-semibold text-white text-center drop-shadow-sm">{cat.name}</p>
               </Link>
             ))}
           </div>
@@ -232,15 +229,15 @@ export default function HomePage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Link
               href="/experiences?city=nicosia"
-              className="group relative overflow-hidden rounded-3xl bg-crimson-800 p-10 text-white transition-all duration-500 hover:shadow-floating lg:row-span-2 flex flex-col justify-end min-h-[400px]"
+              className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-red-500 to-red-700 p-10 text-white transition-all duration-500 hover:shadow-floating lg:row-span-2 flex flex-col justify-end min-h-[400px]"
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-crimson-900/80 to-transparent opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-t from-red-900/40 to-transparent opacity-60" />
               <div className="relative z-10">
                 <h3 className="font-display text-4xl sm:text-5xl font-semibold mb-4">Nicosia</h3>
-                <p className="text-lg text-crimson-50/90 leading-relaxed max-w-sm">
+                <p className="text-lg text-white/90 leading-relaxed max-w-sm">
                   The capital city — culture, food, history, and the best workshops on the island.
                 </p>
-                <div className="mt-8 inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-md group-hover:bg-white text-white group-hover:text-crimson-900 transition-colors">
+                <div className="mt-8 inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-md group-hover:bg-white text-white group-hover:text-red-700 transition-colors">
                   <ArrowRight className="h-5 w-5" />
                 </div>
               </div>
@@ -248,34 +245,34 @@ export default function HomePage() {
 
             <Link
               href="/experiences?city=limassol"
-              className="group rounded-3xl bg-navy-900 p-8 text-white transition-all duration-300 hover:shadow-card hover:-translate-y-1 flex flex-col justify-between min-h-[240px]"
+              className="group rounded-3xl bg-gradient-to-br from-blue-500 to-blue-700 p-8 text-white transition-all duration-300 hover:shadow-card hover:-translate-y-1 flex flex-col justify-between min-h-[240px]"
             >
               <h3 className="font-display text-3xl font-semibold">Limassol</h3>
-              <p className="text-base text-navy-100 mt-4 max-w-xs">Seaside vibes — wellness, yacht tours, and nightlife</p>
+              <p className="text-base text-white/90 mt-4 max-w-xs">Seaside vibes — wellness, yacht tours, and nightlife</p>
             </Link>
 
             <Link
               href="/experiences?city=paphos"
-              className="group rounded-3xl bg-white p-8 text-navy-900 ring-1 ring-sand-200 transition-all duration-300 hover:shadow-card hover:-translate-y-1 flex flex-col justify-between min-h-[240px]"
+              className="group rounded-3xl bg-gradient-to-br from-orange-400 to-orange-600 p-8 text-white transition-all duration-300 hover:shadow-card hover:-translate-y-1 flex flex-col justify-between min-h-[240px]"
             >
               <h3 className="font-display text-3xl font-semibold">Paphos</h3>
-              <p className="text-base text-navy-600 mt-4 max-w-xs">Ancient ruins, coastal hikes, and wine tasting</p>
+              <p className="text-base text-white/90 mt-4 max-w-xs">Ancient ruins, coastal hikes, and wine tasting</p>
             </Link>
 
             <Link
               href="/experiences?city=larnaca"
-              className="group rounded-3xl bg-purple-100 p-8 text-navy-900 transition-all duration-300 hover:shadow-card hover:-translate-y-1 flex flex-col justify-between min-h-[200px]"
+              className="group rounded-3xl bg-gradient-to-br from-purple-400 to-pink-500 p-8 text-white transition-all duration-300 hover:shadow-card hover:-translate-y-1 flex flex-col justify-between min-h-[200px]"
             >
               <h3 className="font-display text-2xl font-semibold">Larnaca</h3>
-              <p className="text-sm text-navy-700 mt-2 opacity-80 group-hover:opacity-100">Salt lake, flamingos, diving</p>
+              <p className="text-sm text-white/90 mt-2">Salt lake, flamingos, diving</p>
             </Link>
 
             <Link
               href="/experiences?city=ayia-napa"
-              className="group rounded-3xl bg-sand-200 p-8 text-navy-900 transition-all duration-300 hover:shadow-card hover:-translate-y-1 flex flex-col justify-between min-h-[200px]"
+              className="group rounded-3xl bg-gradient-to-br from-green-300 to-green-500 p-8 text-white transition-all duration-300 hover:shadow-card hover:-translate-y-1 flex flex-col justify-between min-h-[200px]"
             >
               <h3 className="font-display text-2xl font-semibold">Ayia Napa</h3>
-              <p className="text-sm text-navy-700 mt-2 opacity-80 group-hover:opacity-100">Beach adventures & water sports</p>
+              <p className="text-sm text-white/90 mt-2">Beach adventures & water sports</p>
             </Link>
           </div>
         </div>
@@ -298,7 +295,7 @@ export default function HomePage() {
               >
                 <div className="flex items-center gap-1 mb-6">
                   {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-current text-crimson-400" />
+                    <Star key={i} className="h-5 w-5 fill-current text-orange-400" />
                   ))}
                 </div>
                 <p className="text-lg text-navy-700 leading-relaxed mb-8">
@@ -335,10 +332,10 @@ export default function HomePage() {
                   Join our community of local experts in Cyprus. Create unique experiences, set your own schedule, and start earning doing what you love.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link href="/auth/register?role=provider" className="inline-flex items-center justify-center gap-2 bg-crimson-600 px-8 py-4 text-lg font-medium text-white rounded-xl shadow-sm hover:bg-crimson-700 hover:shadow-md transition-all">
+                  <Link href="/auth/register?role=provider" className="inline-flex items-center justify-center gap-2 bg-orange-500 px-8 py-4 text-lg font-medium text-white rounded-full shadow-sm hover:bg-orange-600 hover:shadow-md transition-all">
                     Start Hosting <ArrowRight className="h-5 w-5" />
                   </Link>
-                  <Link href="/become-provider" className="inline-flex items-center justify-center gap-2 bg-white/10 px-8 py-4 text-lg font-medium text-white rounded-xl hover:bg-white/20 transition-all backdrop-blur-sm">
+                  <Link href="/become-provider" className="inline-flex items-center justify-center gap-2 bg-white/10 px-8 py-4 text-lg font-medium text-white rounded-full hover:bg-white/20 transition-all backdrop-blur-sm">
                     Learn More
                   </Link>
                 </div>
@@ -346,10 +343,10 @@ export default function HomePage() {
 
               <div className="grid grid-cols-2 gap-4 sm:gap-6">
                 {[
-                  { label: "Set your own schedule", icon: Calendar, color: "bg-white text-navy-900", iconColor: "text-purple-600 bg-purple-50" },
-                  { label: "Get paid securely", icon: Shield, color: "bg-white/10 text-white backdrop-blur-md border border-white/10", iconColor: "text-white bg-white/20" },
-                  { label: "Free to list", icon: Sparkles, color: "bg-white/10 text-white backdrop-blur-md border border-white/10", iconColor: "text-white bg-white/20" },
-                  { label: "Marketing support", icon: Heart, color: "bg-crimson-800 text-white", iconColor: "text-white bg-crimson-900" },
+                  { label: "Set your own schedule", icon: Calendar, color: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", iconColor: "text-white bg-white/20" },
+                  { label: "Get paid securely", icon: Shield, color: "bg-gradient-to-br from-green-400 to-green-600 text-white", iconColor: "text-white bg-white/20" },
+                  { label: "Free to list", icon: Sparkles, color: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", iconColor: "text-white bg-white/20" },
+                  { label: "Marketing support", icon: Heart, color: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", iconColor: "text-white bg-white/20" },
                 ].map((item, i) => (
                   <div key={item.label} className={`rounded-xl sm:rounded-2xl p-6 sm:p-8 flex flex-col justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${item.color}`}>
                     <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full mb-6 ${item.iconColor}`}>

@@ -71,7 +71,7 @@ export function Navbar() {
             "flex h-8 w-8 items-center justify-center rounded-lg font-bold text-sm",
             isTransparent
               ? "bg-white/20 text-white"
-              : "bg-teal-700 text-white"
+              : "bg-gradient-to-br from-blue-500 to-purple-500 text-white"
           )}>
             EO
           </div>
@@ -95,7 +95,7 @@ export function Navbar() {
                 pathname.startsWith("/dashboard")
                   ? isTransparent
                     ? "text-white bg-white/10"
-                    : "text-teal-700 bg-teal-50"
+                    : "text-blue-700 bg-blue-50"
                   : isTransparent
                     ? "text-white/80 hover:text-white hover:bg-white/10"
                     : "text-navy-600 hover:text-navy-900 hover:bg-navy-50"
@@ -113,7 +113,7 @@ export function Navbar() {
                 pathname === link.href
                   ? isTransparent
                     ? "text-white bg-white/10"
-                    : "text-teal-700 bg-teal-50"
+                    : "text-blue-700 bg-blue-50"
                   : isTransparent
                     ? "text-white/80 hover:text-white hover:bg-white/10"
                     : "text-navy-600 hover:text-navy-900 hover:bg-navy-50"
@@ -254,7 +254,7 @@ export function Navbar() {
                 className={cn(
                   "block rounded-lg px-3 py-2.5 text-sm font-medium",
                   pathname === link.href
-                    ? "bg-teal-50 text-teal-700"
+                    ? "bg-blue-50 text-blue-700"
                     : "text-navy-600 hover:bg-navy-50"
                 )}
               >
