@@ -51,30 +51,30 @@ function LoginContent() {
   return (
     <div className="flex min-h-screen bg-sand-50 selection:bg-purple-200 selection:text-navy-900">
       {/* Left Panel - Brand */}
-      <div className="hidden w-1/2 lg:flex lg:flex-col lg:justify-center bg-sand-100 p-16 relative overflow-hidden">
+      <div className="hidden w-1/2 lg:flex lg:flex-col lg:justify-center p-16 relative overflow-hidden bg-yellow-400">
         {/* Abstract Background Shapes */}
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-purple-100 rounded-full blur-3xl opacity-50 pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-crimson-100 rounded-full blur-3xl opacity-50 pointer-events-none" />
+        <div className="absolute top-10 left-10 w-[400px] h-[400px] bg-orange-400 blob-shape-1 opacity-80 pointer-events-none" />
+        <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] bg-light-green-400 blob-shape-2 opacity-80 pointer-events-none" />
 
-        <div className="relative z-10 max-w-md bg-white rounded-[2rem] p-12 shadow-card">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-50 text-purple-600 mb-10 shadow-sm border border-purple-100">
+        <div className="relative z-10 max-w-md bg-white rounded-[3rem] p-12 border-4 border-navy-900 shadow-playful">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-400 text-navy-900 mb-10 border-4 border-navy-900 shadow-playful">
             <Compass className="h-8 w-8" />
           </div>
-          <h2 className="font-display text-4xl font-semibold leading-[1.1] text-navy-900 mb-6">
-            Welcome back to your next adventure
+          <h2 className="font-display text-4xl font-black leading-[1.1] text-navy-900 mb-6 title-shadow">
+            Welcome back! Let&apos;s get creative ✨
           </h2>
           <p className="text-lg text-navy-500 leading-relaxed mb-10">
             Sign in to access your bookings, messages, and discover new
             experiences across Cyprus.
           </p>
           <div className="flex gap-4">
-            <div className="bg-sand-50 rounded-2xl p-5 flex-1 ring-1 ring-sand-200 shadow-sm">
-              <p className="font-display text-3xl font-semibold text-crimson-600 mb-1">500+</p>
-              <p className="text-sm font-medium text-navy-500">Experiences</p>
+            <div className="bg-white rounded-[2rem] p-5 flex-1 border-4 border-navy-900 shadow-playful">
+              <p className="font-display text-3xl font-black text-navy-900 title-shadow mb-1">500+</p>
+              <p className="text-sm font-bold text-navy-900">Experiences</p>
             </div>
-            <div className="bg-sand-50 rounded-2xl p-5 flex-1 ring-1 ring-sand-200 shadow-sm">
-              <p className="font-display text-3xl font-semibold text-crimson-600 mb-1">50+</p>
-              <p className="text-sm font-medium text-navy-500">Local Hosts</p>
+            <div className="bg-white rounded-[2rem] p-5 flex-1 border-4 border-navy-900 shadow-playful">
+              <p className="font-display text-3xl font-black text-navy-900 title-shadow mb-1">50+</p>
+              <p className="text-sm font-bold text-navy-900">Local Hosts</p>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ function LoginContent() {
 
       {/* Right Panel - Form */}
       <div className="flex w-full items-center justify-center px-6 lg:w-1/2 py-12">
-        <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 shadow-sm ring-1 ring-sand-200 relative">
+        <div className="w-full max-w-md bg-white rounded-[2.5rem] p-8 sm:p-10 border-4 border-navy-900 shadow-playful relative">
           <h1 className="font-display text-3xl font-semibold tracking-tight text-navy-900 mb-2">
             Sign in
           </h1>
@@ -161,7 +161,7 @@ function LoginContent() {
           <button
             type="button"
             onClick={() => toast.error("Google Sign-In is not yet available. Please use email and password.")}
-            className="mt-8 flex w-full items-center justify-center gap-3 bg-white px-4 py-3 text-base font-medium text-navy-700 rounded-xl ring-1 ring-inset ring-sand-200 shadow-sm transition-all hover:bg-sand-50 hover:shadow-md"
+            className="mt-8 flex w-full items-center justify-center gap-3 bg-white px-4 py-3 text-base font-bold text-navy-900 rounded-[1.5rem] border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] transition-transform hover:-translate-y-1 hover:shadow-[6px_6px_0_theme(colors.navy.900)]"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path

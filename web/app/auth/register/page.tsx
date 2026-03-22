@@ -125,12 +125,12 @@ function RegisterContent() {
             {/* Explorer Card */}
             <button
               onClick={() => setRole("explorer")}
-              className="group rounded-[2rem] bg-white p-8 text-left shadow-sm ring-1 ring-sand-200 transition-all hover:-translate-y-1 hover:shadow-card hover:ring-sand-300"
+              className="group rounded-[2.5rem] bg-orange-400 p-8 text-left border-4 border-navy-900 shadow-playful transition-all hover:-translate-y-2 hover:shadow-playful-hover"
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-50 text-purple-600 shadow-sm transition-colors group-hover:bg-purple-100 border border-purple-100">
-                <Compass className="h-7 w-7" />
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-navy-900 border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] transition-transform group-hover:scale-110">
+                <Compass className="h-8 w-8" />
               </div>
-              <h2 className="mt-6 font-display text-2xl font-semibold leading-tight text-navy-900">
+              <h2 className="mt-6 font-display text-3xl font-black leading-tight text-navy-900 title-shadow">
                 Join as<br />Explorer
               </h2>
               <p className="mt-3 text-sm font-medium text-navy-600 leading-relaxed">
@@ -151,12 +151,12 @@ function RegisterContent() {
             {/* HR Manager Card */}
             <button
               onClick={() => setRole("hr_manager")}
-              className="group rounded-[2rem] bg-navy-900 p-8 text-left shadow-sm transition-all hover:-translate-y-1 hover:shadow-card hover:bg-navy-800"
+              className="group rounded-[2.5rem] bg-light-green-400 p-8 text-left border-4 border-navy-900 shadow-playful transition-all hover:-translate-y-2 hover:shadow-playful-hover"
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-white shadow-sm backdrop-blur-md transition-colors group-hover:bg-white/20 border border-white/10">
-                <Briefcase className="h-7 w-7" />
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-navy-900 border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] transition-transform group-hover:scale-110">
+                <Briefcase className="h-8 w-8" />
               </div>
-              <h2 className="mt-6 font-display text-2xl font-semibold leading-tight text-white">
+              <h2 className="mt-6 font-display text-3xl font-black leading-tight text-navy-900 title-shadow">
                 HR Manager<br />/ Team Lead
               </h2>
               <p className="mt-3 text-sm font-medium text-navy-300 leading-relaxed">
@@ -177,12 +177,12 @@ function RegisterContent() {
             {/* Provider Card */}
             <button
               onClick={() => setRole("provider")}
-              className="group rounded-[2rem] bg-crimson-800 p-8 text-left shadow-sm transition-all hover:-translate-y-1 hover:shadow-card hover:bg-crimson-900"
+              className="group rounded-[2.5rem] bg-purple-400 p-8 text-left border-4 border-navy-900 shadow-playful transition-all hover:-translate-y-2 hover:shadow-playful-hover"
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-white shadow-sm backdrop-blur-md transition-colors group-hover:bg-white/20 border border-white/10">
-                <Sparkles className="h-7 w-7" />
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-navy-900 border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] transition-transform group-hover:scale-110">
+                <Sparkles className="h-8 w-8" />
               </div>
-              <h2 className="mt-6 font-display text-2xl font-semibold leading-tight text-white">
+              <h2 className="mt-6 font-display text-3xl font-black leading-tight text-navy-900 title-shadow">
                 Become a<br />Provider
               </h2>
               <p className="mt-3 text-sm font-medium text-crimson-100 leading-relaxed">
@@ -223,24 +223,18 @@ function RegisterContent() {
         className={cn(
           "hidden w-1/2 lg:flex lg:flex-col lg:justify-center p-16 relative overflow-hidden",
           role === "provider"
-            ? "bg-crimson-800"
+            ? "bg-purple-400"
             : role === "hr_manager"
-            ? "bg-navy-900"
-            : "bg-sand-100"
+            ? "bg-light-green-400"
+            : "bg-orange-400"
         )}
       >
         {/* Abstract Background Shapes */}
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-white/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-10 left-10 w-[400px] h-[400px] bg-white blob-shape-1 opacity-20 pointer-events-none" />
+        <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] bg-white blob-shape-2 opacity-20 pointer-events-none" />
 
-        <div className="relative z-10 max-w-md bg-white rounded-[2rem] p-12 shadow-card ring-1 ring-black/5">
-          <div className={cn("flex h-16 w-16 items-center justify-center rounded-2xl mb-10 shadow-sm border",
-            role === "provider"
-              ? "bg-crimson-50 text-crimson-600 border-crimson-100"
-              : role === "hr_manager"
-              ? "bg-white/10 text-white border-white/10"
-              : "bg-purple-50 text-purple-600 border-purple-100"
-          )}>
+        <div className="relative z-10 max-w-md bg-white rounded-[3rem] p-12 border-4 border-navy-900 shadow-playful">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-navy-900 mb-10 border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)]">
             {role === "provider" ? (
               <Sparkles className="h-8 w-8" />
             ) : role === "hr_manager" ? (
@@ -249,18 +243,14 @@ function RegisterContent() {
               <Compass className="h-8 w-8" />
             )}
           </div>
-          <h2 className={cn("font-display text-4xl font-semibold leading-[1.1] mb-6",
-            role === "hr_manager" ? "text-white" : "text-navy-900"
-          )}>
+          <h2 className="font-display text-4xl font-black leading-[1.1] mb-6 text-navy-900 title-shadow">
             {role === "provider"
               ? "Start sharing your passion"
               : role === "hr_manager"
               ? "Experiences for your whole team"
               : "Your next adventure"}
           </h2>
-          <p className={cn("text-lg leading-relaxed mb-6",
-            role === "hr_manager" ? "text-navy-300" : "text-navy-500"
-          )}>
+          <p className="text-lg leading-relaxed mb-6 font-bold text-navy-900 opacity-90">
             {role === "provider"
               ? "Join our community of local experts in Cyprus. Create unique experiences and start earning on your own schedule."
               : role === "hr_manager"
@@ -272,7 +262,7 @@ function RegisterContent() {
 
       {/* Right Panel - Form */}
       <div className="flex w-full items-center justify-center px-6 lg:w-1/2 py-12">
-        <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 shadow-sm ring-1 ring-sand-200 relative">
+        <div className="w-full max-w-md bg-white rounded-[2.5rem] p-8 sm:p-10 border-4 border-navy-900 shadow-playful relative">
           <button
             onClick={() => setRole(null)}
             className="mb-8 flex items-center gap-2 text-sm font-medium text-navy-500 hover:text-crimson-600 transition-colors"
