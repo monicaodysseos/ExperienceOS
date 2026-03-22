@@ -46,9 +46,17 @@ class IsOrgAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated or not request.user.org_id:
             return False
-        return OrganisationMember.objects.filter(
+        # Check OrganisationMember role
+        if OrganisationMember.objects.filter(
             org=request.user.org, user=request.user, role='admin'
-        ).exists()
+        ).exists():
+            return True
+        # Fallback: HR managers who are org members are treated as admins
+        if request.user.role == 'hr_manager' and OrganisationMember.objects.filter(
+            org=request.user.org, user=request.user
+        ).exists():
+            return True
+        return False
 
 
 class IsOrgMember(permissions.BasePermission):
