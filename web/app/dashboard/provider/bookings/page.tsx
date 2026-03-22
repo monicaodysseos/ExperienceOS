@@ -31,7 +31,7 @@ function ProviderBookingsContent() {
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Incoming Bookings</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 ">Incoming Bookings</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">Bookings from your guests</p>
 
       {loading ? (
@@ -76,7 +76,7 @@ function ProviderBookingsContent() {
                     {b.status.replace(/_/g, " ")}
                   </Badge>
                 </div>
-                <p className="mt-3 font-display text-2xl font-bold text-navy-900 title-shadow">
+                <p className="mt-3 font-display text-2xl font-bold text-navy-900 ">
                   &euro;{parseFloat(b.total_price).toFixed(2)}
                 </p>
               </div>

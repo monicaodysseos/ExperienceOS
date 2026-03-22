@@ -692,6 +692,7 @@ export type UserRole =
   | 'both'
   | 'admin'
   | 'hr_manager'
+  | 'dept_head'
   | 'employee'
   | 'vendor_admin'
   | 'vendor_staff';
@@ -742,16 +743,18 @@ export interface OrgDashboard {
   ytd_spend: string;
   recent_bookings: Booking[];
   org: Organisation;
+  departments: Department[];
 }
 
 export interface OrganisationMember {
   id: number;
+  user_id: number;
   email: string;
   first_name: string;
   last_name: string;
   avatar_url: string;
   user_role: UserRole;
-  role: 'admin' | 'member';
+  role: 'admin' | 'dept_head' | 'member';
   joined_at: string | null;
   created_at: string;
 }
@@ -885,6 +888,9 @@ export interface Booking {
   total_charged: string;
   status: string;
   special_requests: string;
+  department: number | null;
+  team: number | null;
+  booked_by: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -975,6 +981,120 @@ export interface OrgAnalytics {
   category_breakdown: { category: string; spend: string; count: number }[];
   monthly_spend: { month: string; spend: string; count: number }[];
   top_experiences: { title: string; slug: string; spend: string; count: number }[];
+  department_breakdown: { department: string; department_id: number; spend: string; count: number }[];
+  budget_utilization: { department: string; department_id: number; budget_total: string; budget_spent: string; budget_remaining: string; utilization_pct: number }[];
+  top_voters: { user_id: number; name: string; vote_count: number }[];
+  top_suggestions: { title: string; slug: string; suggestion_count: number; upvote_count: number }[];
+}
+
+// ─── Department / Team / Budget ─────────────────────────────────
+
+export interface UserMinimal {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  avatar_url: string;
+}
+
+export interface Department {
+  id: number;
+  name: string;
+  head: number | null;
+  head_detail: UserMinimal | null;
+  budget_total: string;
+  budget_spent: string;
+  budget_remaining: string;
+  budget_period_start: string | null;
+  budget_period_end: string | null;
+  team_count: number;
+  member_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TeamMemberItem {
+  id: number;
+  user: number;
+  user_detail: UserMinimal;
+  joined_at: string;
+}
+
+export interface Team {
+  id: number;
+  name: string;
+  department: number;
+  members: TeamMemberItem[];
+  member_count: number;
+  created_at: string;
+}
+
+export interface BudgetTransaction {
+  id: number;
+  type: 'allocation' | 'booking' | 'refund' | 'adjustment';
+  amount: string;
+  booking: number | null;
+  booking_reference: string | null;
+  note: string;
+  created_by: number | null;
+  created_by_name: string | null;
+  created_at: string;
+}
+
+// ─── Poll ───────────────────────────────────────────────────────
+
+export interface PollOption {
+  id: number;
+  label: string;
+  experience: number | null;
+  date: string | null;
+  vote_count: number;
+  voted_by_me: boolean;
+}
+
+export interface Poll {
+  id: number;
+  title: string;
+  type: 'date' | 'experience';
+  status: 'open' | 'closed';
+  team: number;
+  created_by: number;
+  created_by_name: string;
+  options: PollOption[];
+  total_votes: number;
+  closes_at: string | null;
+  created_at: string;
+}
+
+// ─── Suggestion ─────────────────────────────────────────────────
+
+export interface ExperienceSuggestion {
+  id: number;
+  team: number;
+  experience: number;
+  experience_title: string;
+  experience_slug: string;
+  experience_cover_image: string | null;
+  experience_price: string;
+  suggested_by: number;
+  suggested_by_detail: UserMinimal;
+  message: string;
+  upvote_count: number;
+  upvoted_by_me: boolean;
+  created_at: string;
+}
+
+// ─── Dept Head Dashboard ────────────────────────────────────────
+
+export interface DeptHeadDashboard {
+  departments: Department[];
+  total_budget: string;
+  total_spent: string;
+  total_remaining: string;
+  team_count: number;
+  member_count: number;
+  active_polls: number;
+  recent_bookings: Booking[];
 }
 
 export interface AdminVendor {

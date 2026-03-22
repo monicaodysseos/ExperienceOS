@@ -71,7 +71,7 @@ function BookingsContent() {
 
   return (
     <div className="max-w-5xl mx-auto py-8">
-      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Team Bookings</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 ">Team Bookings</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">
         Your previously scheduled experiences
         {total > 0 && <span className="ml-2 text-navy-400">({total} total)</span>}
@@ -153,7 +153,7 @@ function BookingsContent() {
                   </div>
                 </div>
                 <div className="ml-6 flex shrink-0 items-center gap-6">
-                  <span className="font-display text-2xl font-bold text-navy-900 title-shadow">
+                  <span className="font-display text-2xl font-bold text-navy-900 ">
                     €{parseFloat(booking.total_price).toFixed(2)}
                   </span>
                   <div className="scale-110 origin-right">

@@ -76,7 +76,7 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Profile Settings</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 ">Profile Settings</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">Manage your account information</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8 max-w-lg space-y-5">
@@ -132,7 +132,7 @@ export default function ProfilePage() {
 
       {/* Danger Zone */}
       <div className="mt-16 max-w-lg rounded-[2.5rem] border-4 border-navy-900 bg-orange-400 p-8 shadow-playful blob-shape-3 relative">
-        <h3 className="font-display text-2xl font-bold text-navy-900 title-shadow">Danger Zone</h3>
+        <h3 className="font-display text-2xl font-bold text-navy-900 ">Danger Zone</h3>
         <p className="mt-3 text-base font-bold text-navy-900">
           Once you delete your account, there is no going back. All your data
           will be permanently removed.

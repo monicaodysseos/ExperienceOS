@@ -102,20 +102,20 @@ function EarningsCalculator() {
   const net = monthly - platformFee;
 
   return (
-    <div className="rounded-[2rem] border-0 bg-white p-10 shadow-card ring-1 ring-sand-200 relative overflow-hidden">
+    <div className="rounded-[2.5rem] border-4 border-navy-900 bg-white p-10 shadow-playful relative overflow-hidden">
       {/* Decorative top blur */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-purple-100/50 rounded-full blur-2xl -mr-10 -mt-10" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-purple-300 rounded-full blur-2xl -mr-10 -mt-10" />
 
-      <h3 className="font-display text-2xl font-semibold tracking-tight text-navy-900">Earnings Calculator</h3>
-      <p className="mt-2 text-base text-navy-500">
+      <h3 className="font-display text-2xl font-bold tracking-tight text-navy-900">Earnings Calculator</h3>
+      <p className="mt-2 text-base text-navy-500 font-bold">
         See how much you could earn each month
       </p>
 
       <div className="mt-8 space-y-8 relative z-10">
         <div>
           <div className="flex items-center justify-between text-base mb-3">
-            <label className="font-medium text-navy-700">Price per guest</label>
-            <span className="font-semibold text-navy-900">&euro;{price}</span>
+            <label className="font-bold text-navy-700">Price per guest</label>
+            <span className="font-bold text-navy-900">&euro;{price}</span>
           </div>
           <input
             type="range"
@@ -123,14 +123,14 @@ function EarningsCalculator() {
             max={150}
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
-            className="w-full accent-navy-900 bg-sand-200 rounded-full h-2 appearance-none outline-none focus:ring-2 focus:ring-navy-900 focus:ring-offset-2 transition-shadow"
+            className="w-full accent-navy-900 bg-sand-200 rounded-full h-3 appearance-none outline-none focus:ring-2 focus:ring-navy-900 focus:ring-offset-2 transition-shadow"
           />
         </div>
 
         <div>
           <div className="flex items-center justify-between text-base mb-3">
-            <label className="font-medium text-navy-700">Guests per session</label>
-            <span className="font-semibold text-navy-900">{guests}</span>
+            <label className="font-bold text-navy-700">Guests per session</label>
+            <span className="font-bold text-navy-900">{guests}</span>
           </div>
           <input
             type="range"
@@ -138,14 +138,14 @@ function EarningsCalculator() {
             max={20}
             value={guests}
             onChange={(e) => setGuests(Number(e.target.value))}
-            className="w-full accent-navy-900 bg-sand-200 rounded-full h-2 appearance-none outline-none focus:ring-2 focus:ring-navy-900 focus:ring-offset-2 transition-shadow"
+            className="w-full accent-navy-900 bg-sand-200 rounded-full h-3 appearance-none outline-none focus:ring-2 focus:ring-navy-900 focus:ring-offset-2 transition-shadow"
           />
         </div>
 
         <div>
           <div className="flex items-center justify-between text-base mb-3">
-            <label className="font-medium text-navy-700">Sessions per month</label>
-            <span className="font-semibold text-navy-900">{sessions}</span>
+            <label className="font-bold text-navy-700">Sessions per month</label>
+            <span className="font-bold text-navy-900">{sessions}</span>
           </div>
           <input
             type="range"
@@ -153,25 +153,25 @@ function EarningsCalculator() {
             max={30}
             value={sessions}
             onChange={(e) => setSessions(Number(e.target.value))}
-            className="w-full accent-navy-900 bg-sand-200 rounded-full h-2 appearance-none outline-none focus:ring-2 focus:ring-navy-900 focus:ring-offset-2 transition-shadow"
+            className="w-full accent-navy-900 bg-sand-200 rounded-full h-3 appearance-none outline-none focus:ring-2 focus:ring-navy-900 focus:ring-offset-2 transition-shadow"
           />
         </div>
       </div>
 
-      <div className="mt-10 rounded-2xl bg-sand-50 p-6 ring-1 ring-sand-200 relative z-10">
-        <div className="flex items-center justify-between text-base font-medium text-navy-600">
+      <div className="mt-10 rounded-[2rem] bg-orange-400 border-2 border-navy-900 p-6 relative z-10 shadow-[2px_2px_0_theme(colors.navy.900)]">
+        <div className="flex items-center justify-between text-base font-bold text-navy-900">
           <span>Gross revenue</span>
           <span>&euro;{monthly.toLocaleString()}</span>
         </div>
-        <div className="mt-2 flex items-center justify-between text-base font-medium text-crimson-600">
+        <div className="mt-2 flex items-center justify-between text-base font-bold text-red-700">
           <span>Platform fee (10%)</span>
           <span>-&euro;{platformFee.toLocaleString()}</span>
         </div>
-        <div className="mt-4 border-t border-sand-200 pt-4">
+        <div className="mt-4 border-t-2 border-navy-900/20 pt-4">
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-navy-900">Your earnings</span>
-            <span className="text-3xl font-bold tracking-tight text-navy-900">
-              &euro;{net.toLocaleString()}<span className="text-xl text-navy-500 font-medium">/mo</span>
+            <span className="font-bold text-navy-900">Your earnings</span>
+            <span className="text-3xl font-bold tracking-tight text-navy-900 ">
+              &euro;{net.toLocaleString()}<span className="text-xl text-navy-900 font-bold ml-1">/mo</span>
             </span>
           </div>
         </div>
@@ -214,13 +214,13 @@ export default function BecomeProviderPage() {
         <div className="relative mx-auto max-w-6xl px-4">
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <div>
-              <span className="inline-flex items-center rounded-full bg-crimson-50 px-4 py-1.5 text-sm font-semibold text-crimson-600 ring-1 ring-inset ring-crimson-200">
+              <span className="inline-flex items-center justify-center rounded-full bg-light-green-400 border-2 border-navy-900 px-6 py-2 text-base font-bold text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] -rotate-2">
                 Become a Provider
               </span>
-              <h1 className="mt-6 font-display text-5xl font-semibold leading-[1.05] text-navy-900 sm:text-6xl tracking-tight">
+              <h1 className="mt-8 font-display text-5xl font-bold leading-[1.05] text-navy-900 sm:text-6xl tracking-tight ">
                 Turn Your Passion Into a Business
               </h1>
-              <p className="mt-6 text-lg text-navy-600 leading-relaxed max-w-lg">
+              <p className="mt-6 text-lg font-bold text-navy-600 leading-relaxed max-w-lg">
                 Share what you love with visitors and locals in Cyprus.
                 Create memorable experiences, set your own schedule, and
                 start earning.
@@ -228,24 +228,23 @@ export default function BecomeProviderPage() {
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 {user ? (
                   <Link href="/dashboard/provider/onboarding">
-                    <Button variant="primary" size="lg">
+                    <Button size="lg" className="w-full sm:w-auto rounded-full border-4 border-navy-900 bg-yellow-400 text-navy-900 font-bold shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all !bg-yellow-400 hover:!bg-yellow-500 !text-navy-900">
                       Start Onboarding
-                      <ArrowRight className="h-4 w-4" />
+                      <ArrowRight className="h-5 w-5 ml-2" />
                     </Button>
                   </Link>
                 ) : (
                   <Link href="/auth/register?role=provider">
-                    <Button variant="primary" size="lg">
+                    <Button size="lg" className="w-full sm:w-auto rounded-full border-4 border-navy-900 bg-yellow-400 text-navy-900 font-bold shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all !bg-yellow-400 hover:!bg-yellow-500 !text-navy-900">
                       Get Started Free
-                      <ArrowRight className="h-4 w-4" />
+                      <ArrowRight className="h-5 w-5 ml-2" />
                     </Button>
                   </Link>
                 )}
                 <Link href="/how-it-works">
                   <Button
-                    variant="outline"
                     size="lg"
-                    className="bg-white/50 backdrop-blur-sm"
+                    className="w-full sm:w-auto rounded-full border-4 border-navy-900 bg-white text-navy-900 font-bold shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all !bg-white hover:!bg-sand-100 !text-navy-900"
                   >
                     Learn More
                   </Button>
@@ -385,28 +384,29 @@ export default function BecomeProviderPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20">
-        <div className="mx-auto max-w-3xl px-4 text-center">
-          <h2 className="text-3xl font-bold text-navy-900">
+      <section className="bg-navy-900 py-32 px-4 relative overflow-hidden border-t-4 border-navy-900">
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-purple-500/30 rounded-full blur-3xl" />
+        <div className="mx-auto max-w-3xl px-4 text-center relative z-10">
+          <h2 className="text-4xl sm:text-5xl font-display font-bold text-white ">
             Ready to Share Your Passion?
           </h2>
-          <p className="mt-3 text-navy-500">
+          <p className="mt-4 text-lg font-bold text-white/80">
             Join our community of providers and start earning today. It&apos;s
             free to get started.
           </p>
-          <div className="mt-8">
+          <div className="mt-10">
             {user ? (
               <Link href="/dashboard/provider/onboarding">
-                <Button size="lg">
+                <Button size="lg" className="rounded-full border-4 border-navy-900 bg-yellow-400 text-navy-900 font-bold shadow-playful hover:-translate-y-1 transition-all !bg-yellow-400 hover:!bg-yellow-500 !text-navy-900">
                   Start Onboarding
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>
               </Link>
             ) : (
               <Link href="/auth/register?role=provider">
-                <Button size="lg">
+                <Button size="lg" className="rounded-full border-4 border-navy-900 bg-yellow-400 text-navy-900 font-bold shadow-playful hover:-translate-y-1 transition-all !bg-yellow-400 hover:!bg-yellow-500 !text-navy-900">
                   Create Your Provider Account
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>
               </Link>
             )}

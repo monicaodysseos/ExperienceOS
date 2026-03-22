@@ -67,7 +67,7 @@ function ProviderCalendarContent() {
     <div className="mx-auto max-w-5xl">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Calendar</h1>
+          <h1 className="font-display text-4xl font-bold text-navy-900 ">Calendar</h1>
           <p className="mt-2 text-lg font-bold text-navy-500">All your sessions across all experiences</p>
         </div>
       </div>

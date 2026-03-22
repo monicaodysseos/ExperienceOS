@@ -34,7 +34,7 @@ function ExperiencesListContent() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">My Experiences</h1>
+          <h1 className="font-display text-4xl font-bold text-navy-900 ">My Experiences</h1>
           <p className="mt-2 text-lg font-bold text-navy-500">Manage your listed experiences</p>
         </div>
         <Link href="/dashboard/provider/experiences/new">

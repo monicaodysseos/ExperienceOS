@@ -65,7 +65,7 @@ function StripeContent() {
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Payment Settings</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 ">Payment Settings</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">
         Connect with Stripe to receive payments
       </p>
@@ -93,7 +93,7 @@ function StripeContent() {
       ) : status?.charges_enabled ? (
         <div className="mt-8 rounded-[2.5rem] border-4 border-navy-900 bg-light-green-400 p-10 text-center shadow-playful blob-shape-3 relative">
           <CheckCircle2 className="mx-auto h-16 w-16 text-navy-900 relative z-10" />
-          <h3 className="mt-6 font-display text-3xl font-bold text-navy-900 title-shadow relative z-10">
+          <h3 className="mt-6 font-display text-3xl font-bold text-navy-900  relative z-10">
             Payments Active
           </h3>
           <p className="mt-3 text-base font-bold text-navy-900 relative z-10">
@@ -103,7 +103,7 @@ function StripeContent() {
       ) : status?.connected ? (
         <div className="mt-8 rounded-[2.5rem] border-4 border-navy-900 bg-yellow-400 p-10 text-center shadow-playful relative">
           <AlertCircle className="mx-auto h-16 w-16 text-navy-900 relative z-10" />
-          <h3 className="mt-6 font-display text-3xl font-bold text-navy-900 title-shadow relative z-10">
+          <h3 className="mt-6 font-display text-3xl font-bold text-navy-900  relative z-10">
             Onboarding In Progress
           </h3>
           <p className="mt-3 text-base font-bold text-navy-900 relative z-10">
@@ -123,7 +123,7 @@ function StripeContent() {
       ) : (
         <div className="mt-8 rounded-[2.5rem] border-4 border-navy-900 bg-white p-10 text-center shadow-playful relative">
           <CreditCard className="mx-auto h-16 w-16 text-navy-900" />
-          <h3 className="mt-6 font-display text-3xl font-bold text-navy-900 title-shadow">
+          <h3 className="mt-6 font-display text-3xl font-bold text-navy-900 ">
             Set Up Payments
           </h3>
           <p className="mt-3 text-base font-bold text-navy-500 max-w-sm mx-auto">

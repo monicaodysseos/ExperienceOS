@@ -33,7 +33,7 @@ export default function InvoicesPage() {
 
   return (
     <div className="max-w-4xl mx-auto py-8">
-      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Invoices</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 ">Invoices</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">
         B2B invoices for all team bookings
         {invoices.length > 0 && (

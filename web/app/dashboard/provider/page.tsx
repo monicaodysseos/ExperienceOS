@@ -61,7 +61,7 @@ function ProviderDashboardContent() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-5xl font-bold text-navy-900 title-shadow">Provider Dashboard</h1>
+          <h1 className="font-display text-5xl font-bold text-navy-900 ">Provider Dashboard</h1>
           <p className="mt-4 text-xl font-bold text-navy-500">Manage your experiences and bookings</p>
         </div>
         <Link href="/dashboard/provider/experiences/new">
@@ -83,7 +83,7 @@ function ProviderDashboardContent() {
             <div className={`flex h-12 w-12 items-center justify-center rounded-full border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] mb-4 ${stat.bg}`}>
               <stat.icon className={`h-6 w-6 ${stat.color}`} />
             </div>
-            <p className="font-display text-4xl font-bold text-navy-900 title-shadow">{stat.value}</p>
+            <p className="font-display text-4xl font-bold text-navy-900 ">{stat.value}</p>
             <p className="mt-2 text-sm font-bold text-navy-500">{stat.label}</p>
           </div>
         ))}
@@ -93,7 +93,7 @@ function ProviderDashboardContent() {
         {/* Upcoming Sessions */}
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-3xl font-bold text-navy-900 title-shadow">Upcoming Sessions</h2>
+            <h2 className="font-display text-3xl font-bold text-navy-900 ">Upcoming Sessions</h2>
             <Link href="/dashboard/provider/calendar" className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors uppercase tracking-widest">
               Full calendar <ArrowRight className="h-4 w-4" />
             </Link>
@@ -155,7 +155,7 @@ function ProviderDashboardContent() {
         {/* Recent Bookings */}
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-3xl font-bold text-navy-900 title-shadow">Recent Bookings</h2>
+            <h2 className="font-display text-3xl font-bold text-navy-900 ">Recent Bookings</h2>
             <Link href="/dashboard/provider/bookings" className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors uppercase tracking-widest">
               View all <ArrowRight className="h-4 w-4" />
             </Link>

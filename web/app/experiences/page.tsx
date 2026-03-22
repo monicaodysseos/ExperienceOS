@@ -135,7 +135,7 @@ export default async function ExperiencesPage({
 
       {/* Header + search bar */}
       <div className="mt-8">
-        <h1 className="font-display text-5xl font-bold text-navy-900 title-shadow">{pageTitle}</h1>
+        <h1 className="font-display text-5xl font-bold text-navy-900 ">{pageTitle}</h1>
         <p className="mt-4 text-lg font-bold text-navy-500">
           {total} experience{total !== 1 ? "s" : ""} found
         </p>

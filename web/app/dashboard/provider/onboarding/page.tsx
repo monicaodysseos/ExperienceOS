@@ -57,7 +57,7 @@ export default function ProviderOnboardingPage() {
         <Sparkles className="h-10 w-10" />
       </div>
 
-      <h1 className="mt-4 font-display text-4xl font-bold text-navy-900 title-shadow">
+      <h1 className="mt-4 font-display text-4xl font-bold text-navy-900 ">
         Set up your provider profile
       </h1>
       <p className="mt-4 font-bold text-navy-500">

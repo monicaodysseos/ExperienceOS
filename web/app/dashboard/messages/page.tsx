@@ -23,7 +23,7 @@ export default function MessagesPage() {
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Messages</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 ">Messages</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">Your conversations</p>
 
       {loading ? (

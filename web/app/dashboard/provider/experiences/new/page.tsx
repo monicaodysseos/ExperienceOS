@@ -122,7 +122,7 @@ function CreateExperienceContent() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Create Experience</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 ">Create Experience</h1>
 
       {/* Progress */}
       <div className="mt-6 flex items-center gap-2">

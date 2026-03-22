@@ -209,7 +209,7 @@ function EditExperienceContent() {
           <ArrowLeft className="h-5 w-5" /> Back to experiences
         </Link>
         <div className="rounded-[2.5rem] border-4 border-red-500 bg-red-100 p-10 text-center shadow-playful blob-shape-2">
-          <h2 className="font-display text-3xl font-bold text-red-900 title-shadow">Failed to Load Experience</h2>
+          <h2 className="font-display text-3xl font-bold text-red-900 ">Failed to Load Experience</h2>
           <p className="mt-3 text-base font-bold text-red-700">{loadError}</p>
           <Button className="mt-8 rounded-full border-4 border-navy-900 bg-white text-navy-900 font-bold shadow-[4px_4px_0_theme(colors.navy.900)] hover:-translate-y-1 transition-all" size="lg" onClick={() => router.push("/dashboard/provider/experiences")}>
             Back to Experiences
@@ -225,7 +225,7 @@ function EditExperienceContent() {
         <ArrowLeft className="h-5 w-5" /> Back to experiences
       </Link>
 
-      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Edit Experience</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 ">Edit Experience</h1>
 
       {/* Progress */}
       <div className="mt-6 flex items-center gap-2">

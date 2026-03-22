@@ -72,7 +72,7 @@ export default function BookingDetailPage({ params }: Props) {
       <div className="flex items-start justify-between mb-8">
         <div>
           <p className="font-mono text-sm font-bold text-navy-400">{booking.booking_reference}</p>
-          <h1 className="font-display text-4xl font-bold text-navy-900 mt-2 title-shadow">
+          <h1 className="font-display text-4xl font-bold text-navy-900 mt-2 ">
             {booking.experience_title}
           </h1>
         </div>
@@ -141,7 +141,7 @@ export default function BookingDetailPage({ params }: Props) {
 
       {/* Price breakdown */}
       <div className="mt-8 rounded-[2.5rem] bg-yellow-400 p-8 shadow-playful border-4 border-navy-900">
-        <h2 className="font-display text-2xl font-bold text-navy-900 mb-6 title-shadow">Price breakdown</h2>
+        <h2 className="font-display text-2xl font-bold text-navy-900 mb-6 ">Price breakdown</h2>
         <div className="space-y-3">
           <div className="flex justify-between text-base font-bold">
             <span className="text-navy-900">
@@ -157,7 +157,7 @@ export default function BookingDetailPage({ params }: Props) {
           )}
           <div className="flex justify-between border-t border-navy-900/20 pt-4 mt-2 font-semibold">
             <span className="text-lg font-bold text-navy-900 mt-1">Total charged</span>
-            <span className="font-display text-3xl font-bold text-navy-900 title-shadow">&euro;{totalCharged.toFixed(2)}</span>
+            <span className="font-display text-3xl font-bold text-navy-900 ">&euro;{totalCharged.toFixed(2)}</span>
           </div>
         </div>
       </div>

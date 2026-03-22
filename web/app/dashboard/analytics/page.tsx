@@ -96,7 +96,7 @@ export default function AnalyticsPage() {
     if (empty || !data) {
       return (
         <div className="max-w-4xl mx-auto py-8">
-          <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Analytics</h1>
+          <h1 className="font-display text-4xl font-bold text-navy-900 ">Analytics</h1>
           <div className="mt-8">
           <EmptyState
             icon={<BarChart3 className="h-7 w-7" />}
@@ -123,7 +123,7 @@ export default function AnalyticsPage() {
   return (
     <div className="max-w-4xl mx-auto py-8 space-y-8">
       <div>
-        <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Analytics</h1>
+        <h1 className="font-display text-4xl font-bold text-navy-900 ">Analytics</h1>
         <p className="mt-2 text-lg font-bold text-navy-500">Team spend and booking trends</p>
       </div>
 
@@ -131,7 +131,7 @@ export default function AnalyticsPage() {
       <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful relative blob-shape-3">
         <div className="flex items-center justify-between mb-8 relative z-10">
           <div>
-            <h2 className="font-display text-2xl font-bold text-navy-900 title-shadow">Spend by category</h2>
+            <h2 className="font-display text-2xl font-bold text-navy-900 ">Spend by category</h2>
             <p className="text-base font-bold text-navy-900 mt-2">
               Total: €{totalSpend.toFixed(2)}
             </p>
@@ -157,7 +157,7 @@ export default function AnalyticsPage() {
       {data.monthly_spend.length > 0 && (
         <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful relative">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="font-display text-2xl font-bold text-navy-900 title-shadow">Monthly spend</h2>
+            <h2 className="font-display text-2xl font-bold text-navy-900 ">Monthly spend</h2>
             <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-navy-900 bg-light-green-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
               <TrendingUp className="h-6 w-6" />
             </div>
@@ -178,7 +178,7 @@ export default function AnalyticsPage() {
       {/* Top experiences */}
       {data.top_experiences.length > 0 && (
         <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful relative">
-          <h2 className="font-display text-2xl font-bold text-navy-900 title-shadow mb-8">Top experiences</h2>
+          <h2 className="font-display text-2xl font-bold text-navy-900  mb-8">Top experiences</h2>
           <div className="space-y-6">
             {data.top_experiences.map((exp, i) => (
               <div
@@ -197,7 +197,7 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="font-display text-2xl font-bold text-navy-900 title-shadow">
+                  <span className="font-display text-2xl font-bold text-navy-900 ">
                     €{parseFloat(exp.spend).toFixed(0)}
                   </span>
                   <Link

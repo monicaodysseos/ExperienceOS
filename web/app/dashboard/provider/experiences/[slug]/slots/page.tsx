@@ -91,7 +91,7 @@ function TimeSlotsContent() {
         <ArrowLeft className="h-5 w-5" /> Back to experiences
       </Link>
 
-      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Manage Time Slots</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 ">Manage Time Slots</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">
         Select a date to view or add time slots
       </p>
@@ -103,7 +103,7 @@ function TimeSlotsContent() {
           {/* Calendar for date selection */}
           <div className="space-y-6">
             <div className="rounded-[2.5rem] border-4 border-navy-900 bg-white p-8 shadow-playful relative blob-shape-3">
-              <h3 className="mb-4 font-display text-2xl font-bold text-navy-900 title-shadow relative z-10">
+              <h3 className="mb-4 font-display text-2xl font-bold text-navy-900  relative z-10">
                 Select Dates for Time Slots
               </h3>
               <Calendar
@@ -125,7 +125,7 @@ function TimeSlotsContent() {
             {/* View existing slots for date */}
             {viewDate && (
               <div className="rounded-[2.5rem] border-4 border-navy-900 bg-yellow-400 p-8 shadow-playful relative">
-                <h3 className="mb-4 font-display text-xl font-bold text-navy-900 title-shadow">
+                <h3 className="mb-4 font-display text-xl font-bold text-navy-900 ">
                   Existing Slots: {format(viewDate, "MMM d")}
                 </h3>
                 <div className="space-y-3">
@@ -164,7 +164,7 @@ function TimeSlotsContent() {
 
           {/* Create time slots form */}
           <div className="rounded-[2.5rem] border-4 border-navy-900 bg-white p-8 shadow-playful relative blob-shape-2">
-            <h3 className="font-display text-2xl font-bold text-navy-900 title-shadow relative z-10">
+            <h3 className="font-display text-2xl font-bold text-navy-900  relative z-10">
               Create Time Slots
             </h3>
             <p className="mt-2 text-base font-bold text-navy-500 relative z-10">
