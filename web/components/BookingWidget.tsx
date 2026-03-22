@@ -88,7 +88,7 @@ export function BookingWidget({
   };
 
   return (
-    <div className="sticky top-24 rounded-2xl border border-navy-200 bg-white p-6 shadow-card">
+    <div className="rounded-[2rem] border-4 border-ink-900 bg-sand-50 p-6 shadow-playful">
       {/* Price */}
       <div className="flex items-baseline gap-1">
         <span className="text-3xl font-bold text-navy-900">
