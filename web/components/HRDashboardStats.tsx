@@ -12,16 +12,16 @@ interface StatCardProps {
   accent?: string;
 }
 
-function StatCard({ label, value, sub, icon, href, accent = "bg-teal-50 text-teal-600" }: StatCardProps) {
+function StatCard({ label, value, sub, icon, href, accent = "bg-blue-400" }: StatCardProps) {
   const inner = (
     <div className="flex h-full flex-col justify-between">
-      <div className={cn("flex h-11 w-11 items-center justify-center rounded-xl", accent)}>
+      <div className={cn("flex h-14 w-14 items-center justify-center rounded-full border-4 border-navy-900 shadow-playful", accent)}>
         {icon}
       </div>
-      <div>
-        <p className="text-3xl font-semibold text-navy-900">{value}</p>
-        <p className="mt-1 text-sm font-medium text-navy-500">{label}</p>
-        {sub && <p className="mt-0.5 text-xs text-navy-400">{sub}</p>}
+      <div className="mt-4">
+        <p className="font-display text-4xl font-black text-navy-900 title-shadow">{value}</p>
+        <p className="mt-2 text-base font-bold text-navy-900">{label}</p>
+        {sub && <p className="mt-1 text-sm font-semibold text-navy-800 opacity-90">{sub}</p>}
       </div>
     </div>
   );
@@ -30,16 +30,16 @@ function StatCard({ label, value, sub, icon, href, accent = "bg-teal-50 text-tea
     return (
       <Link
         href={href}
-        className="group relative rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200 transition-all hover:-translate-y-0.5 hover:shadow-card hover:ring-sand-300 min-h-[140px] flex flex-col justify-between"
+        className="group relative rounded-[2.5rem] bg-white p-6 transition-transform hover:-translate-y-2 min-h-[180px] flex flex-col justify-between shadow-playful hover:shadow-playful-hover border-4 border-navy-900"
       >
         {inner}
-        <ArrowUpRight className="absolute right-4 top-4 h-4 w-4 text-navy-300 opacity-0 transition-opacity group-hover:opacity-100" />
+        <ArrowUpRight className="absolute right-6 top-6 h-6 w-6 text-navy-900 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:scale-125" />
       </Link>
     );
   }
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200 min-h-[140px] flex flex-col justify-between">
+    <div className="rounded-[2.5rem] bg-white p-6 shadow-playful border-4 border-navy-900 min-h-[180px] flex flex-col justify-between transition-transform hover:-translate-y-1 hover:shadow-playful-hover cursor-default">
       {inner}
     </div>
   );
@@ -79,32 +79,32 @@ export function HRDashboardStats({ data, loading }: HRDashboardStatsProps) {
         label="Total bookings"
         value={String(data.total_bookings)}
         sub={data.total_bookings === 1 ? "1 experience booked" : `${data.total_bookings} experiences booked`}
-        icon={<CalendarDays className="h-5 w-5" />}
+        icon={<CalendarDays className="h-6 w-6 text-navy-900" />}
         href="/dashboard/bookings"
-        accent="bg-teal-50 text-teal-600"
+        accent="bg-orange-400"
       />
       <StatCard
         label="Total spend"
         value={`€${totalSpend.toLocaleString("en-EU", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}
         sub={`€${ytdSpend.toLocaleString("en-EU", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} this year`}
-        icon={<TrendingUp className="h-5 w-5" />}
+        icon={<TrendingUp className="h-6 w-6 text-navy-900" />}
         href="/dashboard/analytics"
-        accent="bg-emerald-50 text-emerald-600"
+        accent="bg-blue-400"
       />
       <StatCard
         label="Upcoming events"
         value={String(data.upcoming_count)}
         sub="Confirmed or pending payment"
-        icon={<CalendarDays className="h-5 w-5" />}
+        icon={<CalendarDays className="h-6 w-6 text-navy-900" />}
         href="/dashboard/bookings?status=confirmed"
-        accent="bg-purple-50 text-purple-600"
+        accent="bg-purple-400"
       />
       <StatCard
         label="Avg. per person"
         value={avgPerHead > 0 ? `€${avgPerHead.toFixed(0)}` : "—"}
         sub="Across all bookings"
-        icon={<Users className="h-5 w-5" />}
-        accent="bg-amber-50 text-amber-600"
+        icon={<Users className="h-6 w-6 text-navy-900" />}
+        accent="bg-yellow-400"
       />
     </div>
   );

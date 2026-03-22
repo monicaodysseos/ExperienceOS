@@ -71,13 +71,13 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    "flex items-center gap-4 rounded-[2rem] px-4 py-3 text-base font-bold transition-all duration-300",
                     isActive
-                      ? "bg-teal-50 text-teal-700"
-                      : "text-navy-600 hover:bg-navy-50 hover:text-navy-900"
+                      ? "bg-yellow-400 text-navy-900 shadow-playful border-4 border-navy-900 translate-x-2"
+                      : "text-navy-700 hover:bg-purple-100 border-4 border-transparent hover:border-navy-900 hover:shadow-playful hover:translate-x-1"
                   )}
                 >
-                  <link.icon className="h-4 w-4" />
+                  <link.icon className="h-5 w-5" />
                   {link.label}
                 </Link>
               );

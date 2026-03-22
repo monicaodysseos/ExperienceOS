@@ -37,12 +37,12 @@ function HRDashboard() {
     <div className="max-w-5xl mx-auto py-8">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="font-display text-4xl font-semibold text-navy-900">
-            Welcome back, {user?.first_name}
+          <h1 className="font-display text-5xl sm:text-6xl font-black text-navy-900 title-shadow">
+            Ready to spark some creativity, {user?.first_name}? ✨
           </h1>
           {dashboard?.org && (
-            <p className="mt-1 text-lg text-navy-500 flex items-center gap-2">
-              <Building2 className="h-4 w-4" />
+            <p className="mt-3 text-xl font-bold text-navy-700 flex items-center gap-2">
+              <Building2 className="h-6 w-6 text-purple-500" />
               {dashboard.org.name}
             </p>
           )}
@@ -62,16 +62,17 @@ function HRDashboard() {
 
       {/* No org yet */}
       {!loading && !dashboard?.org?.id && (
-        <div className="mt-8 rounded-2xl border-2 border-dashed border-navy-200 bg-white p-8 text-center">
-          <Building2 className="mx-auto h-10 w-10 text-navy-300 mb-4" />
-          <h3 className="font-display text-xl font-semibold text-navy-900">
-            Set up your organisation
+        <div className="mt-12 rounded-[2.5rem] border-4 border-navy-900 bg-orange-400 p-10 text-center shadow-playful blob-shape-1 relative overflow-hidden">
+          <div className="absolute inset-0 bg-white/10 blur-xl pointer-events-none"></div>
+          <Building2 className="mx-auto h-16 w-16 text-navy-900 mb-6 relative z-10" />
+          <h3 className="font-display text-4xl font-black text-navy-900 title-shadow relative z-10">
+            Bring your team onboard! 🚀
           </h3>
-          <p className="mt-2 text-navy-500">
+          <p className="mt-4 text-xl font-bold text-navy-900 opacity-90 relative z-10">
             Create your company account to unlock team bookings, B2B invoices, and spend tracking.
           </p>
-          <Link href="/dashboard/team" className="mt-4 inline-block">
-            <Button size="sm" variant="secondary">
+          <Link href="/dashboard/team" className="mt-8 inline-block relative z-10">
+            <Button size="lg" className="bg-white text-navy-900 border-4 border-navy-900 shadow-playful hover:shadow-playful-hover">
               Create Organisation
             </Button>
           </Link>
@@ -80,35 +81,35 @@ function HRDashboard() {
 
       {/* Recent Bookings */}
       {!loading && dashboard && dashboard.recent_bookings.length > 0 && (
-        <div className="mt-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-display text-2xl font-semibold text-navy-900">
+        <div className="mt-16">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-display text-3xl font-black text-navy-900 title-shadow">
               Recent bookings
             </h2>
             <Link
               href="/dashboard/bookings"
-              className="flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700 transition-colors"
+              className="flex items-center gap-2 text-base font-bold text-navy-700 hover:text-navy-900 transition-colors bg-white px-4 py-2 border-2 border-navy-900 rounded-full shadow-sm"
             >
-              View all <ArrowRight className="h-4 w-4" />
+              View all <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {dashboard.recent_bookings.map((booking) => (
               <Link
                 key={booking.id}
                 href={`/dashboard/bookings/${booking.booking_reference}`}
-                className="flex items-center justify-between rounded-xl bg-white p-4 shadow-sm ring-1 ring-sand-200 transition-all hover:-translate-y-0.5 hover:shadow-card"
+                className="flex items-center justify-between rounded-[2rem] bg-white p-6 border-4 border-navy-900 shadow-playful transition-all hover:-translate-y-1 hover:shadow-playful-hover"
               >
                 <div>
-                  <p className="font-medium text-navy-900">
+                  <p className="font-bold text-xl text-navy-900">
                     {booking.experience_title}
                   </p>
-                  <p className="mt-0.5 text-sm text-navy-500">
+                  <p className="mt-1 text-base font-medium text-navy-600">
                     {formatDate(booking.time_slot.start_datetime)} · {booking.num_participants} person{booking.num_participants > 1 ? "s" : ""}
                   </p>
                 </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-semibold text-navy-900">
+                <div className="flex items-center gap-6">
+                  <span className="text-xl font-black text-navy-900 title-shadow">
                     €{parseFloat(booking.total_price).toFixed(0)}
                   </span>
                   <BookingStatusBadge status={booking.status} />
@@ -145,72 +146,78 @@ function ParticipantDashboard() {
 
   return (
     <div className="max-w-5xl mx-auto py-8">
-      <h1 className="font-display text-4xl font-semibold text-navy-900">
-        Welcome back, {user?.first_name}!
+      <h1 className="font-display text-5xl sm:text-6xl font-black text-navy-900 title-shadow">
+        Ready for some fun, {user?.first_name}? 🎨
       </h1>
-      <p className="mt-2 text-lg text-navy-500">Here&apos;s what&apos;s happening</p>
+      <p className="mt-4 text-xl font-bold text-navy-700">Here&apos;s your creative agenda</p>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-3">
+      <div className="mt-12 grid gap-6 sm:grid-cols-3">
         <Link
           href="/bookings"
-          className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200 transition-all hover:-translate-y-1 hover:shadow-card hover:ring-sand-300"
+          className="rounded-[2.5rem] bg-blue-300 p-8 border-4 border-navy-900 transition-transform hover:-translate-y-2 shadow-playful hover:shadow-playful-hover min-h-[200px] flex flex-col justify-between"
         >
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 mb-6">
-            <CalendarDays className="h-6 w-6" />
+          <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-navy-900 shadow-playful bg-white text-navy-900 mb-6 relative overflow-hidden">
+            <CalendarDays className="h-8 w-8 text-blue-500" />
           </div>
-          {loading ? (
-            <Skeleton className="h-10 w-12 rounded-lg mb-2" />
-          ) : (
-            <p className="text-4xl font-semibold text-navy-900">{upcoming.length}</p>
-          )}
-          <p className="mt-2 text-sm font-medium text-navy-500">Upcoming bookings</p>
+          <div>
+            {loading ? (
+              <Skeleton className="h-12 w-16 rounded-lg mb-2 bg-navy-900/10" />
+            ) : (
+              <p className="font-display text-5xl font-black text-navy-900 title-shadow">{upcoming.length}</p>
+            )}
+            <p className="mt-2 text-lg font-bold text-navy-900">Upcoming bookings</p>
+          </div>
         </Link>
 
         <Link
           href="/dashboard/messages"
-          className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200 transition-all hover:-translate-y-1 hover:shadow-card hover:ring-sand-300"
+          className="rounded-[2.5rem] bg-orange-400 p-8 border-4 border-navy-900 transition-transform hover:-translate-y-2 shadow-playful hover:shadow-playful-hover min-h-[200px] flex flex-col justify-between"
         >
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-coral-50 text-coral-500 mb-6">
-            <MessageSquare className="h-6 w-6" />
+          <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-navy-900 shadow-playful bg-white mb-6">
+            <MessageSquare className="h-8 w-8 text-orange-500" />
           </div>
-          {loading ? (
-            <Skeleton className="h-10 w-8 rounded-lg mb-2" />
-          ) : (
-            <p className="text-4xl font-semibold text-navy-900">{unread}</p>
-          )}
-          <p className="mt-2 text-sm font-medium text-navy-500">Unread messages</p>
+          <div>
+            {loading ? (
+              <Skeleton className="h-12 w-12 rounded-lg mb-2 bg-navy-900/10" />
+            ) : (
+              <p className="font-display text-5xl font-black text-navy-900 title-shadow">{unread}</p>
+            )}
+            <p className="mt-2 text-lg font-bold text-navy-900">Unread messages</p>
+          </div>
         </Link>
 
         {!user?.has_provider_profile && (
           <Link
             href="/dashboard/provider/onboarding"
-            className="rounded-2xl border-2 border-dashed border-crimson-200 bg-crimson-50/50 p-6 transition-all hover:-translate-y-1 hover:shadow-sm"
+            className="rounded-[2.5rem] bg-purple-400 p-8 border-4 border-navy-900 transition-transform hover:-translate-y-2 shadow-playful hover:shadow-playful-hover flex flex-col justify-between min-h-[200px]"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-crimson-100 text-crimson-600 mb-6">
-              <Sparkles className="h-6 w-6" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-navy-900 shadow-playful bg-white mb-6">
+              <Sparkles className="h-8 w-8 text-purple-500" />
             </div>
-            <p className="text-lg font-semibold text-crimson-800">Become a Provider</p>
-            <p className="mt-1 text-sm font-medium text-crimson-600">Start hosting experiences</p>
+            <div>
+              <p className="font-display text-3xl font-black text-navy-900 title-shadow leading-tight">Become a Provider</p>
+              <p className="mt-2 text-lg font-bold text-navy-900">Start hosting experiences</p>
+            </div>
           </Link>
         )}
       </div>
 
       {upcoming.length > 0 && (
-        <div className="mt-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-display text-2xl font-semibold text-navy-900">Your Next Experience</h2>
-            <Link href="/bookings" className="flex items-center gap-2 text-sm font-medium text-teal-600 hover:text-teal-700 transition-colors">
-              View all <ArrowRight className="h-4 w-4" />
+        <div className="mt-16">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-display text-3xl font-black text-navy-900 title-shadow">Your Next Experience</h2>
+            <Link href="/bookings" className="flex items-center gap-2 text-base font-bold text-navy-700 hover:text-navy-900 bg-white px-4 py-2 border-2 border-navy-900 rounded-full shadow-sm transition-transform hover:-translate-y-0.5">
+              View all <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
           <Link
             href={`/bookings/${upcoming[0].booking_reference}`}
-            className="block rounded-2xl bg-white p-6 shadow-sm ring-1 ring-sand-200 transition-all hover:-translate-y-1 hover:shadow-card"
+            className="block rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful transition-transform hover:-translate-y-1 hover:shadow-playful-hover"
           >
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="font-semibold text-lg text-navy-900">{upcoming[0].experience_title}</h3>
-                <p className="mt-2 text-sm font-medium text-navy-500">
+                <h3 className="font-display text-3xl font-bold text-navy-900">{upcoming[0].experience_title}</h3>
+                <p className="mt-3 text-lg font-bold text-navy-600">
                   {formatDate(upcoming[0].time_slot.start_datetime)} at {formatTime(upcoming[0].time_slot.start_datetime)}
                 </p>
               </div>
@@ -220,12 +227,12 @@ function ParticipantDashboard() {
         </div>
       )}
 
-      <div className="mt-12">
-        <h2 className="font-display text-2xl font-semibold text-navy-900 mb-6">Quick Actions</h2>
-        <div className="flex flex-wrap gap-4">
-          <Link href="/experiences"><Button variant="outline">Browse Experiences</Button></Link>
-          <Link href="/dashboard/messages"><Button variant="outline">Messages</Button></Link>
-          <Link href="/dashboard/profile"><Button variant="outline">Edit Profile</Button></Link>
+      <div className="mt-16 bg-light-green-400 p-10 rounded-[3rem] border-4 border-navy-900 shadow-playful relative blob-shape-2">
+        <h2 className="font-display text-4xl font-black text-navy-900 mb-8 title-shadow">Quick Actions</h2>
+        <div className="flex flex-wrap gap-4 relative z-10">
+          <Link href="/experiences"><Button variant="outline" size="lg">Browse Experiences</Button></Link>
+          <Link href="/dashboard/messages"><Button variant="primary" size="lg">Messages</Button></Link>
+          <Link href="/dashboard/profile"><Button variant="secondary" size="lg">Edit Profile</Button></Link>
         </div>
       </div>
     </div>

@@ -20,31 +20,31 @@ const STATUS_CONFIG: Record<
 > = {
   pending: {
     label: "Pending Payment",
-    classes: "bg-amber-50 text-amber-700 ring-amber-200",
+    classes: "bg-yellow-400 text-navy-900 border-2 border-navy-900",
   },
   confirmed: {
     label: "Confirmed",
-    classes: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+    classes: "bg-light-green-400 text-navy-900 border-2 border-navy-900",
   },
   cancelled_by_participant: {
     label: "Cancelled",
-    classes: "bg-red-50 text-red-600 ring-red-200",
+    classes: "bg-orange-400 text-navy-900 border-2 border-navy-900",
   },
   cancelled_by_provider: {
     label: "Cancelled by Provider",
-    classes: "bg-red-50 text-red-600 ring-red-200",
+    classes: "bg-orange-400 text-navy-900 border-2 border-navy-900",
   },
   completed: {
     label: "Completed",
-    classes: "bg-navy-50 text-navy-700 ring-navy-200",
+    classes: "bg-blue-400 text-navy-900 border-2 border-navy-900",
   },
   no_show: {
     label: "No Show",
-    classes: "bg-gray-100 text-gray-500 ring-gray-200",
+    classes: "bg-sand-400 text-navy-900 border-2 border-navy-900",
   },
   refunded: {
     label: "Refunded",
-    classes: "bg-purple-50 text-purple-700 ring-purple-200",
+    classes: "bg-purple-400 text-navy-900 border-2 border-navy-900",
   },
 };
 
@@ -57,7 +57,7 @@ export function BookingStatusBadge({ status, className }: BookingStatusBadgeProp
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1",
+        "inline-flex items-center rounded-full px-3 py-1 text-sm font-bold shadow-sm",
         config.classes,
         className
       )}

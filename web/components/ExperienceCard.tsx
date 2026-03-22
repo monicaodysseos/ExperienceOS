@@ -33,7 +33,7 @@ export function ExperienceCard({ experience: exp }: ExperienceCardProps) {
   return (
     <Link
       href={`/experiences/${exp.slug}`}
-      className={`group block overflow-hidden rounded-xl border border-l-4 ${categoryColors.border} border-navy-200 bg-white transition-all duration-300 hover:shadow-elevated hover:-translate-y-1`}
+      className={`group block overflow-hidden rounded-[2rem] border-4 ${categoryColors.border} border-navy-900 bg-white transition-all duration-300 hover:shadow-playful-hover hover:-translate-y-2 shadow-playful`}
     >
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden bg-navy-100">
@@ -58,8 +58,8 @@ export function ExperienceCard({ experience: exp }: ExperienceCardProps) {
       </div>
 
       {/* Details */}
-      <div className="p-4">
-        <h3 className={`text-base font-semibold text-navy-900 line-clamp-1 transition-colors ${categoryColors.hover}`}>
+      <div className="p-5">
+        <h3 className={`font-display text-xl font-bold text-navy-900 line-clamp-1 transition-colors ${categoryColors.hover}`}>
           {exp.title}
         </h3>
         <p className="mt-0.5 text-sm text-navy-500">
