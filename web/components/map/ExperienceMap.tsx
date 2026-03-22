@@ -57,6 +57,20 @@ interface MappedExperience {
   isExact: boolean;
 }
 
+// User Geolocation marker (Little Human)
+const humanIcon = new Icon({
+  iconUrl: "data:image/svg+xml;base64," + btoa(`
+    <svg width="40" height="48" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="12" r="9" fill="#facc15" stroke="#1a1a1a" stroke-width="3"/>
+      <path d="M 10 24 C 10 18 30 18 30 24 L 30 32 C 30 34 28 34 28 32 L 26 32 L 26 44 C 26 46 22 46 22 44 L 22 36 L 18 36 L 18 44 C 18 46 14 46 14 44 L 14 32 L 12 32 C 10 34 10 34 10 32 Z" fill="#eb4899" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+    </svg>
+  `),
+  iconSize: [40, 48],
+  iconAnchor: [20, 48],
+  popupAnchor: [0, -42],
+  className: 'drop-shadow-xl z-[1000] drop-shadow-[2px_2px_0_theme(colors.navy.900)]'
+});
+
 function MapEventHandler() {
   const map = useMapEvents({
     zoomstart: () => {
@@ -74,7 +88,7 @@ export function ExperienceMap({
   height = "h-[600px]",
   showControls = true,
 }: ExperienceMapProps) {
-  const { mapCenter, mapZoom } = useMapStore();
+  const { mapCenter, mapZoom, geolocation } = useMapStore();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -115,6 +129,20 @@ export function ExperienceMap({
           attribution='&copy; <a href="https://carto.com/attributions">CartoDB</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
+        {geolocation.latitude && geolocation.longitude && (
+          <Marker
+            position={[geolocation.latitude, geolocation.longitude]}
+            icon={humanIcon}
+            zIndexOffset={1000}
+          >
+            <Popup autoPan={true}>
+              <div className="px-3 py-2 text-center min-w-[120px]">
+                <p className="font-bold text-lg text-ink-900 font-display">You are here!</p>
+                <p className="text-xs text-navy-500 mt-1">Ready for an adventure.</p>
+              </div>
+            </Popup>
+          </Marker>
+        )}
         {mapped.map(({ experience, position, isExact }) => (
           <Marker
             key={experience.id}
