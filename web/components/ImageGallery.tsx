@@ -95,51 +95,57 @@ export function ImageGallery({ images, alt }: ImageGalleryProps) {
       {/* Lightbox */}
       {lightboxOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-ink-900/90 backdrop-blur-sm"
           onClick={() => setLightboxOpen(false)}
         >
           <button
-            className="absolute top-4 right-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition-colors"
+            className="absolute top-6 right-6 rounded-full bg-sand-200 border-2 border-ink-900 shadow-playful p-3 text-ink-900 hover:bg-sand-300 transition-colors"
             onClick={() => setLightboxOpen(false)}
           >
-            <X className="h-6 w-6" />
+            <X className="h-8 w-8" />
           </button>
 
-          <button
-            className="absolute left-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
-            }}
-          >
-            <ChevronLeft className="h-6 w-6" />
-          </button>
+          {images.length > 1 && (
+            <button
+              className="absolute left-6 rounded-full bg-sand-200 border-2 border-ink-900 shadow-playful p-4 text-ink-900 hover:bg-sand-300 transition-colors z-[101]"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
+              }}
+            >
+              <ChevronLeft className="h-10 w-10" />
+            </button>
+          )}
 
           <div
-            className="relative max-h-[80vh] max-w-[90vw]"
+            className="relative flex flex-col items-center max-h-[90vh] max-w-[85vw] w-full h-full justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             <Image
               src={images[activeIndex].image_url}
               alt={`${alt} ${activeIndex + 1}`}
-              width={1200}
-              height={800}
-              className="max-h-[80vh] w-auto object-contain rounded-lg"
+              width={1600}
+              height={1200}
+              className="max-h-[80vh] w-auto max-w-full object-contain rounded-[2rem] border-4 border-ink-900 bg-sand-100 shadow-elevated"
             />
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-sm text-white">
-              {activeIndex + 1} / {images.length}
-            </div>
+            {images.length > 1 && (
+              <div className="mt-6 rounded-full bg-sand-200 border-2 border-ink-900 px-6 py-2 text-lg font-bold text-ink-900 shadow-playful">
+                {activeIndex + 1} / {images.length}
+              </div>
+            )}
           </div>
 
-          <button
-            className="absolute right-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
-            }}
-          >
-            <ChevronRight className="h-6 w-6" />
-          </button>
+          {images.length > 1 && (
+            <button
+              className="absolute right-6 rounded-full bg-sand-200 border-2 border-ink-900 shadow-playful p-4 text-ink-900 hover:bg-sand-300 transition-colors z-[101]"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
+              }}
+            >
+              <ChevronRight className="h-10 w-10" />
+            </button>
+          )}
         </div>
       )}
     </>

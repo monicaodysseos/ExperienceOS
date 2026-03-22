@@ -112,85 +112,12 @@ export default async function ExperienceDetailPage({
         <span className="text-navy-900 line-clamp-1">{exp.title}</span>
       </nav>
 
-      {/* Image Gallery */}
-      <div className="mt-6">
-        <ImageGallery images={exp.images} alt={exp.title} />
-      </div>
-
-      {/* Content Grid */}
-      <div className="mt-8 grid gap-8 lg:grid-cols-3">
-        {/* Left: Details */}
-        <div className="lg:col-span-2">
-          {/* Title & Meta */}
-          <div>
-            <span className="inline-flex items-center rounded-full bg-teal-50 px-3 py-1 text-xs font-medium text-teal-700">
-              {exp.category.name}
-            </span>
-            <h1 className="mt-3 text-3xl font-bold text-navy-900">
-              {exp.title}
-            </h1>
-
-            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-navy-500">
-              <span className="flex items-center gap-1.5">
-                <MapPin className="h-4 w-4 text-navy-400" />
-                {exp.city}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Clock className="h-4 w-4 text-navy-400" />
-                {durationText}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Users className="h-4 w-4 text-navy-400" />
-                {exp.min_participants}-{exp.max_participants} people
-              </span>
-              {exp.languages.length > 0 && (
-                <span className="flex items-center gap-1.5">
-                  <Globe className="h-4 w-4 text-navy-400" />
-                  {exp.languages.join(", ")}
-                </span>
-              )}
-              {exp.review_count > 0 && (
-                <span className="flex items-center gap-1.5">
-                  <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                  {parseFloat(exp.average_rating).toFixed(1)} ({exp.review_count}{" "}
-                  review{exp.review_count !== 1 ? "s" : ""})
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Provider Card */}
-          <div className="mt-8 flex items-start gap-4 rounded-xl border border-navy-200 p-5">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-teal-100 text-lg font-bold text-teal-700">
-              {exp.provider.display_name.charAt(0)}
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <h3 className="font-semibold text-navy-900">
-                  {exp.provider.display_name}
-                </h3>
-                {exp.provider.is_verified && (
-                  <BadgeCheck className="h-4 w-4 text-teal-600" />
-                )}
-              </div>
-              {exp.provider.tagline && (
-                <p className="mt-0.5 text-sm text-navy-500">
-                  {exp.provider.tagline}
-                </p>
-              )}
-              {exp.provider.bio && (
-                <p className="mt-2 text-sm text-navy-600 leading-relaxed line-clamp-3">
-                  {exp.provider.bio}
-                </p>
-              )}
-              <ContactHostButton
-                providerUserId={exp.provider.user_id}
-                experienceId={exp.id}
-                experienceSlug={exp.slug}
-                providerName={exp.provider.display_name}
-              />
-            </div>
-          </div>
+      {/* Content Grid (Side-by-side layout) */}
+      <div className="mt-8 grid gap-10 lg:grid-cols-12 items-start">
+        {/* Left Column: Photos & Description */}
+        <div className="lg:col-span-7 space-y-8">
+          {/* Image Carousel / Gallery */}
+          <ImageGallery images={exp.images} alt={exp.title} />
 
           {/* Description */}
           <div className="mt-8">
@@ -248,14 +175,87 @@ export default async function ExperienceDetailPage({
           )}
         </div>
 
-        {/* Right: Booking Widget */}
-        <div className="lg:col-span-1">
+        {/* Right Column: Sticky Booking Widget & Core Details */}
+        <div className="lg:col-span-5 sticky top-24 space-y-6">
+          {/* Title & Meta */}
+          <div>
+            <span className="inline-flex items-center rounded-full bg-sand-200 px-3 py-1 font-bold text-ink-900 border-2 border-ink-900 shadow-playful">
+              {exp.category.name}
+            </span>
+            <h1 className="mt-4 text-4xl sm:text-5xl font-bold text-ink-900 font-display">
+              {exp.title}
+            </h1>
+
+            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm font-medium text-navy-700">
+              <span className="flex items-center gap-1.5">
+                <MapPin className="h-4 w-4 text-ink-900" />
+                {exp.city}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="h-4 w-4 text-ink-900" />
+                {durationText}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Users className="h-4 w-4 text-ink-900" />
+                {exp.min_participants}-{exp.max_participants} people
+              </span>
+              {exp.languages.length > 0 && (
+                <span className="flex items-center gap-1.5">
+                  <Globe className="h-4 w-4 text-ink-900" />
+                  {exp.languages.join(", ")}
+                </span>
+              )}
+              {exp.review_count > 0 && (
+                <span className="flex items-center gap-1.5 bg-yellow-400 px-2 py-0.5 rounded-md border-2 border-ink-900">
+                  <Star className="h-4 w-4 fill-ink-900 text-ink-900" />
+                  {parseFloat(exp.average_rating).toFixed(1)} ({exp.review_count}{" "}
+                  review{exp.review_count !== 1 ? "s" : ""})
+                </span>
+              )}
+            </div>
+          </div>
+
           <BookingWidget
             slug={exp.slug}
             pricePerPerson={exp.price_per_person}
             minParticipants={exp.min_participants}
             maxParticipants={exp.max_participants}
           />
+
+          {/* Provider Card */}
+          <div className="mt-8 flex items-start gap-4 rounded-xl border-4 border-ink-900 bg-sand-100 p-5 shadow-playful">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-moss-400 border-2 border-ink-900 text-lg font-bold text-ink-900">
+              {exp.provider.display_name.charAt(0)}
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <h3 className="font-semibold text-ink-900">
+                  {exp.provider.display_name}
+                </h3>
+                {exp.provider.is_verified && (
+                  <BadgeCheck className="h-4 w-4 text-ocean-600" />
+                )}
+              </div>
+              {exp.provider.tagline && (
+                <p className="mt-0.5 text-sm text-ink-900 font-medium opacity-80">
+                  {exp.provider.tagline}
+                </p>
+              )}
+              {exp.provider.bio && (
+                <p className="mt-2 text-sm text-navy-700 leading-relaxed line-clamp-3">
+                  {exp.provider.bio}
+                </p>
+              )}
+              <div className="mt-3">
+                <ContactHostButton
+                  providerUserId={exp.provider.user_id}
+                  experienceId={exp.id}
+                  experienceSlug={exp.slug}
+                  providerName={exp.provider.display_name}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
