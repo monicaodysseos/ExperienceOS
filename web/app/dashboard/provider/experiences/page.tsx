@@ -96,9 +96,9 @@ function ExperiencesListContent() {
 
               <div className="flex items-center gap-3 ml-6">
                 <Link
-                  href={`/dashboard/provider/experiences/${exp.slug}/slots`}
+                  href="/dashboard/provider/bookings"
                   className="rounded-full border-2 border-navy-900 bg-light-green-400 p-3 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:shadow-sm hover:-translate-y-0.5 transition-all"
-                  title="Manage time slots"
+                  title="View Bookings"
                 >
                   <Calendar className="h-5 w-5" />
                 </Link>

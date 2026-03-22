@@ -12,7 +12,7 @@ import { NotificationBell } from "./NotificationBell";
 
 const NAV_LINKS = [
   { href: "/experiences", label: "Experiences" },
-  { href: "/map", label: "Map", hideIfProvider: true },
+  { href: "/map", label: "Map", hideForRoles: ["hr_manager"], hideIfProvider: true },
   { href: "/join", label: "Join Team", hideForRoles: ["hr_manager"], hideIfProvider: true },
   { href: "/how-it-works", label: "How It Works", hideForRoles: ["hr_manager"], hideIfProvider: true },
   { href: "/become-provider", label: "Become a Provider", hideForRoles: ["hr_manager"], hideIfProvider: true },
@@ -68,7 +68,7 @@ export function Navbar() {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Link 
-          href={pathname.startsWith('/dashboard/provider') ? "/dashboard/provider" : "/"} 
+          href={isAuthenticated ? "/dashboard" : "/"} 
           className="flex items-center gap-2 transition-transform duration-300 hover:scale-[1.03] active:scale-95"
         >
           <img 

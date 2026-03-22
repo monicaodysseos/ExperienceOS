@@ -46,20 +46,20 @@ export function Calendar({
   };
 
   const sharedClassNames = {
-    months: "flex flex-col",
-    month_caption: "flex justify-center items-center py-2",
+    months: "flex flex-col relative",
+    month_caption: "flex justify-center items-center py-2 mb-2",
     caption_label: "text-sm font-semibold text-navy-900",
     nav: "flex items-center gap-1",
     button_previous:
-      "absolute left-2 top-3 h-7 w-7 inline-flex items-center justify-center rounded-lg border border-navy-200 bg-white text-navy-600 hover:bg-navy-50 transition-colors",
+      "absolute left-1 top-1 h-8 w-8 inline-flex items-center justify-center rounded-lg border-2 border-transparent bg-white text-navy-600 hover:border-navy-200 hover:bg-navy-50 transition-colors z-10",
     button_next:
-      "absolute right-2 top-3 h-7 w-7 inline-flex items-center justify-center rounded-lg border border-navy-200 bg-white text-navy-600 hover:bg-navy-50 transition-colors",
+      "absolute right-1 top-1 h-8 w-8 inline-flex items-center justify-center rounded-lg border-2 border-transparent bg-white text-navy-600 hover:border-navy-200 hover:bg-navy-50 transition-colors z-10",
     month_grid: "w-full border-collapse",
-    weekdays: "flex",
+    weekdays: "flex w-full",
     weekday:
-      "w-9 text-center text-xs font-medium text-navy-400 py-1",
-    week: "flex mt-1",
-    day: "h-9 w-9 text-center text-sm relative",
+      "w-10 text-center text-xs font-bold text-navy-400 py-2",
+    week: "flex mt-1 w-full",
+    day: "h-10 w-10 text-center text-sm relative flex items-center justify-center",
     day_button:
       "h-9 w-9 rounded-lg transition-colors hover:bg-teal-50 hover:text-teal-700 inline-flex items-center justify-center",
     selected:

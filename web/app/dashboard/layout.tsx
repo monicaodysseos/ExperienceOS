@@ -66,6 +66,7 @@ const PROVIDER_LINKS = [
   { href: "/dashboard/provider/experiences", label: "Experiences", icon: Package },
   { href: "/dashboard/provider/calendar", label: "Calendar", icon: Calendar },
   { href: "/dashboard/provider/bookings", label: "Bookings", icon: Users },
+  { href: "/dashboard/provider/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/dashboard/provider/payouts", label: "Payouts", icon: Briefcase },
   { href: "/dashboard/provider/stripe", label: "Stripe Settings", icon: CreditCard },
 ];

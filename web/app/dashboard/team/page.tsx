@@ -4,16 +4,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Users, Mail, Building2, Crown, UserCircle2, ChevronDown, ChevronRight, Wallet, Plus, X, Copy, Check, QrCode } from "lucide-react";
+import { Users, Mail, Building2, Crown, UserCircle2, Wallet, Plus, X, Copy, Check, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
-import { api, type OrganisationMember, type Organisation, type Department, type Team } from "@/lib/api";
+import { api, type OrganisationMember, type Organisation, type Department } from "@/lib/api";
 import { useAuth } from "@/lib/auth-store";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
-import { EmptyState } from "@/components/ui/EmptyState";
 import { QRCodeSVG } from "qrcode.react";
-
 
 const inviteSchema = z.object({
   email: z.string().email("Enter a valid email address"),
@@ -32,9 +30,9 @@ export default function TeamPage() {
   const [org, setOrg] = useState<Organisation | null>(null);
   const [members, setMembers] = useState<OrganisationMember[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
-  const [deptTeams, setDeptTeams] = useState<Record<number, Team[]>>({});
-  const [expandedDept, setExpandedDept] = useState<number | null>(null);
   const [loadingOrg, setLoadingOrg] = useState(true);
+  
+  // UI states
   const [inviting, setInviting] = useState(false);
   const [creatingOrg, setCreatingOrg] = useState(false);
   const [showCreateDept, setShowCreateDept] = useState(false);
@@ -42,8 +40,7 @@ export default function TeamPage() {
   const [newDeptName, setNewDeptName] = useState("");
   const [newDeptHead, setNewDeptHead] = useState<number | undefined>(undefined);
   const [newDeptBudget, setNewDeptBudget] = useState("");
-  const [showCreateTeam, setShowCreateTeam] = useState<number | null>(null);
-  const [newTeamName, setNewTeamName] = useState("");
+  
   const [lastInvite, setLastInvite] = useState<{ short_code: string; invite_url: string; email: string } | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -72,20 +69,10 @@ export default function TeamPage() {
         setOrg(orgData);
         setMembers(teamData.results || []);
         setDepartments(deptData.results || []);
-        if (deptData.results?.length > 0) {
-          setExpandedDept(deptData.results[0].id);
-        }
       })
       .catch(() => {})
       .finally(() => setLoadingOrg(false));
   }, [user?.org_id]);
-
-  useEffect(() => {
-    if (!expandedDept || deptTeams[expandedDept]) return;
-    api.getTeams(expandedDept)
-      .then((d) => setDeptTeams((prev) => ({ ...prev, [expandedDept]: d.results })))
-      .catch(() => {});
-  }, [expandedDept, deptTeams]);
 
   const onInvite = async (data: InviteForm) => {
     setInviting(true);
@@ -93,7 +80,6 @@ export default function TeamPage() {
       const response = await api.inviteTeamMember({ email: data.email }) as { detail: string; short_code?: string; invite_url?: string };
       toast.success(`Invitation sent to ${data.email}`);
       resetInvite();
-      // Show invite code if returned (new invite, not direct add)
       if (response.short_code) {
         setLastInvite({
           short_code: response.short_code,
@@ -101,7 +87,6 @@ export default function TeamPage() {
           email: data.email,
         });
       }
-      // Refresh members
       const teamData = await api.getOrgTeam();
       setMembers(teamData.results || []);
     } catch (err) {
@@ -120,7 +105,6 @@ export default function TeamPage() {
       });
       setOrg(newOrg);
       toast.success("Organisation created!");
-      // Reload user to get org_id
       window.location.reload();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to create organisation");
@@ -141,7 +125,6 @@ export default function TeamPage() {
       setNewDeptHead(undefined);
       setNewDeptBudget("");
       setShowCreateDept(false);
-      setExpandedDept(dept.id);
       toast.success(`Department "${dept.name}" created!`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to create department");
@@ -150,27 +133,11 @@ export default function TeamPage() {
     }
   };
 
-  const onCreateTeam = async (deptId: number) => {
-    if (!newTeamName.trim()) return;
-    try {
-      const team = await api.createTeam(deptId, newTeamName.trim());
-      setDeptTeams((prev) => ({
-        ...prev,
-        [deptId]: [...(prev[deptId] || []), team],
-      }));
-      setNewTeamName("");
-      setShowCreateTeam(null);
-      toast.success(`Team "${team.name}" created!`);
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Failed to create team");
-    }
-  };
-
   if (loadingOrg) {
     return (
-      <div className="max-w-3xl mx-auto py-8 space-y-4">
-        <Skeleton className="h-8 w-48 rounded-lg" />
-        <Skeleton className="h-48 w-full rounded-2xl" />
+      <div className="max-w-4xl mx-auto py-8 space-y-4">
+        <Skeleton className="h-12 w-64 rounded-xl" />
+        <Skeleton className="h-64 w-full rounded-[2.5rem]" />
       </div>
     );
   }
@@ -186,7 +153,7 @@ export default function TeamPage() {
           Create your organisation
         </h1>
         <p className="mt-4 text-lg font-bold text-navy-500">
-          Set up your company account to invite your team and manage group bookings.
+          Set up your company account to invite your team and manage departments.
         </p>
 
         <form
@@ -212,9 +179,9 @@ export default function TeamPage() {
               placeholder="company.com"
               {...registerOrg("domain")}
             />
-            <p className="mt-1 text-xs text-navy-400">Used to auto-match colleagues when they register</p>
+            <p className="mt-1 text-xs font-bold text-navy-400">Used to auto-match colleagues when they register</p>
           </div>
-          <Button type="submit" loading={orgSubmitting} className="w-full">
+          <Button type="submit" loading={orgSubmitting} size="lg" className="w-full text-lg rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-teal-400 hover:bg-teal-300 text-navy-900 font-bold transition-all hover:-translate-y-1">
             Create Organisation
           </Button>
         </form>
@@ -223,362 +190,307 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto py-8">
-      <div className="flex items-start justify-between mb-8">
-        <div>
-          <h1 className="font-display text-4xl font-bold text-navy-900 ">Team</h1>
-          <p className="mt-2 text-lg font-bold text-navy-500 flex items-center gap-2">
-            <Building2 className="h-5 w-5 text-purple-500" />
-            {org.name}
-            <span className="text-navy-300">·</span>
-            <span>{members.length} member{members.length !== 1 ? "s" : ""}</span>
-          </p>
-        </div>
-      </div>
-
-      {/* Invite form */}
-      <div className="rounded-[2.5rem] bg-yellow-400 p-8 shadow-playful border-4 border-navy-900 mb-8 blob-shape-3 relative">
-        <h2 className="font-display text-2xl font-bold text-navy-900 mb-2 ">Invite a team member</h2>
-        <p className="text-base font-bold text-navy-900 mb-6">
-          They&apos;ll receive an email invitation to join {org.name}.
+    <div className="max-w-5xl mx-auto py-8 pb-20">
+      
+      {/* HEADER */}
+      <div className="mb-10">
+        <h1 className="font-display text-5xl font-bold text-navy-900 mb-3">Departments & Budget</h1>
+        <p className="text-xl font-bold text-navy-500 max-w-2xl leading-relaxed">
+          Structure your organisation by creating departments, assigning verified department heads, and allocating team-building budgets.
         </p>
-        <form
-          onSubmit={handleInviteSubmit(onInvite)}
-          className="flex gap-3"
-        >
-          <Input
-            type="email"
-            placeholder="colleague@company.com"
-            leftIcon={<Mail className="h-4 w-4" />}
-            error={inviteErrors.email?.message}
-            className="flex-1"
-            {...registerInvite("email")}
-          />
-          <Button type="submit" loading={inviting} size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-bold hover:-translate-y-1 transition-all">
-            Send Invite
-          </Button>
-        </form>
-
-        {/* Shareable invite code card */}
-        {lastInvite && (
-          <div className="mt-6 rounded-2xl bg-white border-2 border-navy-200 p-5">
-            <div className="flex items-start gap-5">
-              <div className="bg-white p-2 rounded-xl border-2 border-navy-200 flex-shrink-0">
-                <QRCodeSVG
-                  value={lastInvite.invite_url}
-                  size={120}
-                  bgColor="transparent"
-                  fgColor="#1a1a2e"
-                  level="M"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-navy-500">Invite sent to {lastInvite.email}</p>
-                <p className="text-xs text-navy-400 mt-1 mb-3">
-                  Share this code or QR so they can join:
-                </p>
-                <div className="flex items-center gap-2">
-                  <code className="px-4 py-2 bg-navy-50 rounded-lg font-mono text-xl font-bold text-navy-900 tracking-widest border-2 border-navy-200">
-                    {lastInvite.short_code}
-                  </code>
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(lastInvite.short_code);
-                      setCopied(true);
-                      setTimeout(() => setCopied(false), 2000);
-                      toast.success("Code copied!");
-                    }}
-                    className="p-2 rounded-lg hover:bg-navy-100 transition-colors"
-                    title="Copy code"
-                  >
-                    {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4 text-navy-500" />}
-                  </button>
-                </div>
-                <p className="text-xs text-navy-400 mt-2">
-                  Or share the link: <a href={lastInvite.invite_url} className="underline">{lastInvite.invite_url}</a>
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setLastInvite(null)}
-              className="mt-3 text-xs text-navy-400 underline hover:text-navy-600"
-            >
-              Dismiss
-            </button>
-          </div>
-        )}
       </div>
 
-      {/* ─── Departments Section (always visible) ─── */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-display text-2xl font-bold text-navy-900">Departments</h2>
-          <button
-            onClick={() => setShowCreateDept(!showCreateDept)}
-            className="flex items-center gap-2 rounded-full border-4 border-navy-900 bg-blue-400 px-4 py-2 text-sm font-bold text-navy-900 shadow-playful hover:-translate-y-0.5 transition-all"
-          >
-            {showCreateDept ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-            {showCreateDept ? "Cancel" : "New Department"}
-          </button>
-        </div>
-
-        {/* Create Department Form */}
-        {showCreateDept && (
-          <div className="rounded-[2rem] bg-blue-50 border-4 border-navy-900 shadow-playful p-6 mb-4">
-            <h3 className="font-bold text-lg text-navy-900 mb-4">Create a new department</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-navy-700 mb-1">Department Name *</label>
-                <input
-                  type="text"
-                  value={newDeptName}
-                  onChange={(e) => setNewDeptName(e.target.value)}
-                  placeholder="e.g. Marketing, Engineering, Sales"
-                  className="w-full rounded-xl border-2 border-navy-300 bg-white px-4 py-2.5 text-navy-900 placeholder:text-navy-400 focus:border-navy-900 focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-navy-700 mb-1">Department Head</label>
-                <select
-                  value={newDeptHead ?? ""}
-                  onChange={(e) => setNewDeptHead(e.target.value ? Number(e.target.value) : undefined)}
-                  className="w-full rounded-xl border-2 border-navy-300 bg-white px-4 py-2.5 text-navy-900 focus:border-navy-900 focus:outline-none"
-                >
-                  <option value="">Select a team member (optional)</option>
-                  {members.map((m) => (
-                    <option key={m.id} value={m.user_id}>
-                      {m.first_name} {m.last_name} ({m.email})
-                    </option>
-                  ))}
-                </select>
-                <p className="text-xs text-navy-400 mt-1">This person will be promoted to Department Head role</p>
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-navy-700 mb-1">Budget (€)</label>
-                <input
-                  type="number"
-                  value={newDeptBudget}
-                  onChange={(e) => setNewDeptBudget(e.target.value)}
-                  placeholder="e.g. 5000"
-                  className="w-full rounded-xl border-2 border-navy-300 bg-white px-4 py-2.5 text-navy-900 placeholder:text-navy-400 focus:border-navy-900 focus:outline-none"
-                />
-              </div>
-              <Button
-                onClick={onCreateDept}
-                loading={creatingDept}
-                disabled={!newDeptName.trim()}
-                className="w-full rounded-full border-4 border-navy-900 bg-green-400 text-navy-900 font-bold shadow-playful hover:-translate-y-0.5 transition-all"
-              >
-                Create Department
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {departments.length === 0 && !showCreateDept ? (
-          <div className="rounded-[2rem] bg-white border-4 border-navy-900 shadow-playful p-8 text-center">
-            <Building2 className="h-12 w-12 text-navy-300 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-navy-900 mb-2">No departments yet</h3>
-            <p className="text-navy-500 mb-4">Create your first department to set up budgets, assign department heads, and start organizing your team.</p>
+      {/* TWO COLUMN LAYOUT: DEPARTMENTS (LEFT) & INVITES/MEMBERS (RIGHT) */}
+      <div className="grid grid-cols-1 lg:grid-cols-7 gap-8">
+        
+        {/* LEFT COLUMN: DEPARTMENTS */}
+        <div className="lg:col-span-4 space-y-8">
+          
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-3xl font-bold text-navy-900 flex items-center gap-3">
+              <Building2 className="h-8 w-8 text-blue-500" />
+              Departments
+            </h2>
             <button
-              onClick={() => setShowCreateDept(true)}
-              className="inline-flex items-center gap-2 rounded-full border-4 border-navy-900 bg-yellow-400 px-6 py-3 font-bold text-navy-900 shadow-playful hover:-translate-y-0.5 transition-all"
+              onClick={() => setShowCreateDept(!showCreateDept)}
+              className="flex items-center gap-2 rounded-full border-4 border-navy-900 bg-pink-400 px-5 py-2.5 text-sm font-bold text-navy-900 shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all"
             >
-              <Plus className="h-5 w-5" />
-              Create First Department
+              {showCreateDept ? <X className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+              {showCreateDept ? "Cancel" : "New Department"}
             </button>
           </div>
-        ) : (
-          <div className="space-y-4">
-            {departments.map((dept) => {
-              const isExpanded = expandedDept === dept.id;
-              const teams = deptTeams[dept.id] || [];
-              const total = parseFloat(dept.budget_total);
-              const spent = parseFloat(dept.budget_spent);
-              const pct = total > 0 ? (spent / total) * 100 : 0;
 
-              return (
-                <div key={dept.id} className="rounded-[2rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden">
-                  <button
-                    onClick={() => setExpandedDept(isExpanded ? null : dept.id)}
-                    className="w-full flex items-center justify-between p-6 hover:bg-navy-50 transition-colors text-left"
+          {/* CREATE DEPARTMENT HIGHLIGHT CARD */}
+          {showCreateDept && (
+            <div className="rounded-[2.5rem] bg-pink-50 border-4 border-navy-900 shadow-playful p-8 animate-in mt-4 slide-in-from-top-4 fade-in duration-300">
+              <h3 className="font-display text-2xl font-bold text-navy-900 mb-6">Create New Department</h3>
+              <div className="space-y-5">
+                <div>
+                  <label className="block text-sm font-extrabold text-navy-900 mb-2 uppercase tracking-wide">Department Name</label>
+                  <input
+                    type="text"
+                    value={newDeptName}
+                    onChange={(e) => setNewDeptName(e.target.value)}
+                    placeholder="e.g. Marketing, Engineering, Sales"
+                    className="w-full rounded-2xl border-4 border-navy-900 bg-white px-5 py-4 text-lg font-bold text-navy-900 placeholder:text-navy-300 focus:outline-none focus:ring-4 focus:ring-pink-200 transition-all shadow-[2px_2px_0_theme(colors.navy.900)]"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-extrabold text-navy-900 mb-2 uppercase tracking-wide">Appoint Head</label>
+                    <select
+                      value={newDeptHead ?? ""}
+                      onChange={(e) => setNewDeptHead(e.target.value ? Number(e.target.value) : undefined)}
+                      className="w-full rounded-2xl border-4 border-navy-900 bg-white px-4 py-4 text-base font-bold text-navy-700 focus:outline-none focus:ring-4 focus:ring-pink-200 transition-all shadow-[2px_2px_0_theme(colors.navy.900)] cursor-pointer"
+                    >
+                      <option value="">Select an employee...</option>
+                      {members.map((m) => (
+                        <option key={m.id} value={m.user_id}>
+                          {m.first_name} {m.last_name} ({m.email})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-extrabold text-navy-900 mb-2 uppercase tracking-wide">Allocated Budget</label>
+                    <div className="relative">
+                      <span className="absolute left-5 top-1/2 -translate-y-1/2 font-display text-lg font-bold text-navy-900">€</span>
+                      <input
+                        type="number"
+                        value={newDeptBudget}
+                        onChange={(e) => setNewDeptBudget(e.target.value)}
+                        placeholder="5,000"
+                        className="w-full rounded-2xl border-4 border-navy-900 bg-white pl-10 pr-5 py-4 text-lg font-bold text-navy-900 placeholder:text-navy-300 focus:outline-none focus:ring-4 focus:ring-pink-200 transition-all shadow-[2px_2px_0_theme(colors.navy.900)]"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t-4 border-navy-900/10 flex justify-end">
+                  <Button
+                    onClick={onCreateDept}
+                    loading={creatingDept}
+                    disabled={!newDeptName.trim()}
+                    size="lg"
+                    className="rounded-full px-8 py-6 text-lg border-4 border-navy-900 bg-blue-400 text-navy-900 font-bold shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all"
                   >
-                    <div className="flex items-center gap-4">
-                      {isExpanded ? (
-                        <ChevronDown className="h-5 w-5 text-navy-500" />
-                      ) : (
-                        <ChevronRight className="h-5 w-5 text-navy-500" />
-                      )}
-                      <div>
-                        <h3 className="font-bold text-xl text-navy-900">{dept.name}</h3>
-                        <p className="text-sm text-navy-500 mt-0.5">
-                          {dept.head_detail
-                            ? `Head: ${dept.head_detail.first_name} ${dept.head_detail.last_name}`
-                            : "No head assigned"}
-                          {" · "}{dept.team_count} team{dept.team_count !== 1 ? "s" : ""}
-                          {" · "}{dept.member_count} member{dept.member_count !== 1 ? "s" : ""}
-                        </p>
+                    Launch Department
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* DEPARTMENTS LIST GRID */}
+          {departments.length === 0 && !showCreateDept ? (
+            <div className="rounded-[3rem] bg-white border-4 border-dashed border-navy-300 p-12 text-center flex flex-col items-center justify-center min-h-[400px]">
+               <div className="flex h-24 w-24 items-center justify-center rounded-[2rem] bg-navy-50 mb-6 rotate-[-5deg]">
+                 <Building2 className="h-10 w-10 text-navy-300" />
+               </div>
+               <h3 className="font-display text-3xl font-bold text-navy-900 mb-3">No departments yet</h3>
+               <p className="text-lg font-bold text-navy-500 mb-8 max-w-sm">
+                 Create your first department, assign a leader, and give them a budget to start organizing events.
+               </p>
+               <button
+                 onClick={() => setShowCreateDept(true)}
+                 className="inline-flex items-center gap-3 rounded-full border-4 border-navy-900 bg-pink-400 px-8 py-4 font-bold text-navy-900 shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all text-lg"
+               >
+                 <Plus className="h-6 w-6" />
+                 Create First Department
+               </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6">
+              {departments.map((dept) => {
+                const total = parseFloat(dept.budget_total);
+                const spent = parseFloat(dept.budget_spent);
+                const pct = total > 0 ? (spent / total) * 100 : 0;
+                
+                return (
+                  <div key={dept.id} className="relative rounded-[2.5rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden hover:-translate-y-1 hover:shadow-playful-hover transition-all group">
+                    <div className="p-8">
+                      <div className="flex justify-between items-start mb-6">
+                        <div>
+                          <h3 className="font-display text-3xl font-bold text-navy-900 mb-2">{dept.name}</h3>
+                          <div className="flex items-center gap-2">
+                            <div className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide border-2 border-orange-200">
+                              DEPT HEAD
+                            </div>
+                            <span className="font-bold text-navy-700 flex items-center gap-2">
+                              {dept.head_detail ? (
+                                <>
+                                  <UserCircle2 className="h-5 w-5 text-orange-500" />
+                                  {dept.head_detail.first_name} {dept.head_detail.last_name}
+                                </>
+                              ) : (
+                                <span className="text-navy-400 italic">Unassigned</span>
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] group-hover:rotate-12 transition-transform duration-300">
+                          <Users className="h-7 w-7 text-teal-600" />
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4 border-t-4 border-navy-50 pt-6">
+                        <div>
+                          <p className="text-xs font-extrabold text-navy-400 uppercase tracking-widest mb-1">Teams Sub-divided</p>
+                          <p className="font-display text-2xl font-bold text-navy-900">{dept.team_count}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs font-extrabold text-navy-400 uppercase tracking-widest mb-1">Total Members</p>
+                          <p className="font-display text-2xl font-bold text-navy-900">{dept.member_count}</p>
+                        </div>
                       </div>
                     </div>
-                    {total > 0 && (
-                      <div className="flex items-center gap-3">
-                        <Wallet className="h-4 w-4 text-navy-400" />
-                        <div className="text-right">
-                          <p className="text-sm font-bold text-navy-900">€{spent.toFixed(0)} / €{total.toFixed(0)}</p>
-                          <div className="h-2 w-24 rounded-full bg-navy-100 overflow-hidden mt-1">
-                            <div
-                              className={`h-full rounded-full ${pct > 90 ? "bg-red-400" : pct > 70 ? "bg-orange-400" : "bg-green-400"}`}
+                    
+                    {/* Budget Footer */}
+                    <div className="bg-navy-900 p-6 text-white border-t-4 border-navy-900 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                      <div>
+                        <p className="text-xs font-bold text-navy-300 uppercase tracking-widest mb-1">Department Budget</p>
+                        <div className="flex items-baseline gap-2">
+                          <span className="font-display text-3xl font-bold text-green-300">€{total > 0 ? (total - spent).toFixed(0) : "0"}</span>
+                          <span className="text-sm font-bold text-navy-400">remaining of €{total.toFixed(0)}</span>
+                        </div>
+                      </div>
+                      
+                      {total > 0 && (
+                        <div className="w-full sm:w-1/2">
+                          <div className="flex justify-between text-xs font-bold font-mono text-navy-300 mb-2">
+                            <span>0%</span>
+                            <span>{Math.round(pct)}% used</span>
+                          </div>
+                          <div className="h-4 w-full bg-navy-800 rounded-full overflow-hidden border-2 border-navy-700 p-0.5">
+                            <div 
+                              className={`h-full rounded-full transition-all duration-1000 ${pct > 90 ? "bg-red-400" : pct > 70 ? "bg-yellow-400" : "bg-green-400"}`}
                               style={{ width: `${Math.min(pct, 100)}%` }}
                             />
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </button>
-
-                  {isExpanded && (
-                    <div className="border-t-2 border-navy-100 px-6 py-4 bg-navy-50/50">
-                      {teams.length === 0 && showCreateTeam !== dept.id ? (
-                        <p className="text-sm text-navy-400 py-2">No teams in this department yet.</p>
-                      ) : (
-                        <div className="space-y-3">
-                          {teams.map((team) => (
-                            <div key={team.id} className="rounded-xl bg-white p-4 border-2 border-navy-200">
-                              <div className="flex items-center justify-between mb-2">
-                                <h4 className="font-bold text-navy-900 flex items-center gap-2">
-                                  <Users className="h-4 w-4 text-blue-500" />
-                                  {team.name}
-                                </h4>
-                                <span className="text-xs font-bold text-navy-500">
-                                  {team.member_count} member{team.member_count !== 1 ? "s" : ""}
-                                </span>
-                              </div>
-                              {team.members.length > 0 && (
-                                <div className="flex flex-wrap gap-2">
-                                  {team.members.map((m) => (
-                                    <span
-                                      key={m.id}
-                                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-medium border border-blue-200"
-                                    >
-                                      {m.user_detail.first_name} {m.user_detail.last_name}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Inline Create Team form */}
-                      {showCreateTeam === dept.id ? (
-                        <div className="mt-3 flex gap-2">
-                          <input
-                            type="text"
-                            value={newTeamName}
-                            onChange={(e) => setNewTeamName(e.target.value)}
-                            placeholder="Team name"
-                            className="flex-1 rounded-xl border-2 border-navy-300 bg-white px-3 py-2 text-sm text-navy-900 placeholder:text-navy-400 focus:border-navy-900 focus:outline-none"
-                            onKeyDown={(e) => e.key === "Enter" && onCreateTeam(dept.id)}
-                          />
-                          <button
-                            onClick={() => onCreateTeam(dept.id)}
-                            disabled={!newTeamName.trim()}
-                            className="rounded-xl bg-green-400 px-4 py-2 text-sm font-bold text-navy-900 border-2 border-navy-900 hover:bg-green-500 transition-colors disabled:opacity-50"
-                          >
-                            Add
-                          </button>
-                          <button
-                            onClick={() => { setShowCreateTeam(null); setNewTeamName(""); }}
-                            className="rounded-xl bg-navy-100 px-3 py-2 text-sm text-navy-600 hover:bg-navy-200 transition-colors"
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={() => setShowCreateTeam(dept.id)}
-                          className="mt-3 flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors"
-                        >
-                          <Plus className="h-4 w-4" /> Add Team
-                        </button>
                       )}
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Members list */}
-      {members.length === 0 ? (
-        <EmptyState
-          icon={<Users className="h-7 w-7" />}
-          title="No team members yet"
-          description="Invite colleagues to start booking team experiences together."
-        />
-      ) : (
-        <div className="rounded-[2.5rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden">
-          <div className="divide-y-2 divide-navy-100">
-            {members.map((member) => (
-              <div key={member.id} className="flex items-center justify-between px-6 py-5 hover:bg-navy-50 transition-colors">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-light-green-400 text-navy-900 border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
-                    <UserCircle2 className="h-6 w-6" />
                   </div>
-                  <div>
-                    <p className="font-medium text-navy-900">
-                      {member.first_name} {member.last_name}
-                    </p>
-                    <p className="text-sm text-navy-500">{member.email}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {member.role === "admin" && (
-                    <span className="flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 ring-1 ring-amber-200">
-                      <Crown className="h-3 w-3" />
-                      Admin
-                    </span>
-                  )}
-                  {member.role === "dept_head" && (
-                    <span className="flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700 ring-1 ring-blue-200">
-                      <Building2 className="h-3 w-3" />
-                      Dept Head
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Org details */}
-      <div className="mt-10 rounded-[2.5rem] bg-white p-8 shadow-playful border-4 border-navy-900">
-        <h2 className="font-display text-2xl font-bold text-navy-900 mb-6 ">Organisation details</h2>
-        <dl className="space-y-4 text-base">
-          <div className="flex justify-between">
-            <dt className="text-navy-500">Name</dt>
-            <dd className="font-medium text-navy-900">{org.name}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-navy-500">Billing email</dt>
-            <dd className="font-medium text-navy-900">{org.billing_email}</dd>
-          </div>
-          {org.domain && (
-            <div className="flex justify-between">
-              <dt className="text-navy-500">Domain</dt>
-              <dd className="font-medium text-navy-900">{org.domain}</dd>
+                );
+              })}
             </div>
           )}
-          <div className="flex justify-between">
-            <dt className="text-navy-500">Plan</dt>
-            <dd className="font-medium capitalize text-navy-900">{org.subscription_tier}</dd>
+        </div>
+
+        {/* RIGHT COLUMN: INVITES & MEMBERS */}
+        <div className="lg:col-span-3 space-y-8">
+          
+          {/* INVITE BOX */}
+          <div className="rounded-[2.5rem] bg-yellow-400 p-8 shadow-playful border-4 border-navy-900 relative">
+            <h2 className="font-display text-3xl font-bold text-navy-900 mb-3">Onboard Staff</h2>
+            <p className="text-base font-bold text-navy-800 mb-6 leading-relaxed">
+              Add employees to your organisation so Department Heads can assign them to teams.
+            </p>
+            
+            <form onSubmit={handleInviteSubmit(onInvite)} className="flex flex-col gap-4">
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="name@company.com"
+                  className="w-full rounded-2xl border-4 border-navy-900 bg-white pl-12 pr-4 py-4 text-lg font-bold text-navy-900 placeholder:text-navy-300 focus:outline-none focus:ring-4 focus:ring-yellow-200 transition-all shadow-[2px_2px_0_theme(colors.navy.900)] block"
+                  {...registerInvite("email")}
+                />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-navy-400" />
+              </div>
+              {inviteErrors.email && (
+                <p className="text-sm font-bold text-red-600 mt-[-8px] ml-2">{inviteErrors.email.message}</p>
+              )}
+              <Button 
+                type="submit" 
+                loading={inviting} 
+                size="lg" 
+                className="w-full py-6 text-lg rounded-2xl border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white hover:bg-navy-50 text-navy-900 font-bold hover:-translate-y-1 transition-all"
+              >
+                Send Invite Link
+              </Button>
+            </form>
+
+            {/* Shareable Code Info */}
+            {lastInvite && (
+              <div className="mt-6 rounded-2xl bg-white border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] p-5 animate-in slide-in-from-top-2 fade-in">
+                <div className="flex gap-4 mb-4 items-center">
+                  <div className="bg-white p-2 rounded-xl border-4 border-navy-900 flex-shrink-0">
+                    <QRCodeSVG value={lastInvite.invite_url} size={80} bgColor="transparent" fgColor="#1a1a2e" level="M" />
+                  </div>
+                  <div>
+                    <p className="text-base font-bold text-green-600 flex items-center gap-1"><Check className="h-4 w-4"/> Invited successfully</p>
+                    <p className="text-xs font-bold text-navy-500 mt-1">They will receive an email shortly.</p>
+                  </div>
+                </div>
+                
+                <div className="bg-navy-50 rounded-xl p-4 border-2 border-navy-200 text-center">
+                  <p className="text-xs font-bold text-navy-500 uppercase tracking-widest mb-2">Short Code</p>
+                  <div className="flex items-center justify-center gap-2">
+                    <code className="px-4 py-2 bg-white rounded-lg font-mono text-2xl font-bold text-navy-900 tracking-[0.2em] border-2 border-navy-200 inline-block">
+                      {lastInvite.short_code}
+                    </code>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(lastInvite.short_code);
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                        toast.success("Code copied!");
+                      }}
+                      className="p-3 bg-white rounded-lg border-2 border-navy-200 hover:bg-navy-100 transition-colors shadow-sm"
+                      title="Copy code"
+                    >
+                      {copied ? <Check className="h-5 w-5 text-green-600" /> : <Copy className="h-5 w-5 text-navy-500" />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        </dl>
+
+          {/* ALL MEMBERS BOX */}
+          <div className="rounded-[2.5rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden">
+            <div className="p-6 border-b-4 border-navy-900 bg-navy-50 flex items-center justify-between">
+              <h2 className="font-display text-2xl font-bold text-navy-900">All Employees</h2>
+              <span className="bg-navy-900 text-white px-3 py-1 rounded-full text-sm font-bold">{members.length}</span>
+            </div>
+            
+            <div className="max-h-[500px] overflow-y-auto divide-y-2 divide-navy-50">
+              {members.length === 0 ? (
+                <div className="p-8 text-center">
+                  <p className="text-navy-400 font-bold">No employees added yet.</p>
+                </div>
+              ) : (
+                members.map((member) => (
+                  <div key={member.id} className="p-5 flex items-center justify-between hover:bg-navy-50 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-green-300 to-green-500 text-navy-900 border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
+                          <UserCircle2 className="h-6 w-6 text-white" />
+                        </div>
+                        {member.role === "admin" && (
+                          <div className="absolute -bottom-2 -right-2 bg-yellow-400 rounded-full p-1 border-2 border-navy-900 shadow-sm">
+                            <Crown className="h-3 w-3 text-navy-900" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-bold text-navy-900 truncate">
+                          {member.first_name} {member.last_name}
+                        </p>
+                        <p className="text-xs font-bold text-navy-400 truncate">{member.email}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+          
+        </div>
       </div>
+
     </div>
   );
 }
