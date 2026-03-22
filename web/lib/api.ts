@@ -231,10 +231,15 @@ class ApiClient {
     return this.fetch<{ results: OrganisationMember[]; count: number }>("/api/v1/org/team/");
   }
 
-  async inviteTeamMember(email: string) {
+  async inviteTeamMember(data: {
+    email: string;
+    target_role?: 'admin' | 'dept_head' | 'member';
+    target_department_id?: number;
+    target_team_id?: number;
+  }) {
     return this.fetch<{ detail: string }>("/api/v1/org/team/invite/", {
       method: "POST",
-      body: JSON.stringify({ email }),
+      body: JSON.stringify(data),
     });
   }
 
@@ -266,6 +271,194 @@ class ApiClient {
 
   async getOrgAnalytics() {
     return this.fetch<OrgAnalytics>("/api/v1/org/analytics/");
+  }
+
+  // ─── Departments ──────────────────────────────────────────────
+
+  async getDepartments() {
+    return this.fetch<{ results: Department[]; count: number }>("/api/v1/org/departments/");
+  }
+
+  async createDepartment(data: {
+    name: string;
+    head?: number;
+    budget_total?: number;
+    budget_period_start?: string;
+    budget_period_end?: string;
+  }) {
+    return this.fetch<Department>("/api/v1/org/departments/", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getDepartment(id: number) {
+    return this.fetch<Department>(`/api/v1/org/departments/${id}/`);
+  }
+
+  async updateDepartment(id: number, data: Partial<{
+    name: string;
+    head: number;
+    budget_total: number;
+    budget_period_start: string;
+    budget_period_end: string;
+  }>) {
+    return this.fetch<Department>(`/api/v1/org/departments/${id}/`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteDepartment(id: number) {
+    return this.fetch<void>(`/api/v1/org/departments/${id}/`, { method: "DELETE" });
+  }
+
+  async adjustDepartmentBudget(deptId: number, amount: number, note?: string) {
+    return this.fetch<Department>(`/api/v1/org/departments/${deptId}/budget/`, {
+      method: "POST",
+      body: JSON.stringify({ amount, note: note ?? '' }),
+    });
+  }
+
+  async getDepartmentTransactions(deptId: number) {
+    return this.fetch<{ results: BudgetTransaction[]; count: number }>(
+      `/api/v1/org/departments/${deptId}/transactions/`
+    );
+  }
+
+  // ─── Teams ────────────────────────────────────────────────────
+
+  async getTeams(deptId: number) {
+    return this.fetch<{ results: Team[]; count: number }>(
+      `/api/v1/org/departments/${deptId}/teams/`
+    );
+  }
+
+  async createTeam(deptId: number, name: string) {
+    return this.fetch<Team>(`/api/v1/org/departments/${deptId}/teams/`, {
+      method: "POST",
+      body: JSON.stringify({ name }),
+    });
+  }
+
+  async updateTeam(deptId: number, teamId: number, name: string) {
+    return this.fetch<Team>(`/api/v1/org/departments/${deptId}/teams/${teamId}/`, {
+      method: "PATCH",
+      body: JSON.stringify({ name }),
+    });
+  }
+
+  async deleteTeam(deptId: number, teamId: number) {
+    return this.fetch<void>(`/api/v1/org/departments/${deptId}/teams/${teamId}/`, {
+      method: "DELETE",
+    });
+  }
+
+  async addTeamMember(deptId: number, teamId: number, userId: number) {
+    return this.fetch<TeamMemberItem>(
+      `/api/v1/org/departments/${deptId}/teams/${teamId}/members/`,
+      { method: "POST", body: JSON.stringify({ user_id: userId }) }
+    );
+  }
+
+  async removeTeamMember(deptId: number, teamId: number, userId: number) {
+    return this.fetch<void>(
+      `/api/v1/org/departments/${deptId}/teams/${teamId}/members/${userId}/`,
+      { method: "DELETE" }
+    );
+  }
+
+  async getMyTeams() {
+    return this.fetch<{ results: Team[]; count: number }>("/api/v1/org/my-teams/");
+  }
+
+  // ─── Department Head Booking ──────────────────────────────────
+
+  async createDeptBooking(deptId: number, data: {
+    time_slot_id: number;
+    num_participants: number;
+    team_id?: number;
+    special_requests?: string;
+  }) {
+    return this.fetch<Booking>(`/api/v1/org/departments/${deptId}/book/`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  // ─── Dept Head Dashboard ──────────────────────────────────────
+
+  async getDeptHeadDashboard() {
+    return this.fetch<DeptHeadDashboard>("/api/v1/org/dashboard/dept-head/");
+  }
+
+  // ─── Polls ────────────────────────────────────────────────────
+
+  async getTeamPolls(teamId: number) {
+    return this.fetch<{ results: Poll[]; count: number }>(
+      `/api/v1/org/teams/${teamId}/polls/`
+    );
+  }
+
+  async createPoll(teamId: number, data: {
+    title: string;
+    type: 'date' | 'experience';
+    closes_at?: string;
+    options: { label: string; experience_id?: number; date?: string }[];
+  }) {
+    return this.fetch<Poll>(`/api/v1/org/teams/${teamId}/polls/`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getPoll(pollId: number) {
+    return this.fetch<Poll>(`/api/v1/org/polls/${pollId}/`);
+  }
+
+  async votePoll(pollId: number, optionIds: number[]) {
+    return this.fetch<Poll>(`/api/v1/org/polls/${pollId}/vote/`, {
+      method: "POST",
+      body: JSON.stringify({ option_ids: optionIds }),
+    });
+  }
+
+  async closePoll(pollId: number) {
+    return this.fetch<Poll>(`/api/v1/org/polls/${pollId}/close/`, {
+      method: "PATCH",
+    });
+  }
+
+  // ─── Suggestions ──────────────────────────────────────────────
+
+  async getTeamSuggestions(teamId: number) {
+    return this.fetch<{ results: ExperienceSuggestion[]; count: number }>(
+      `/api/v1/org/teams/${teamId}/suggestions/`
+    );
+  }
+
+  async suggestExperience(teamId: number, experienceId: number, message?: string) {
+    return this.fetch<ExperienceSuggestion>(
+      `/api/v1/org/teams/${teamId}/suggestions/`,
+      {
+        method: "POST",
+        body: JSON.stringify({ experience_id: experienceId, message: message ?? '' }),
+      }
+    );
+  }
+
+  async upvoteSuggestion(suggestionId: number) {
+    return this.fetch<ExperienceSuggestion>(
+      `/api/v1/org/suggestions/${suggestionId}/upvote/`,
+      { method: "POST" }
+    );
+  }
+
+  async removeUpvote(suggestionId: number) {
+    return this.fetch<ExperienceSuggestion>(
+      `/api/v1/org/suggestions/${suggestionId}/upvote/`,
+      { method: "DELETE" }
+    );
   }
 
   async getProviderPayouts() {

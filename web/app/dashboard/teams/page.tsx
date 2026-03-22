@@ -6,7 +6,7 @@ import { api, type Department, type Team, type OrganisationMember } from "@/lib/
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 export default function TeamsPage() {
   const [departments, setDepartments] = useState<Department[]>([]);

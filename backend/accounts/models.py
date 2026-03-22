@@ -12,6 +12,7 @@ class User(AbstractUser):
         ('admin', 'Admin'),
         # B2B roles
         ('hr_manager', 'HR Manager'),
+        ('dept_head', 'Department Head'),
         ('employee', 'Employee'),
         ('vendor_admin', 'Vendor Admin'),
         ('vendor_staff', 'Vendor Staff'),
@@ -47,6 +48,9 @@ class User(AbstractUser):
 
     def is_hr_manager(self):
         return self.role == 'hr_manager'
+
+    def is_dept_head(self):
+        return self.role == 'dept_head'
 
     def is_vendor_admin(self):
         return self.role in ('vendor_admin', 'admin')

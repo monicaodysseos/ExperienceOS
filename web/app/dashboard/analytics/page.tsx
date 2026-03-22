@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BarChart3, TrendingUp, ArrowRight } from "lucide-react";
+import { BarChart3, TrendingUp, ArrowRight, Building2, Wallet, Users, Sparkles, ThumbsUp, Vote } from "lucide-react";
 import { api, type OrgAnalytics } from "@/lib/api";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -212,6 +212,130 @@ export default function AnalyticsPage() {
           </div>
         </div>
       )}
+
+      {/* Spend by department */}
+      {data.department_breakdown.length > 0 && (
+        <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful relative">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-display text-2xl font-bold text-navy-900">Spend by department</h2>
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-navy-900 bg-blue-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
+              <Building2 className="h-6 w-6" />
+            </div>
+          </div>
+          <div className="space-y-4">
+            {data.department_breakdown.map((dept) => (
+              <SpendBar
+                key={dept.department_id}
+                label={dept.department}
+                spend={parseFloat(dept.spend)}
+                max={Math.max(...data.department_breakdown.map((d) => parseFloat(d.spend)))}
+                count={dept.count}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Budget utilization */}
+      {data.budget_utilization.length > 0 && (
+        <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful relative">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-display text-2xl font-bold text-navy-900">Budget utilization</h2>
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-navy-900 bg-green-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
+              <Wallet className="h-6 w-6" />
+            </div>
+          </div>
+          <div className="space-y-5">
+            {data.budget_utilization.map((dept) => {
+              const pct = dept.utilization_pct;
+              return (
+                <div key={dept.department_id}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-bold text-navy-900">{dept.department}</span>
+                    <span className="text-sm font-bold text-navy-500">
+                      €{parseFloat(dept.budget_spent).toFixed(0)} / €{parseFloat(dept.budget_total).toFixed(0)}
+                    </span>
+                  </div>
+                  <div className="h-5 rounded-full bg-navy-100 border border-navy-200 overflow-hidden relative">
+                    <div
+                      className={`h-full rounded-full transition-all ${pct > 90 ? "bg-red-400" : pct > 70 ? "bg-orange-400" : "bg-green-400"}`}
+                      style={{ width: `${Math.min(pct, 100)}%` }}
+                    />
+                    <span className="absolute inset-y-0 right-3 flex items-center text-xs font-bold text-navy-700">
+                      {pct.toFixed(0)}%
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-navy-400">
+                    €{parseFloat(dept.budget_remaining).toFixed(0)} remaining
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Engagement: Top voters & Most suggested */}
+      <div className="grid gap-8 sm:grid-cols-2">
+        {/* Top voters */}
+        {data.top_voters.length > 0 && (
+          <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-navy-900 bg-purple-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
+                <Vote className="h-5 w-5" />
+              </div>
+              <h2 className="font-display text-xl font-bold text-navy-900">Most active voters</h2>
+            </div>
+            <div className="space-y-3">
+              {data.top_voters.map((voter, i) => (
+                <div key={voter.user_id} className="flex items-center justify-between py-2">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-700 text-sm font-bold">
+                      {i + 1}
+                    </span>
+                    <span className="font-medium text-navy-900">{voter.name}</span>
+                  </div>
+                  <span className="text-sm font-bold text-navy-500">
+                    {voter.vote_count} vote{voter.vote_count !== 1 ? "s" : ""}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Most suggested experiences */}
+        {data.top_suggestions.length > 0 && (
+          <div className="rounded-[2.5rem] bg-white p-8 border-4 border-navy-900 shadow-playful">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-navy-900 bg-orange-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <h2 className="font-display text-xl font-bold text-navy-900">Most suggested</h2>
+            </div>
+            <div className="space-y-3">
+              {data.top_suggestions.map((s) => (
+                <Link
+                  key={s.slug}
+                  href={`/experiences/${s.slug}`}
+                  className="flex items-center justify-between py-2 hover:bg-navy-50 -mx-2 px-2 rounded-xl transition-colors"
+                >
+                  <div>
+                    <p className="font-medium text-navy-900">{s.title}</p>
+                    <p className="text-xs text-navy-500 mt-0.5 flex items-center gap-2">
+                      <span>{s.suggestion_count} suggestion{s.suggestion_count !== 1 ? "s" : ""}</span>
+                      <span className="flex items-center gap-0.5">
+                        <ThumbsUp className="h-3 w-3" /> {s.upvote_count}
+                      </span>
+                    </p>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-navy-400" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

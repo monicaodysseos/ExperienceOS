@@ -42,6 +42,7 @@ class BookingSerializer(serializers.ModelSerializer):
             'experience_city', 'time_slot', 'num_participants',
             'unit_price', 'total_price', 'participant_service_fee',
             'total_charged', 'status', 'special_requests',
+            'department', 'team', 'booked_by',
             'created_at', 'updated_at',
         ]
 

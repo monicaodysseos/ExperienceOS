@@ -77,6 +77,25 @@ class Booking(models.Model):
         related_name='bookings',
         help_text='Set when booked by an HR Manager on behalf of their organisation.',
     )
+    department = models.ForeignKey(
+        'organizations.Department',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='bookings',
+    )
+    team = models.ForeignKey(
+        'organizations.Team',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='bookings',
+    )
+    booked_by = models.ForeignKey(
+        'accounts.User',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='bookings_created',
+        help_text='The dept head or HR manager who created this booking.',
+    )
     time_slot = models.ForeignKey(
         TimeSlot, on_delete=models.PROTECT, related_name='bookings',
     )

@@ -13,7 +13,7 @@ import {
   Wallet,
   Vote,
 } from "lucide-react";
-import { api, type Booking, type OrgDashboard, type DeptHeadDashboard as DeptHeadDashboardData } from "@/lib/api";
+import { api, type Booking, type OrgDashboard, type Department, type DeptHeadDashboard as DeptHeadDashboardData } from "@/lib/api";
 import { useAuth } from "@/lib/auth-store";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -62,6 +62,57 @@ function HRDashboard() {
       <div className="mt-10">
         <HRDashboardStats data={dashboard} loading={loading} />
       </div>
+
+      {/* Department budget overview */}
+      {!loading && dashboard?.departments && dashboard.departments.length > 0 && (
+        <div className="mt-12">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-display text-3xl font-bold text-navy-900">Departments</h2>
+            <Link
+              href="/dashboard/team"
+              className="flex items-center gap-2 text-base font-bold text-navy-700 hover:text-navy-900 bg-white px-4 py-2 border-2 border-navy-900 rounded-full shadow-sm transition-colors"
+            >
+              Manage <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {dashboard.departments.map((dept: Department) => {
+              const total = parseFloat(dept.budget_total);
+              const spent = parseFloat(dept.budget_spent);
+              const pct = total > 0 ? (spent / total) * 100 : 0;
+              return (
+                <div key={dept.id} className="rounded-[2rem] bg-white p-6 border-4 border-navy-900 shadow-playful">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="font-bold text-lg text-navy-900">{dept.name}</h3>
+                    <span className="text-sm font-bold text-navy-500">
+                      {dept.member_count} member{dept.member_count !== 1 ? "s" : ""}
+                    </span>
+                  </div>
+                  {dept.head_detail && (
+                    <p className="text-sm text-navy-500 mb-3">
+                      Head: {dept.head_detail.first_name} {dept.head_detail.last_name}
+                    </p>
+                  )}
+                  {total > 0 && (
+                    <>
+                      <div className="h-3 rounded-full bg-navy-100 border border-navy-200 overflow-hidden mb-2">
+                        <div
+                          className={`h-full rounded-full transition-all ${pct > 90 ? "bg-red-400" : pct > 70 ? "bg-orange-400" : "bg-green-400"}`}
+                          style={{ width: `${Math.min(pct, 100)}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs font-medium text-navy-500">
+                        <span>€{spent.toFixed(0)} spent</span>
+                        <span>€{total.toFixed(0)} budget ({pct.toFixed(0)}%)</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* No org yet */}
       {!loading && !dashboard?.org?.id && (

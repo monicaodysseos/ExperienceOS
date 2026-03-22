@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Users, Mail, Building2, Crown, UserCircle2 } from "lucide-react";
+import { Users, Mail, Building2, Crown, UserCircle2, ChevronDown, ChevronRight, Wallet } from "lucide-react";
 import { toast } from "sonner";
-import { api, type OrganisationMember, type Organisation } from "@/lib/api";
+import { api, type OrganisationMember, type Organisation, type Department, type Team } from "@/lib/api";
 import { useAuth } from "@/lib/auth-store";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -29,6 +29,9 @@ export default function TeamPage() {
   const { user } = useAuth();
   const [org, setOrg] = useState<Organisation | null>(null);
   const [members, setMembers] = useState<OrganisationMember[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [deptTeams, setDeptTeams] = useState<Record<number, Team[]>>({});
+  const [expandedDept, setExpandedDept] = useState<number | null>(null);
   const [loadingOrg, setLoadingOrg] = useState(true);
   const [inviting, setInviting] = useState(false);
   const [creatingOrg, setCreatingOrg] = useState(false);
@@ -53,14 +56,25 @@ export default function TeamPage() {
       setLoadingOrg(false);
       return;
     }
-    Promise.all([api.getOrg(), api.getOrgTeam()])
-      .then(([orgData, teamData]) => {
+    Promise.all([api.getOrg(), api.getOrgTeam(), api.getDepartments().catch(() => ({ results: [] }))])
+      .then(([orgData, teamData, deptData]) => {
         setOrg(orgData);
         setMembers(teamData.results || []);
+        setDepartments(deptData.results || []);
+        if (deptData.results?.length > 0) {
+          setExpandedDept(deptData.results[0].id);
+        }
       })
       .catch(() => {})
       .finally(() => setLoadingOrg(false));
   }, [user?.org_id]);
+
+  useEffect(() => {
+    if (!expandedDept || deptTeams[expandedDept]) return;
+    api.getTeams(expandedDept)
+      .then((d) => setDeptTeams((prev) => ({ ...prev, [expandedDept]: d.results })))
+      .catch(() => {});
+  }, [expandedDept, deptTeams]);
 
   const onInvite = async (data: InviteForm) => {
     setInviting(true);
@@ -188,6 +202,99 @@ export default function TeamPage() {
         </form>
       </div>
 
+      {/* Departments hierarchy */}
+      {departments.length > 0 && (
+        <div className="mb-8">
+          <h2 className="font-display text-2xl font-bold text-navy-900 mb-4">Departments</h2>
+          <div className="space-y-4">
+            {departments.map((dept) => {
+              const isExpanded = expandedDept === dept.id;
+              const teams = deptTeams[dept.id] || [];
+              const total = parseFloat(dept.budget_total);
+              const spent = parseFloat(dept.budget_spent);
+              const pct = total > 0 ? (spent / total) * 100 : 0;
+
+              return (
+                <div key={dept.id} className="rounded-[2rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden">
+                  <button
+                    onClick={() => setExpandedDept(isExpanded ? null : dept.id)}
+                    className="w-full flex items-center justify-between p-6 hover:bg-navy-50 transition-colors text-left"
+                  >
+                    <div className="flex items-center gap-4">
+                      {isExpanded ? (
+                        <ChevronDown className="h-5 w-5 text-navy-500" />
+                      ) : (
+                        <ChevronRight className="h-5 w-5 text-navy-500" />
+                      )}
+                      <div>
+                        <h3 className="font-bold text-xl text-navy-900">{dept.name}</h3>
+                        <p className="text-sm text-navy-500 mt-0.5">
+                          {dept.head_detail
+                            ? `Head: ${dept.head_detail.first_name} ${dept.head_detail.last_name}`
+                            : "No head assigned"}
+                          {" · "}{dept.team_count} team{dept.team_count !== 1 ? "s" : ""}
+                          {" · "}{dept.member_count} member{dept.member_count !== 1 ? "s" : ""}
+                        </p>
+                      </div>
+                    </div>
+                    {total > 0 && (
+                      <div className="flex items-center gap-3">
+                        <Wallet className="h-4 w-4 text-navy-400" />
+                        <div className="text-right">
+                          <p className="text-sm font-bold text-navy-900">€{spent.toFixed(0)} / €{total.toFixed(0)}</p>
+                          <div className="h-2 w-24 rounded-full bg-navy-100 overflow-hidden mt-1">
+                            <div
+                              className={`h-full rounded-full ${pct > 90 ? "bg-red-400" : pct > 70 ? "bg-orange-400" : "bg-green-400"}`}
+                              style={{ width: `${Math.min(pct, 100)}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </button>
+
+                  {isExpanded && (
+                    <div className="border-t-2 border-navy-100 px-6 py-4 bg-navy-50/50">
+                      {teams.length === 0 ? (
+                        <p className="text-sm text-navy-400 py-2">No teams in this department yet.</p>
+                      ) : (
+                        <div className="space-y-3">
+                          {teams.map((team) => (
+                            <div key={team.id} className="rounded-xl bg-white p-4 border-2 border-navy-200">
+                              <div className="flex items-center justify-between mb-2">
+                                <h4 className="font-bold text-navy-900 flex items-center gap-2">
+                                  <Users className="h-4 w-4 text-blue-500" />
+                                  {team.name}
+                                </h4>
+                                <span className="text-xs font-bold text-navy-500">
+                                  {team.member_count} member{team.member_count !== 1 ? "s" : ""}
+                                </span>
+                              </div>
+                              {team.members.length > 0 && (
+                                <div className="flex flex-wrap gap-2">
+                                  {team.members.map((m) => (
+                                    <span
+                                      key={m.id}
+                                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-medium border border-blue-200"
+                                    >
+                                      {m.user_detail.first_name} {m.user_detail.last_name}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Members list */}
       {members.length === 0 ? (
         <EmptyState
@@ -216,6 +323,12 @@ export default function TeamPage() {
                     <span className="flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 ring-1 ring-amber-200">
                       <Crown className="h-3 w-3" />
                       Admin
+                    </span>
+                  )}
+                  {member.role === "dept_head" && (
+                    <span className="flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700 ring-1 ring-blue-200">
+                      <Building2 className="h-3 w-3" />
+                      Dept Head
                     </span>
                   )}
                 </div>
