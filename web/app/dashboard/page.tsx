@@ -9,8 +9,11 @@ import {
   Sparkles,
   Building2,
   Plus,
+  Users,
+  Wallet,
+  Vote,
 } from "lucide-react";
-import { api, type Booking, type OrgDashboard } from "@/lib/api";
+import { api, type Booking, type OrgDashboard, type DeptHeadDashboard as DeptHeadDashboardData } from "@/lib/api";
 import { useAuth } from "@/lib/auth-store";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -239,10 +242,216 @@ function ParticipantDashboard() {
   );
 }
 
+// ─── Dept Head Dashboard ──────────────────────────────────────────────────────
+
+function DeptHeadDashboard() {
+  const { user } = useAuth();
+  const [data, setData] = useState<DeptHeadDashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.getDeptHeadDashboard()
+      .then(setData)
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <div className="max-w-5xl mx-auto py-8">
+      <h1 className="font-display text-5xl sm:text-6xl font-bold text-navy-900">
+        Welcome back, {user?.first_name}! <span style={{ textShadow: "none" }}>🏢</span>
+      </h1>
+      <p className="mt-4 text-xl font-bold text-navy-700">Manage your department&apos;s team activities</p>
+
+      <div className="mt-12 grid gap-6 sm:grid-cols-4">
+        <div className="rounded-[2.5rem] bg-green-300 p-8 border-4 border-navy-900 shadow-playful">
+          <Wallet className="h-8 w-8 text-navy-900 mb-4" />
+          {loading ? (
+            <Skeleton className="h-12 w-24 rounded-lg bg-navy-900/10" />
+          ) : (
+            <p className="font-display text-4xl font-bold text-navy-900">
+              €{parseFloat(data?.total_remaining || '0').toFixed(0)}
+            </p>
+          )}
+          <p className="mt-2 text-base font-bold text-navy-900">Budget Remaining</p>
+        </div>
+
+        <div className="rounded-[2.5rem] bg-blue-300 p-8 border-4 border-navy-900 shadow-playful">
+          <Users className="h-8 w-8 text-navy-900 mb-4" />
+          {loading ? (
+            <Skeleton className="h-12 w-16 rounded-lg bg-navy-900/10" />
+          ) : (
+            <p className="font-display text-4xl font-bold text-navy-900">{data?.team_count || 0}</p>
+          )}
+          <p className="mt-2 text-base font-bold text-navy-900">Teams</p>
+        </div>
+
+        <div className="rounded-[2.5rem] bg-orange-300 p-8 border-4 border-navy-900 shadow-playful">
+          <Users className="h-8 w-8 text-navy-900 mb-4" />
+          {loading ? (
+            <Skeleton className="h-12 w-16 rounded-lg bg-navy-900/10" />
+          ) : (
+            <p className="font-display text-4xl font-bold text-navy-900">{data?.member_count || 0}</p>
+          )}
+          <p className="mt-2 text-base font-bold text-navy-900">Team Members</p>
+        </div>
+
+        <div className="rounded-[2.5rem] bg-purple-300 p-8 border-4 border-navy-900 shadow-playful">
+          <Vote className="h-8 w-8 text-navy-900 mb-4" />
+          {loading ? (
+            <Skeleton className="h-12 w-16 rounded-lg bg-navy-900/10" />
+          ) : (
+            <p className="font-display text-4xl font-bold text-navy-900">{data?.active_polls || 0}</p>
+          )}
+          <p className="mt-2 text-base font-bold text-navy-900">Active Polls</p>
+        </div>
+      </div>
+
+      {/* Budget per department */}
+      {!loading && data && data.departments.length > 0 && (
+        <div className="mt-12">
+          <h2 className="font-display text-3xl font-bold text-navy-900 mb-6">Budget Overview</h2>
+          <div className="space-y-4">
+            {data.departments.map((dept) => {
+              const pct = parseFloat(dept.budget_total) > 0
+                ? (parseFloat(dept.budget_spent) / parseFloat(dept.budget_total)) * 100
+                : 0;
+              return (
+                <div key={dept.id} className="rounded-[2rem] bg-white p-6 border-4 border-navy-900 shadow-playful">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-xl font-bold text-navy-900">{dept.name}</h3>
+                    <span className="text-lg font-bold text-navy-900">
+                      €{parseFloat(dept.budget_remaining).toFixed(0)} remaining
+                    </span>
+                  </div>
+                  <div className="h-4 rounded-full bg-navy-100 border-2 border-navy-900 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-green-500 transition-all"
+                      style={{ width: `${Math.min(pct, 100)}%` }}
+                    />
+                  </div>
+                  <p className="mt-2 text-sm font-medium text-navy-500">
+                    €{parseFloat(dept.budget_spent).toFixed(0)} of €{parseFloat(dept.budget_total).toFixed(0)} used ({pct.toFixed(0)}%)
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Quick actions */}
+      <div className="mt-12 flex flex-wrap gap-4">
+        <Link href="/dashboard/teams"><Button variant="primary" size="lg">Manage Teams</Button></Link>
+        <Link href="/dashboard/budget"><Button variant="outline" size="lg">View Budget</Button></Link>
+        <Link href="/experiences"><Button variant="secondary" size="lg">Browse Experiences</Button></Link>
+      </div>
+
+      {/* Recent Bookings */}
+      {!loading && data && data.recent_bookings.length > 0 && (
+        <div className="mt-12">
+          <h2 className="font-display text-3xl font-bold text-navy-900 mb-6">Recent Bookings</h2>
+          <div className="space-y-4">
+            {data.recent_bookings.map((booking) => (
+              <div key={booking.id} className="flex items-center justify-between rounded-[2rem] bg-white p-6 border-4 border-navy-900 shadow-playful">
+                <div>
+                  <p className="font-bold text-xl text-navy-900">{booking.experience_title}</p>
+                  <p className="mt-1 text-base font-medium text-navy-600">
+                    {formatDate(booking.time_slot.start_datetime)} · {booking.num_participants} person{booking.num_participants > 1 ? "s" : ""}
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-xl font-bold text-navy-900">€{parseFloat(booking.total_price).toFixed(0)}</span>
+                  <BookingStatusBadge status={booking.status} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Employee Dashboard ──────────────────────────────────────────────────────
+
+function EmployeeDashboard() {
+  const { user } = useAuth();
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [unread, setUnread] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([
+      api.getMyBookings().then((d) => setBookings(d.results?.slice(0, 3) || [])),
+      api.getUnreadCount().then((d) => setUnread(d.unread_count)),
+    ])
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const upcoming = bookings.filter(
+    (b) => new Date(b.time_slot.start_datetime) >= new Date() && !b.status.includes("cancelled")
+  );
+
+  return (
+    <div className="max-w-5xl mx-auto py-8">
+      <h1 className="font-display text-5xl sm:text-6xl font-bold text-navy-900">
+        Hey {user?.first_name}! <span style={{ textShadow: "none" }}>👋</span>
+      </h1>
+      <p className="mt-4 text-xl font-bold text-navy-700">Check out what your team is up to</p>
+
+      <div className="mt-12 grid gap-6 sm:grid-cols-3">
+        <Link href="/dashboard/my-team" className="rounded-[2.5rem] bg-blue-300 p-8 border-4 border-navy-900 shadow-playful transition-transform hover:-translate-y-2 hover:shadow-playful-hover">
+          <Users className="h-8 w-8 text-navy-900 mb-4" />
+          <p className="font-display text-3xl font-bold text-navy-900">My Team</p>
+          <p className="mt-2 text-base font-bold text-navy-900">See teammates & activity</p>
+        </Link>
+
+        <Link href="/dashboard/suggestions" className="rounded-[2.5rem] bg-orange-300 p-8 border-4 border-navy-900 shadow-playful transition-transform hover:-translate-y-2 hover:shadow-playful-hover">
+          <Sparkles className="h-8 w-8 text-navy-900 mb-4" />
+          <p className="font-display text-3xl font-bold text-navy-900">Suggestions</p>
+          <p className="mt-2 text-base font-bold text-navy-900">Suggest & vote on experiences</p>
+        </Link>
+
+        <Link href="/dashboard/polls" className="rounded-[2.5rem] bg-purple-300 p-8 border-4 border-navy-900 shadow-playful transition-transform hover:-translate-y-2 hover:shadow-playful-hover">
+          <Vote className="h-8 w-8 text-navy-900 mb-4" />
+          <p className="font-display text-3xl font-bold text-navy-900">Polls</p>
+          <p className="mt-2 text-base font-bold text-navy-900">Vote on team activities</p>
+        </Link>
+      </div>
+
+      {/* Upcoming bookings */}
+      {upcoming.length > 0 && (
+        <div className="mt-12">
+          <h2 className="font-display text-3xl font-bold text-navy-900 mb-6">Upcoming</h2>
+          {upcoming.map((b) => (
+            <div key={b.id} className="rounded-[2rem] bg-white p-6 border-4 border-navy-900 shadow-playful mb-4">
+              <p className="font-bold text-xl text-navy-900">{b.experience_title}</p>
+              <p className="mt-1 text-base text-navy-600">{formatDate(b.time_slot.start_datetime)}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Messages */}
+      {!loading && unread > 0 && (
+        <Link href="/dashboard/messages" className="mt-8 flex items-center gap-4 rounded-[2rem] bg-yellow-400 p-6 border-4 border-navy-900 shadow-playful transition-transform hover:-translate-y-1 hover:shadow-playful-hover">
+          <MessageSquare className="h-6 w-6 text-navy-900" />
+          <span className="font-bold text-lg text-navy-900">You have {unread} unread message{unread > 1 ? 's' : ''}</span>
+          <ArrowRight className="h-5 w-5 text-navy-900 ml-auto" />
+        </Link>
+      )}
+    </div>
+  );
+}
+
 // ─── Route ───────────────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
   const { user } = useAuth();
   if (user?.role === "hr_manager") return <HRDashboard />;
+  if (user?.role === "dept_head") return <DeptHeadDashboard />;
+  if (user?.role === "employee") return <EmployeeDashboard />;
   return <ParticipantDashboard />;
 }

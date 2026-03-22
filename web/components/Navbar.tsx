@@ -66,7 +66,10 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 transition-transform duration-300 hover:scale-[1.03] active:scale-95">
+        <Link 
+          href={pathname.startsWith('/dashboard/provider') ? "/dashboard/provider" : "/"} 
+          className="flex items-center gap-2 transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+        >
           <img 
             src="/vivido-logo.png" 
             alt="ViVi DO Creative Activities" 
@@ -115,9 +118,6 @@ export function Navbar() {
 
         {/* Desktop Auth */}
         <div className="hidden items-center gap-3 md:flex">
-          {isAuthenticated && user && (
-            <NotificationBell isTransparent={isTransparent} />
-          )}
           {isLoading ? (
             <div className="h-8 w-20 animate-pulse rounded-lg bg-navy-100" />
           ) : isAuthenticated && user ? (

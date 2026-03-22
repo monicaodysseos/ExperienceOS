@@ -16,10 +16,10 @@ const exactIcon = new Icon({
       <circle cx="23" cy="24" r="8" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
     </svg>
   `),
-  iconSize: [48, 48],
-  iconAnchor: [24, 24],
-  popupAnchor: [0, -20],
-  className: 'custom-experience-marker scale-[0.8] drop-shadow-lg'
+  iconSize: [38, 38],
+  iconAnchor: [19, 19],
+  popupAnchor: [0, -18],
+  className: 'custom-experience-marker drop-shadow-lg'
 });
 
 // City-fallback marker (ViVi DO Blue Blob)
@@ -30,10 +30,10 @@ const cityIcon = new Icon({
       <circle cx="25" cy="24" r="6" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
     </svg>
   `),
-  iconSize: [48, 48],
-  iconAnchor: [24, 24],
-  popupAnchor: [0, -20],
-  className: 'custom-experience-marker-city scale-[0.7] drop-shadow-md opacity-90'
+  iconSize: [34, 34],
+  iconAnchor: [17, 17],
+  popupAnchor: [0, -16],
+  className: 'custom-experience-marker-city drop-shadow-md opacity-90'
 });
 
 // Default coordinates for Cyprus cities

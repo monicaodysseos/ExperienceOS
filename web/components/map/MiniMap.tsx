@@ -40,12 +40,12 @@ export function MiniMap() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-navy-900">
+        <h2 className="text-2xl font-display font-bold text-navy-900">
           Explore on Map
         </h2>
         <Link
           href="/map"
-          className="text-sm font-medium text-crimson-800 hover:text-crimson-900 transition-colors"
+          className="text-sm font-bold text-navy-900 bg-yellow-400 px-4 py-2 rounded-full border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:bg-yellow-500 hover:-translate-y-0.5 transition-all"
         >
           View Full Map →
         </Link>

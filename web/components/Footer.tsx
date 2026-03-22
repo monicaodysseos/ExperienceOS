@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Facebook, Instagram, Twitter } from "lucide-react";
 
 const FOOTER_LINKS = {
   explore: [
@@ -46,6 +47,21 @@ export function Footer() {
               Discover Cyprus one experience at a time. From cooking classes to
               sunset yacht tours, find your next unforgettable adventure.
             </p>
+
+            <div className="mt-6 flex items-center gap-4">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-navy-400 hover:text-blue-500 transition-colors">
+                <span className="sr-only">Facebook</span>
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-navy-400 hover:text-pink-500 transition-colors">
+                <span className="sr-only">Instagram</span>
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-navy-400 hover:text-sky-500 transition-colors">
+                <span className="sr-only">Twitter</span>
+                <Twitter className="h-5 w-5" />
+              </a>
+            </div>
           </div>
 
           {/* Explore */}

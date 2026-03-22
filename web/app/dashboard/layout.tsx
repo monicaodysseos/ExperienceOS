@@ -15,6 +15,9 @@ import {
   Briefcase,
   FileText,
   BarChart3,
+  Vote,
+  Lightbulb,
+  Wallet,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-store";
 import { AuthGuard } from "@/components/AuthGuard";
@@ -38,6 +41,26 @@ const HR_LINKS = [
   { href: "/dashboard/profile", label: "Settings", icon: Settings },
 ];
 
+const DEPT_HEAD_LINKS = [
+  { href: "/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
+  { href: "/dashboard/teams", label: "My Teams", icon: Users },
+  { href: "/dashboard/budget", label: "Budget", icon: Wallet },
+  { href: "/dashboard/polls", label: "Polls", icon: Vote },
+  { href: "/dashboard/bookings", label: "Team Bookings", icon: CalendarDays },
+  { href: "/dashboard/messages", label: "Messages", icon: MessageSquare },
+  { href: "/dashboard/profile", label: "Settings", icon: Settings },
+];
+
+const EMPLOYEE_LINKS = [
+  { href: "/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
+  { href: "/dashboard/my-team", label: "My Team", icon: Users },
+  { href: "/dashboard/suggestions", label: "Suggestions", icon: Lightbulb },
+  { href: "/dashboard/polls", label: "Polls", icon: Vote },
+  { href: "/dashboard/my-bookings", label: "My Bookings", icon: CalendarDays },
+  { href: "/dashboard/messages", label: "Messages", icon: MessageSquare },
+  { href: "/dashboard/profile", label: "Settings", icon: Settings },
+];
+
 const PROVIDER_LINKS = [
   { href: "/dashboard/provider", label: "Provider Home", icon: Sparkles, exact: true },
   { href: "/dashboard/provider/experiences", label: "Experiences", icon: Package },
@@ -50,8 +73,17 @@ const PROVIDER_LINKS = [
 function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user } = useAuth();
-  const isHR = user?.role === 'hr_manager';
-  const primaryLinks = isHR ? HR_LINKS : USER_LINKS;
+  const role = user?.role;
+  const primaryLinks =
+    role === 'hr_manager' ? HR_LINKS :
+    role === 'dept_head' ? DEPT_HEAD_LINKS :
+    role === 'employee' ? EMPLOYEE_LINKS :
+    USER_LINKS;
+  const sidebarLabel =
+    role === 'hr_manager' ? 'HR Portal' :
+    role === 'dept_head' ? 'Department' :
+    role === 'employee' ? 'My Workspace' :
+    'Account';
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
@@ -60,7 +92,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
         <aside className="hidden lg:block">
           <nav className="sticky top-24 space-y-1">
             <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-navy-400">
-              {isHR ? 'HR Portal' : 'Account'}
+              {sidebarLabel}
             </p>
             {primaryLinks.map((link) => {
               const isActive = link.exact

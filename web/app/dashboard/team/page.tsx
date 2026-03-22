@@ -65,7 +65,7 @@ export default function TeamPage() {
   const onInvite = async (data: InviteForm) => {
     setInviting(true);
     try {
-      await api.inviteTeamMember(data.email);
+      await api.inviteTeamMember({ email: data.email });
       toast.success(`Invitation sent to ${data.email}`);
       resetInvite();
       // Refresh members
