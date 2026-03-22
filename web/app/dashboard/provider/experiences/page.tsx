@@ -34,11 +34,11 @@ function ExperiencesListContent() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">My Experiences</h1>
+          <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">My Experiences</h1>
           <p className="mt-2 text-lg font-bold text-navy-500">Manage your listed experiences</p>
         </div>
         <Link href="/dashboard/provider/experiences/new">
-          <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all bg-purple-400 text-navy-900 font-black">
+          <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all bg-purple-400 text-navy-900 font-bold">
             <Plus className="h-5 w-5 mr-1 border-2 border-navy-900 rounded-full" /> Create New
           </Button>
         </Link>
@@ -66,7 +66,7 @@ function ExperiencesListContent() {
             >
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-4">
-                  <h3 className="font-display text-2xl font-black text-navy-900 truncate">
+                  <h3 className="font-display text-2xl font-bold text-navy-900 truncate">
                     {exp.title}
                   </h3>
                   <div className="origin-left scale-110">

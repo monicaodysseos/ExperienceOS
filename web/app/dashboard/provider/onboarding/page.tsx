@@ -57,7 +57,7 @@ export default function ProviderOnboardingPage() {
         <Sparkles className="h-10 w-10" />
       </div>
 
-      <h1 className="mt-4 font-display text-4xl font-black text-navy-900 title-shadow">
+      <h1 className="mt-4 font-display text-4xl font-bold text-navy-900 title-shadow">
         Set up your provider profile
       </h1>
       <p className="mt-4 font-bold text-navy-500">
@@ -97,7 +97,7 @@ export default function ProviderOnboardingPage() {
           {...register("instagram")}
         />
 
-        <Button type="submit" loading={isSubmitting} size="lg" className="w-full mt-8 rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-light-green-400 text-navy-900 font-black hover:-translate-y-1 transition-all">
+        <Button type="submit" loading={isSubmitting} size="lg" className="w-full mt-8 rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-light-green-400 text-navy-900 font-bold hover:-translate-y-1 transition-all">
           Create Provider Profile
         </Button>
       </form>

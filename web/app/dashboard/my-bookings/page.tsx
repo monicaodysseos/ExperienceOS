@@ -42,7 +42,7 @@ function BookingList({ bookings, emptyMessage }: { bookings: Booking[]; emptyMes
         >
           <div className="flex items-start justify-between">
             <div>
-              <h3 className="font-display text-2xl font-black text-navy-900">{booking.experience_title}</h3>
+              <h3 className="font-display text-2xl font-bold text-navy-900">{booking.experience_title}</h3>
               <div className="mt-3 flex flex-wrap items-center gap-4 text-sm font-bold text-navy-500">
                 <span className="flex items-center gap-1.5">
                   <Calendar className="h-4 w-4 text-navy-400" />
@@ -65,7 +65,7 @@ function BookingList({ bookings, emptyMessage }: { bookings: Booking[]; emptyMes
                   {booking.status.replace(/_/g, " ")}
                 </Badge>
               </div>
-              <p className="mt-3 font-display text-2xl font-black text-navy-900 title-shadow">
+              <p className="mt-3 font-display text-2xl font-bold text-navy-900 title-shadow">
                 &euro;{parseFloat(booking.total_charged).toFixed(2)}
               </p>
             </div>
@@ -99,7 +99,7 @@ export default function MyBookingsPage() {
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">My Bookings</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">My Bookings</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">Manage your upcoming and past experiences</p>
 
       {loading ? (

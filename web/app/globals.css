@@ -197,7 +197,7 @@ body {
 }
 
 @utility title-shadow {
-  text-shadow: 3px 3px 0px var(--color-navy-900);
+  text-shadow: 2px 2px 0px var(--color-navy-900);
 }
 
 @utility animate-fade-in {

@@ -65,7 +65,7 @@ export default function HomePage() {
               <span>New experiences added weekly</span>
             </div>
 
-            <h1 className="font-display text-6xl font-black tracking-tight text-navy-900 sm:text-7xl lg:text-8xl leading-[1.1] title-shadow">
+            <h1 className="font-display text-6xl font-bold tracking-tight text-navy-900 sm:text-7xl lg:text-8xl leading-[1.1] title-shadow">
               Discover unforgettable <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 bg-clip-text text-transparent relative whitespace-nowrap drop-shadow-sm">
                 experiences
@@ -325,7 +325,7 @@ export default function HomePage() {
 
             <div className="grid gap-16 lg:grid-cols-2 items-center relative z-10">
               <div>
-                <h2 className="font-display text-5xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-8 title-shadow">
+                <h2 className="font-display text-5xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-8 title-shadow">
                   Share Your<br />Passion
                 </h2>
                 <p className="text-xl font-medium text-purple-100 leading-relaxed mb-10 max-w-lg">

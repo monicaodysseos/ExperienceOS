@@ -71,7 +71,7 @@ function BookingsContent() {
 
   return (
     <div className="max-w-5xl mx-auto py-8">
-      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Team Bookings</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Team Bookings</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">
         Your previously scheduled experiences
         {total > 0 && <span className="ml-2 text-navy-400">({total} total)</span>}
@@ -87,7 +87,7 @@ function BookingsContent() {
             leftIcon={<Search className="h-5 w-5" />}
             className="w-full sm:w-80 border-4 border-navy-900 rounded-full"
           />
-          <Button type="submit" size="lg" className="rounded-full border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 font-black hover:-translate-y-0.5 transition-transform">
+          <Button type="submit" size="lg" className="rounded-full border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 font-bold hover:-translate-y-0.5 transition-transform">
             Search
           </Button>
         </form>
@@ -97,7 +97,7 @@ function BookingsContent() {
             <button
               key={opt.value}
               onClick={() => setParam("status", opt.value)}
-              className={`rounded-full px-4 py-2 text-sm font-black border-4 transition-all ${
+              className={`rounded-full px-4 py-2 text-sm font-bold border-4 transition-all ${
                 statusFilter === opt.value
                   ? "bg-blue-400 border-navy-900 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] -translate-y-0.5"
                   : "bg-white border-transparent text-navy-600 hover:border-navy-200 hover:bg-sand-50"
@@ -134,7 +134,7 @@ function BookingsContent() {
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-3">
-                    <p className="font-display text-2xl font-black text-navy-900 truncate">{booking.experience_title}</p>
+                    <p className="font-display text-2xl font-bold text-navy-900 truncate">{booking.experience_title}</p>
                     <span className="shrink-0 font-mono text-xs font-bold text-navy-400 bg-sand-100 px-2 py-1 rounded-full">{booking.booking_reference}</span>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-4 text-sm font-bold text-navy-500">
@@ -153,7 +153,7 @@ function BookingsContent() {
                   </div>
                 </div>
                 <div className="ml-6 flex shrink-0 items-center gap-6">
-                  <span className="font-display text-2xl font-black text-navy-900 title-shadow">
+                  <span className="font-display text-2xl font-bold text-navy-900 title-shadow">
                     €{parseFloat(booking.total_price).toFixed(2)}
                   </span>
                   <div className="scale-110 origin-right">

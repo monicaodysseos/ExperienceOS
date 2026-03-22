@@ -81,13 +81,13 @@ function HRCalendarContent() {
     <div className="mx-auto max-w-6xl">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Events Calendar</h1>
+          <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Events Calendar</h1>
           <p className="mt-2 text-lg font-bold text-navy-500">
             Browse available experiences and book for your team
           </p>
         </div>
         <Link href="/experiences">
-          <Button size="lg" className="rounded-full border-4 border-navy-900 bg-yellow-400 shadow-[4px_4px_0_theme(colors.navy.900)] text-navy-900 font-black hover:-translate-y-1 transition-all">
+          <Button size="lg" className="rounded-full border-4 border-navy-900 bg-yellow-400 shadow-[4px_4px_0_theme(colors.navy.900)] text-navy-900 font-bold hover:-translate-y-1 transition-all">
             Browse all experiences
           </Button>
         </Link>
@@ -211,7 +211,7 @@ function HRCalendarContent() {
         <div className="space-y-6">
           {selectedSlot ? (
             <div className="rounded-[2.5rem] border-4 border-navy-900 bg-purple-400 p-8 shadow-playful blob-shape-3 relative">
-              <h3 className="font-display text-2xl font-black text-navy-900 line-clamp-2 title-shadow relative z-10">
+              <h3 className="font-display text-2xl font-bold text-navy-900 line-clamp-2 title-shadow relative z-10">
                 {selectedSlot.experienceTitle}
               </h3>
 
@@ -235,7 +235,7 @@ function HRCalendarContent() {
               </div>
 
               <div className="mt-6 border-t-[3px] border-navy-900/20 pt-6 relative z-10">
-                <p className="font-display text-4xl font-black text-navy-900 title-shadow">
+                <p className="font-display text-4xl font-bold text-navy-900 title-shadow">
                   {selectedSlot.currency === "EUR" ? "€" : "$"}
                   {parseFloat(selectedSlot.pricePerPerson).toFixed(0)}
                   <span className="text-lg font-bold text-navy-900"> / person</span>
@@ -244,10 +244,10 @@ function HRCalendarContent() {
 
               <div className="mt-8 flex flex-col gap-4 relative z-10">
                 <Link href={`/experiences/${selectedSlot.experienceSlug}`}>
-                  <Button size="lg" className="w-full rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-black hover:-translate-y-1 transition-all">Book this session</Button>
+                  <Button size="lg" className="w-full rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-bold hover:-translate-y-1 transition-all">Book this session</Button>
                 </Link>
                 <Link href={`/experiences/${selectedSlot.experienceSlug}`}>
-                  <Button size="lg" className="w-full rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 font-black hover:-translate-y-1 transition-all">
+                  <Button size="lg" className="w-full rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 font-bold hover:-translate-y-1 transition-all">
                     View experience
                   </Button>
                 </Link>
@@ -264,10 +264,10 @@ function HRCalendarContent() {
           {/* Upcoming summary */}
           {!isLoading && allSlots.length > 0 && (
             <div className="rounded-[2.5rem] border-4 border-navy-900 bg-light-green-400 p-8 shadow-[4px_4px_0_theme(colors.navy.900)]">
-              <h4 className="font-display text-xl font-black text-navy-900 title-shadow">
+              <h4 className="font-display text-xl font-bold text-navy-900 title-shadow">
                 Upcoming this month
               </h4>
-              <p className="mt-2 font-display text-5xl font-black text-navy-900 title-shadow">
+              <p className="mt-2 font-display text-5xl font-bold text-navy-900 title-shadow">
                 {
                   allSlots.filter((s) =>
                     new Date(s.start_datetime).getMonth() === currentDate.getMonth() &&

@@ -130,7 +130,7 @@ function RegisterContent() {
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-navy-900 border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] transition-transform group-hover:scale-110">
                 <Compass className="h-8 w-8" />
               </div>
-              <h2 className="mt-6 font-display text-3xl font-black leading-tight text-navy-900 title-shadow">
+              <h2 className="mt-6 font-display text-3xl font-bold leading-tight text-navy-900 title-shadow">
                 Join as<br />Explorer
               </h2>
               <p className="mt-3 text-sm font-medium text-navy-600 leading-relaxed">
@@ -156,7 +156,7 @@ function RegisterContent() {
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-navy-900 border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] transition-transform group-hover:scale-110">
                 <Briefcase className="h-8 w-8" />
               </div>
-              <h2 className="mt-6 font-display text-3xl font-black leading-tight text-navy-900 title-shadow">
+              <h2 className="mt-6 font-display text-3xl font-bold leading-tight text-navy-900 title-shadow">
                 HR Manager<br />/ Team Lead
               </h2>
               <p className="mt-3 text-sm font-medium text-navy-300 leading-relaxed">
@@ -182,7 +182,7 @@ function RegisterContent() {
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-navy-900 border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] transition-transform group-hover:scale-110">
                 <Sparkles className="h-8 w-8" />
               </div>
-              <h2 className="mt-6 font-display text-3xl font-black leading-tight text-navy-900 title-shadow">
+              <h2 className="mt-6 font-display text-3xl font-bold leading-tight text-navy-900 title-shadow">
                 Become a<br />Provider
               </h2>
               <p className="mt-3 text-sm font-medium text-crimson-100 leading-relaxed">
@@ -243,7 +243,7 @@ function RegisterContent() {
               <Compass className="h-8 w-8" />
             )}
           </div>
-          <h2 className="font-display text-4xl font-black leading-[1.1] mb-6 text-navy-900 title-shadow">
+          <h2 className="font-display text-4xl font-bold leading-[1.1] mb-6 text-navy-900 title-shadow">
             {role === "provider"
               ? "Start sharing your passion"
               : role === "hr_manager"

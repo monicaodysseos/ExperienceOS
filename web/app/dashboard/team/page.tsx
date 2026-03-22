@@ -110,7 +110,7 @@ export default function TeamPage() {
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 mb-6">
           <Building2 className="h-8 w-8" />
         </div>
-        <h1 className="font-display text-5xl font-black text-navy-900 title-shadow">
+        <h1 className="font-display text-5xl font-bold text-navy-900 title-shadow">
           Create your organisation
         </h1>
         <p className="mt-4 text-lg font-bold text-navy-500">
@@ -154,7 +154,7 @@ export default function TeamPage() {
     <div className="max-w-3xl mx-auto py-8">
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Team</h1>
+          <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Team</h1>
           <p className="mt-2 text-lg font-bold text-navy-500 flex items-center gap-2">
             <Building2 className="h-5 w-5 text-purple-500" />
             {org.name}
@@ -166,7 +166,7 @@ export default function TeamPage() {
 
       {/* Invite form */}
       <div className="rounded-[2.5rem] bg-yellow-400 p-8 shadow-playful border-4 border-navy-900 mb-8 blob-shape-3 relative">
-        <h2 className="font-display text-2xl font-black text-navy-900 mb-2 title-shadow">Invite a team member</h2>
+        <h2 className="font-display text-2xl font-bold text-navy-900 mb-2 title-shadow">Invite a team member</h2>
         <p className="text-base font-bold text-navy-900 mb-6">
           They&apos;ll receive an email invitation to join {org.name}.
         </p>
@@ -182,7 +182,7 @@ export default function TeamPage() {
             className="flex-1"
             {...registerInvite("email")}
           />
-          <Button type="submit" loading={inviting} size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-black hover:-translate-y-1 transition-all">
+          <Button type="submit" loading={inviting} size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-bold hover:-translate-y-1 transition-all">
             Send Invite
           </Button>
         </form>
@@ -227,7 +227,7 @@ export default function TeamPage() {
 
       {/* Org details */}
       <div className="mt-10 rounded-[2.5rem] bg-white p-8 shadow-playful border-4 border-navy-900">
-        <h2 className="font-display text-2xl font-black text-navy-900 mb-6 title-shadow">Organisation details</h2>
+        <h2 className="font-display text-2xl font-bold text-navy-900 mb-6 title-shadow">Organisation details</h2>
         <dl className="space-y-4 text-base">
           <div className="flex justify-between">
             <dt className="text-navy-500">Name</dt>

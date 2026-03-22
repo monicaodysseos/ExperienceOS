@@ -33,7 +33,7 @@ export default function InvoicesPage() {
 
   return (
     <div className="max-w-4xl mx-auto py-8">
-      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Invoices</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Invoices</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">
         B2B invoices for all team bookings
         {invoices.length > 0 && (
@@ -51,7 +51,7 @@ export default function InvoicesPage() {
         ) : (
           <div className="rounded-[2.5rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden">
             {/* Table header */}
-            <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 border-b-4 border-navy-900 bg-yellow-400 px-6 py-4 text-xs font-black uppercase tracking-wide text-navy-900">
+            <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 border-b-4 border-navy-900 bg-yellow-400 px-6 py-4 text-xs font-bold uppercase tracking-wide text-navy-900">
               <span>Invoice</span>
               <span className="w-32 text-right">Experience</span>
               <span className="w-28 text-right">Date</span>

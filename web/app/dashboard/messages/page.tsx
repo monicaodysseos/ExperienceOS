@@ -23,7 +23,7 @@ export default function MessagesPage() {
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Messages</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Messages</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">Your conversations</p>
 
       {loading ? (
@@ -50,7 +50,7 @@ export default function MessagesPage() {
               <Avatar name={conv.other_user_name} size="md" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-display text-xl font-black text-navy-900">
+                  <h3 className="font-display text-xl font-bold text-navy-900">
                     {conv.other_user_name}
                   </h3>
                   <span className="text-sm font-bold text-navy-400">

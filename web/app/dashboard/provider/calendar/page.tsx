@@ -67,7 +67,7 @@ function ProviderCalendarContent() {
     <div className="mx-auto max-w-5xl">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Calendar</h1>
+          <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Calendar</h1>
           <p className="mt-2 text-lg font-bold text-navy-500">All your sessions across all experiences</p>
         </div>
       </div>
@@ -81,7 +81,7 @@ function ProviderCalendarContent() {
               type="button"
               onClick={() => toggleFilter(exp.slug)}
               className={cn(
-                "rounded-full border-4 px-4 py-2 text-sm font-black transition-all",
+                "rounded-full border-4 px-4 py-2 text-sm font-bold transition-all",
                 activeFilters.has(exp.slug)
                   ? "border-navy-900 bg-blue-400 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] -translate-y-0.5"
                   : "border-transparent bg-white text-navy-600 hover:border-navy-200 hover:bg-sand-50"
@@ -94,7 +94,7 @@ function ProviderCalendarContent() {
             <button
               type="button"
               onClick={() => setActiveFilters(new Set())}
-              className="rounded-full border-4 border-navy-200 bg-white px-4 py-2 text-sm font-black text-navy-400 hover:border-navy-300"
+              className="rounded-full border-4 border-navy-200 bg-white px-4 py-2 text-sm font-bold text-navy-400 hover:border-navy-300"
             >
               Clear
             </button>

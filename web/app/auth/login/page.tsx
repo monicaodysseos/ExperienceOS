@@ -60,7 +60,7 @@ function LoginContent() {
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-400 text-navy-900 mb-10 border-4 border-navy-900 shadow-playful">
             <Compass className="h-8 w-8" />
           </div>
-          <h2 className="font-display text-4xl font-black leading-[1.1] text-navy-900 mb-6 title-shadow">
+          <h2 className="font-display text-4xl font-bold leading-[1.1] text-navy-900 mb-6 title-shadow">
             Welcome back! Let&apos;s get creative ✨
           </h2>
           <p className="text-lg text-navy-500 leading-relaxed mb-10">
@@ -69,11 +69,11 @@ function LoginContent() {
           </p>
           <div className="flex gap-4">
             <div className="bg-white rounded-[2rem] p-5 flex-1 border-4 border-navy-900 shadow-playful">
-              <p className="font-display text-3xl font-black text-navy-900 title-shadow mb-1">500+</p>
+              <p className="font-display text-3xl font-bold text-navy-900 title-shadow mb-1">500+</p>
               <p className="text-sm font-bold text-navy-900">Experiences</p>
             </div>
             <div className="bg-white rounded-[2rem] p-5 flex-1 border-4 border-navy-900 shadow-playful">
-              <p className="font-display text-3xl font-black text-navy-900 title-shadow mb-1">50+</p>
+              <p className="font-display text-3xl font-bold text-navy-900 title-shadow mb-1">50+</p>
               <p className="text-sm font-bold text-navy-900">Local Hosts</p>
             </div>
           </div>

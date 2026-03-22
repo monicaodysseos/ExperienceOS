@@ -37,7 +37,7 @@ function HRDashboard() {
     <div className="max-w-5xl mx-auto py-8">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="font-display text-5xl sm:text-6xl font-black text-navy-900 title-shadow">
+          <h1 className="font-display text-5xl sm:text-6xl font-bold text-navy-900 title-shadow">
             Ready to spark some creativity, {user?.first_name}? <span style={{ textShadow: "none" }}>✨</span>
           </h1>
           {dashboard?.org && (
@@ -48,7 +48,7 @@ function HRDashboard() {
           )}
         </div>
         <Link href="/experiences" className="mt-2 sm:mt-0 ml-4 flex-shrink-0">
-          <Button size="lg" className="rounded-[1.5rem] px-6 border-4 border-navy-900 shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all bg-blue-400 text-navy-900 font-black">
+          <Button size="lg" className="rounded-[1.5rem] px-6 border-4 border-navy-900 shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all bg-blue-400 text-navy-900 font-bold">
             <Plus className="h-5 w-5 mr-1 border-2 border-navy-900 rounded-full" />
             Book Experience
           </Button>
@@ -65,7 +65,7 @@ function HRDashboard() {
         <div className="mt-12 rounded-[2.5rem] border-4 border-navy-900 bg-orange-400 p-10 text-center shadow-playful blob-shape-1 relative overflow-hidden">
           <div className="absolute inset-0 bg-white/10 blur-xl pointer-events-none"></div>
           <Building2 className="mx-auto h-16 w-16 text-navy-900 mb-6 relative z-10" />
-          <h3 className="font-display text-4xl font-black text-navy-900 title-shadow relative z-10">
+          <h3 className="font-display text-4xl font-bold text-navy-900 title-shadow relative z-10">
             Bring your team onboard! 🚀
           </h3>
           <p className="mt-4 text-xl font-bold text-navy-900 opacity-90 relative z-10">
@@ -83,7 +83,7 @@ function HRDashboard() {
       {!loading && dashboard && dashboard.recent_bookings.length > 0 && (
         <div className="mt-16">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="font-display text-3xl font-black text-navy-900 title-shadow">
+            <h2 className="font-display text-3xl font-bold text-navy-900 title-shadow">
               Recent bookings
             </h2>
             <Link
@@ -109,7 +109,7 @@ function HRDashboard() {
                   </p>
                 </div>
                 <div className="flex items-center gap-6">
-                  <span className="text-xl font-black text-navy-900 title-shadow">
+                  <span className="text-xl font-bold text-navy-900 title-shadow">
                     €{parseFloat(booking.total_price).toFixed(0)}
                   </span>
                   <BookingStatusBadge status={booking.status} />
@@ -146,7 +146,7 @@ function ParticipantDashboard() {
 
   return (
     <div className="max-w-5xl mx-auto py-8">
-      <h1 className="font-display text-5xl sm:text-6xl font-black text-navy-900 title-shadow">
+      <h1 className="font-display text-5xl sm:text-6xl font-bold text-navy-900 title-shadow">
         Ready for some fun, {user?.first_name}? <span style={{ textShadow: "none" }}>🎨</span>
       </h1>
       <p className="mt-4 text-xl font-bold text-navy-700">Here&apos;s your creative agenda</p>
@@ -163,7 +163,7 @@ function ParticipantDashboard() {
             {loading ? (
               <Skeleton className="h-12 w-16 rounded-lg mb-2 bg-navy-900/10" />
             ) : (
-              <p className="font-display text-5xl font-black text-navy-900 title-shadow">{upcoming.length}</p>
+              <p className="font-display text-5xl font-bold text-navy-900 title-shadow">{upcoming.length}</p>
             )}
             <p className="mt-2 text-lg font-bold text-navy-900">Upcoming bookings</p>
           </div>
@@ -180,7 +180,7 @@ function ParticipantDashboard() {
             {loading ? (
               <Skeleton className="h-12 w-12 rounded-lg mb-2 bg-navy-900/10" />
             ) : (
-              <p className="font-display text-5xl font-black text-navy-900 title-shadow">{unread}</p>
+              <p className="font-display text-5xl font-bold text-navy-900 title-shadow">{unread}</p>
             )}
             <p className="mt-2 text-lg font-bold text-navy-900">Unread messages</p>
           </div>
@@ -195,7 +195,7 @@ function ParticipantDashboard() {
               <Sparkles className="h-8 w-8 text-purple-500" />
             </div>
             <div>
-              <p className="font-display text-3xl font-black text-navy-900 title-shadow leading-tight">Become a Provider</p>
+              <p className="font-display text-3xl font-bold text-navy-900 title-shadow leading-tight">Become a Provider</p>
               <p className="mt-2 text-lg font-bold text-navy-900">Start hosting experiences</p>
             </div>
           </Link>
@@ -205,7 +205,7 @@ function ParticipantDashboard() {
       {upcoming.length > 0 && (
         <div className="mt-16">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="font-display text-3xl font-black text-navy-900 title-shadow">Your Next Experience</h2>
+            <h2 className="font-display text-3xl font-bold text-navy-900 title-shadow">Your Next Experience</h2>
             <Link href="/bookings" className="flex items-center gap-2 text-base font-bold text-navy-700 hover:text-navy-900 bg-white px-4 py-2 border-2 border-navy-900 rounded-full shadow-sm transition-transform hover:-translate-y-0.5">
               View all <ArrowRight className="h-5 w-5" />
             </Link>
@@ -228,7 +228,7 @@ function ParticipantDashboard() {
       )}
 
       <div className="mt-16 bg-light-green-400 p-10 rounded-[3rem] border-4 border-navy-900 shadow-playful relative blob-shape-2">
-        <h2 className="font-display text-4xl font-black text-navy-900 mb-8 title-shadow">Quick Actions</h2>
+        <h2 className="font-display text-4xl font-bold text-navy-900 mb-8 title-shadow">Quick Actions</h2>
         <div className="flex flex-wrap gap-4 relative z-10">
           <Link href="/experiences"><Button variant="outline" size="lg">Browse Experiences</Button></Link>
           <Link href="/dashboard/messages"><Button variant="primary" size="lg">Messages</Button></Link>

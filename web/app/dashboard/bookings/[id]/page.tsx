@@ -63,7 +63,7 @@ export default function BookingDetailPage({ params }: Props) {
     <div className="max-w-2xl mx-auto py-8">
       <Link
         href="/dashboard/my-bookings"
-        className="flex items-center gap-2 mb-8 text-base font-black text-navy-900 hover:-translate-x-1 transition-transform"
+        className="flex items-center gap-2 mb-8 text-base font-bold text-navy-900 hover:-translate-x-1 transition-transform"
       >
         <ArrowLeft className="h-5 w-5" />
         Back to bookings
@@ -72,7 +72,7 @@ export default function BookingDetailPage({ params }: Props) {
       <div className="flex items-start justify-between mb-8">
         <div>
           <p className="font-mono text-sm font-bold text-navy-400">{booking.booking_reference}</p>
-          <h1 className="font-display text-4xl font-black text-navy-900 mt-2 title-shadow">
+          <h1 className="font-display text-4xl font-bold text-navy-900 mt-2 title-shadow">
             {booking.experience_title}
           </h1>
         </div>
@@ -89,7 +89,7 @@ export default function BookingDetailPage({ params }: Props) {
               <Calendar className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-black text-navy-500 uppercase tracking-wide">Date</p>
+              <p className="text-xs font-bold text-navy-500 uppercase tracking-wide">Date</p>
               <p className="mt-1 font-bold text-navy-900">
                 {formatDate(booking.time_slot.start_datetime)}
               </p>
@@ -101,7 +101,7 @@ export default function BookingDetailPage({ params }: Props) {
               <Clock className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-black text-navy-500 uppercase tracking-wide">Time</p>
+              <p className="text-xs font-bold text-navy-500 uppercase tracking-wide">Time</p>
               <p className="mt-1 font-bold text-navy-900">
                 {formatTime(booking.time_slot.start_datetime)} → {formatTime(booking.time_slot.end_datetime)}
               </p>
@@ -113,7 +113,7 @@ export default function BookingDetailPage({ params }: Props) {
               <MapPin className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-black text-navy-500 uppercase tracking-wide">Location</p>
+              <p className="text-xs font-bold text-navy-500 uppercase tracking-wide">Location</p>
               <p className="mt-1 font-bold text-navy-900">{booking.experience_city}</p>
             </div>
           </div>
@@ -123,7 +123,7 @@ export default function BookingDetailPage({ params }: Props) {
               <Users className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-black text-navy-500 uppercase tracking-wide">Group size</p>
+              <p className="text-xs font-bold text-navy-500 uppercase tracking-wide">Group size</p>
               <p className="mt-1 font-bold text-navy-900">
                 {booking.num_participants} person{booking.num_participants > 1 ? "s" : ""}
               </p>
@@ -133,7 +133,7 @@ export default function BookingDetailPage({ params }: Props) {
 
         {booking.special_requests && (
           <div className="border-t-[3px] border-navy-900/20 pt-6 relative z-10">
-            <p className="text-xs font-black text-navy-500 uppercase tracking-wide mb-2">Notes</p>
+            <p className="text-xs font-bold text-navy-500 uppercase tracking-wide mb-2">Notes</p>
             <p className="text-base font-bold text-navy-900">{booking.special_requests}</p>
           </div>
         )}
@@ -141,7 +141,7 @@ export default function BookingDetailPage({ params }: Props) {
 
       {/* Price breakdown */}
       <div className="mt-8 rounded-[2.5rem] bg-yellow-400 p-8 shadow-playful border-4 border-navy-900">
-        <h2 className="font-display text-2xl font-black text-navy-900 mb-6 title-shadow">Price breakdown</h2>
+        <h2 className="font-display text-2xl font-bold text-navy-900 mb-6 title-shadow">Price breakdown</h2>
         <div className="space-y-3">
           <div className="flex justify-between text-base font-bold">
             <span className="text-navy-900">
@@ -156,8 +156,8 @@ export default function BookingDetailPage({ params }: Props) {
             </div>
           )}
           <div className="flex justify-between border-t border-navy-900/20 pt-4 mt-2 font-semibold">
-            <span className="text-lg font-black text-navy-900 mt-1">Total charged</span>
-            <span className="font-display text-3xl font-black text-navy-900 title-shadow">&euro;{totalCharged.toFixed(2)}</span>
+            <span className="text-lg font-bold text-navy-900 mt-1">Total charged</span>
+            <span className="font-display text-3xl font-bold text-navy-900 title-shadow">&euro;{totalCharged.toFixed(2)}</span>
           </div>
         </div>
       </div>
@@ -165,19 +165,19 @@ export default function BookingDetailPage({ params }: Props) {
       {/* Actions */}
       <div className="mt-8 flex flex-wrap gap-4">
         <Link href={`/experiences/${booking.experience_slug}`} target="_blank">
-          <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-black hover:-translate-y-1 transition-all">
+          <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white text-navy-900 font-bold hover:-translate-y-1 transition-all">
             <ExternalLink className="h-5 w-5 mr-2" />
             View Experience
           </Button>
         </Link>
-        <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-blue-400 text-navy-900 font-black" disabled>
+        <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-blue-400 text-navy-900 font-bold" disabled>
           <FileText className="h-5 w-5 mr-2" />
           Download Invoice
           <span className="ml-1 text-xs text-navy-900/60 font-bold">(coming soon)</span>
         </Button>
         {canCancel && (
           <Link href={`/bookings/${booking.booking_reference}`}>
-            <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 font-black hover:-translate-y-1 transition-all">
+            <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-orange-400 text-navy-900 font-bold hover:-translate-y-1 transition-all">
               Cancel Booking
             </Button>
           </Link>

@@ -73,7 +73,7 @@ export default function PayoutsPage() {
 
   return (
     <div className="max-w-3xl mx-auto py-8">
-      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Payouts</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Payouts</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">Your Stripe payout history</p>
 
       {/* Summary card */}
@@ -84,7 +84,7 @@ export default function PayoutsPage() {
           </div>
           <div>
             <p className="text-base font-bold text-navy-900">Total paid out</p>
-            <p className="font-display text-5xl font-black text-navy-900 title-shadow">
+            <p className="font-display text-5xl font-bold text-navy-900 title-shadow">
               €{parseFloat(totalPaid).toFixed(2)}
             </p>
           </div>
@@ -112,7 +112,7 @@ export default function PayoutsPage() {
                       <Wallet className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-display text-xl font-black text-navy-900">
+                      <p className="font-display text-xl font-bold text-navy-900">
                         €{parseFloat(payout.amount).toFixed(2)}{" "}
                         <span className="text-sm font-bold text-navy-400">
                           {payout.currency.toUpperCase()}

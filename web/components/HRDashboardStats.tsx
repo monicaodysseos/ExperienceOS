@@ -19,7 +19,7 @@ function StatCard({ label, value, sub, icon, href, accent = "bg-blue-400" }: Sta
         {icon}
       </div>
       <div className="mt-4">
-        <p className="font-display text-4xl font-black text-navy-900 title-shadow">{value}</p>
+        <p className="font-display text-4xl font-bold text-navy-900 title-shadow">{value}</p>
         <p className="mt-2 text-base font-bold text-navy-900">{label}</p>
         {sub && <p className="mt-1 text-sm font-semibold text-navy-800 opacity-90">{sub}</p>}
       </div>

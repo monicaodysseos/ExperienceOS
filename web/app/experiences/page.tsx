@@ -135,7 +135,7 @@ export default async function ExperiencesPage({
 
       {/* Header + search bar */}
       <div className="mt-8">
-        <h1 className="font-display text-5xl font-black text-navy-900 title-shadow">{pageTitle}</h1>
+        <h1 className="font-display text-5xl font-bold text-navy-900 title-shadow">{pageTitle}</h1>
         <p className="mt-4 text-lg font-bold text-navy-500">
           {total} experience{total !== 1 ? "s" : ""} found
         </p>
@@ -163,7 +163,7 @@ export default async function ExperiencesPage({
           </div>
           <button
             type="submit"
-            className="rounded-full bg-orange-400 px-8 py-3.5 text-base font-black text-navy-900 border-4 border-navy-900 shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all"
+            className="rounded-full bg-orange-400 px-8 py-3.5 text-base font-bold text-navy-900 border-4 border-navy-900 shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all"
           >
             Search
           </button>
@@ -403,7 +403,7 @@ export default async function ExperiencesPage({
                       </div>
                     )}
                     <div className="absolute top-4 left-4">
-                      <span className="inline-flex rounded-full bg-light-green-400 px-3 py-1 text-xs font-black text-navy-900 border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
+                      <span className="inline-flex rounded-full bg-light-green-400 px-3 py-1 text-xs font-bold text-navy-900 border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]">
                         {exp.category.name}
                       </span>
                     </div>
@@ -411,7 +411,7 @@ export default async function ExperiencesPage({
 
                   <div className="p-6 flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="font-display text-xl font-black text-navy-900 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight">
+                      <h3 className="font-display text-xl font-bold text-navy-900 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight">
                         {exp.title}
                       </h3>
                       <p className="mt-1 text-sm font-bold text-navy-500">by {exp.provider_name}</p>
@@ -441,7 +441,7 @@ export default async function ExperiencesPage({
                     </div>
 
                     <div className="mt-6 flex items-baseline gap-1.5 pt-4 border-t-2 border-dashed border-navy-200">
-                      <span className="font-display text-2xl font-black text-navy-900">
+                      <span className="font-display text-2xl font-bold text-navy-900">
                         €{parseFloat(exp.price_per_person).toFixed(0)}
                       </span>
                       <span className="text-sm font-bold text-navy-500">/ person</span>

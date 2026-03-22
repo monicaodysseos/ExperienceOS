@@ -61,11 +61,11 @@ function ProviderDashboardContent() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-5xl font-black text-navy-900 title-shadow">Provider Dashboard</h1>
+          <h1 className="font-display text-5xl font-bold text-navy-900 title-shadow">Provider Dashboard</h1>
           <p className="mt-4 text-xl font-bold text-navy-500">Manage your experiences and bookings</p>
         </div>
         <Link href="/dashboard/provider/experiences/new">
-          <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all bg-purple-400 text-navy-900 font-black">
+          <Button size="lg" className="rounded-full border-4 border-navy-900 shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all bg-purple-400 text-navy-900 font-bold">
             <Plus className="h-5 w-5 mr-1 border-2 border-navy-900 rounded-full" /> New Experience
           </Button>
         </Link>
@@ -83,7 +83,7 @@ function ProviderDashboardContent() {
             <div className={`flex h-12 w-12 items-center justify-center rounded-full border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] mb-4 ${stat.bg}`}>
               <stat.icon className={`h-6 w-6 ${stat.color}`} />
             </div>
-            <p className="font-display text-4xl font-black text-navy-900 title-shadow">{stat.value}</p>
+            <p className="font-display text-4xl font-bold text-navy-900 title-shadow">{stat.value}</p>
             <p className="mt-2 text-sm font-bold text-navy-500">{stat.label}</p>
           </div>
         ))}
@@ -93,7 +93,7 @@ function ProviderDashboardContent() {
         {/* Upcoming Sessions */}
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-3xl font-black text-navy-900 title-shadow">Upcoming Sessions</h2>
+            <h2 className="font-display text-3xl font-bold text-navy-900 title-shadow">Upcoming Sessions</h2>
             <Link href="/dashboard/provider/calendar" className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors uppercase tracking-widest">
               Full calendar <ArrowRight className="h-4 w-4" />
             </Link>
@@ -126,11 +126,11 @@ function ProviderDashboardContent() {
                   >
                     <div className="flex items-center gap-4">
                       <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-2xl border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-light-green-400 text-navy-900">
-                        <span className="text-xs font-black uppercase leading-none">{format(start, "MMM")}</span>
-                        <span className="text-xl font-black leading-none mt-1">{format(start, "d")}</span>
+                        <span className="text-xs font-bold uppercase leading-none">{format(start, "MMM")}</span>
+                        <span className="text-xl font-bold leading-none mt-1">{format(start, "d")}</span>
                       </div>
                       <div>
-                        <p className="font-display text-xl font-black text-navy-900 line-clamp-1">{slot.experienceTitle}</p>
+                        <p className="font-display text-xl font-bold text-navy-900 line-clamp-1">{slot.experienceTitle}</p>
                         <p className="mt-1 flex items-center gap-1.5 text-sm font-bold text-navy-500">
                           <Clock className="h-4 w-4" />
                           {format(start, "HH:mm")} – {format(end, "HH:mm")}
@@ -139,7 +139,7 @@ function ProviderDashboardContent() {
                     </div>
                     <div className="text-right">
                       <div className={`inline-flex px-3 py-1 rounded-full border-2 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] ${isFull ? "bg-orange-400" : "bg-white"}`}>
-                        <p className={`text-sm font-black ${isFull ? "text-navy-900" : "text-blue-600"}`}>
+                        <p className={`text-sm font-bold ${isFull ? "text-navy-900" : "text-blue-600"}`}>
                           {slot.spots_remaining}/{slot.spots_total}
                         </p>
                       </div>
@@ -155,7 +155,7 @@ function ProviderDashboardContent() {
         {/* Recent Bookings */}
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-3xl font-black text-navy-900 title-shadow">Recent Bookings</h2>
+            <h2 className="font-display text-3xl font-bold text-navy-900 title-shadow">Recent Bookings</h2>
             <Link href="/dashboard/provider/bookings" className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors uppercase tracking-widest">
               View all <ArrowRight className="h-4 w-4" />
             </Link>
@@ -167,13 +167,13 @@ function ProviderDashboardContent() {
               {bookings.slice(0, 5).map((b) => (
                 <div key={b.id} className="flex items-center justify-between rounded-[2rem] border-4 border-navy-900 bg-white p-5 shadow-playful hover:-translate-y-1 hover:shadow-playful-hover transition-all">
                   <div>
-                    <p className="font-display text-lg font-black text-navy-900 line-clamp-1">{b.experience_title}</p>
+                    <p className="font-display text-lg font-bold text-navy-900 line-clamp-1">{b.experience_title}</p>
                     <p className="mt-1 text-sm font-bold text-navy-500">
                       {formatDate(b.time_slot.start_datetime)} · {b.num_participants} guest{b.num_participants > 1 ? "s" : ""}
                     </p>
                   </div>
                   <div className="scale-90 origin-right">
-                    <Badge variant={b.status === "confirmed" ? "success" : "default"} className="font-black border-2 border-navy-900 shadow-sm uppercase px-3 py-1 text-sm rounded-full">
+                    <Badge variant={b.status === "confirmed" ? "success" : "default"} className="font-bold border-2 border-navy-900 shadow-sm uppercase px-3 py-1 text-sm rounded-full">
                       {b.status.replace(/_/g, " ")}
                     </Badge>
                   </div>

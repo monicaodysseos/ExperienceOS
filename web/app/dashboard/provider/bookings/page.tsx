@@ -31,7 +31,7 @@ function ProviderBookingsContent() {
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Incoming Bookings</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Incoming Bookings</h1>
       <p className="mt-2 text-lg font-bold text-navy-500">Bookings from your guests</p>
 
       {loading ? (
@@ -55,7 +55,7 @@ function ProviderBookingsContent() {
               className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-[2rem] border-4 border-navy-900 bg-white p-6 shadow-playful hover:shadow-playful-hover hover:-translate-y-1 transition-all"
             >
               <div>
-                <h3 className="font-display text-2xl font-black text-navy-900">
+                <h3 className="font-display text-2xl font-bold text-navy-900">
                   {b.experience_title}
                 </h3>
                 <div className="mt-3 flex items-center gap-4 text-sm font-bold text-navy-500">
@@ -76,7 +76,7 @@ function ProviderBookingsContent() {
                     {b.status.replace(/_/g, " ")}
                   </Badge>
                 </div>
-                <p className="mt-3 font-display text-2xl font-black text-navy-900 title-shadow">
+                <p className="mt-3 font-display text-2xl font-bold text-navy-900 title-shadow">
                   &euro;{parseFloat(b.total_price).toFixed(2)}
                 </p>
               </div>

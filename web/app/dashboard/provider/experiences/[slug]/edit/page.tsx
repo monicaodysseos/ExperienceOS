@@ -205,13 +205,13 @@ function EditExperienceContent() {
   if (loadError) {
     return (
       <div className="mx-auto max-w-2xl">
-        <Link href="/dashboard/provider/experiences" className="mb-8 flex items-center gap-2 text-base font-black text-navy-900 hover:-translate-x-1 transition-transform">
+        <Link href="/dashboard/provider/experiences" className="mb-8 flex items-center gap-2 text-base font-bold text-navy-900 hover:-translate-x-1 transition-transform">
           <ArrowLeft className="h-5 w-5" /> Back to experiences
         </Link>
         <div className="rounded-[2.5rem] border-4 border-red-500 bg-red-100 p-10 text-center shadow-playful blob-shape-2">
-          <h2 className="font-display text-3xl font-black text-red-900 title-shadow">Failed to Load Experience</h2>
+          <h2 className="font-display text-3xl font-bold text-red-900 title-shadow">Failed to Load Experience</h2>
           <p className="mt-3 text-base font-bold text-red-700">{loadError}</p>
-          <Button className="mt-8 rounded-full border-4 border-navy-900 bg-white text-navy-900 font-black shadow-[4px_4px_0_theme(colors.navy.900)] hover:-translate-y-1 transition-all" size="lg" onClick={() => router.push("/dashboard/provider/experiences")}>
+          <Button className="mt-8 rounded-full border-4 border-navy-900 bg-white text-navy-900 font-bold shadow-[4px_4px_0_theme(colors.navy.900)] hover:-translate-y-1 transition-all" size="lg" onClick={() => router.push("/dashboard/provider/experiences")}>
             Back to Experiences
           </Button>
         </div>
@@ -221,11 +221,11 @@ function EditExperienceContent() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <Link href="/dashboard/provider/experiences" className="mb-8 flex items-center gap-2 text-base font-black text-navy-900 hover:-translate-x-1 transition-transform">
+      <Link href="/dashboard/provider/experiences" className="mb-8 flex items-center gap-2 text-base font-bold text-navy-900 hover:-translate-x-1 transition-transform">
         <ArrowLeft className="h-5 w-5" /> Back to experiences
       </Link>
 
-      <h1 className="font-display text-4xl font-black text-navy-900 title-shadow">Edit Experience</h1>
+      <h1 className="font-display text-4xl font-bold text-navy-900 title-shadow">Edit Experience</h1>
 
       {/* Progress */}
       <div className="mt-6 flex items-center gap-2">
@@ -356,18 +356,18 @@ function EditExperienceContent() {
         {/* Navigation */}
         <div className="mt-12 flex justify-between items-center bg-white p-6 rounded-[2.5rem] border-4 border-navy-900 shadow-[8px_8px_0_theme(colors.navy.900)] blob-shape-2">
           {step > 0 ? (
-            <Button type="button" size="lg" className="rounded-full border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-white text-navy-900 font-black hover:-translate-y-1 transition-all" onClick={() => setStep((s) => s - 1)}>
+            <Button type="button" size="lg" className="rounded-full border-4 border-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] bg-white text-navy-900 font-bold hover:-translate-y-1 transition-all" onClick={() => setStep((s) => s - 1)}>
               <ArrowLeft className="h-5 w-5 mr-1" /> Back
             </Button>
           ) : (
             <div />
           )}
           {step < STEPS.length - 1 ? (
-            <Button type="button" size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-yellow-400 text-navy-900 font-black hover:-translate-y-1 transition-all" onClick={nextStep}>
+            <Button type="button" size="lg" className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-yellow-400 text-navy-900 font-bold hover:-translate-y-1 transition-all" onClick={nextStep}>
               Next <ArrowRight className="h-5 w-5 ml-1" />
             </Button>
           ) : (
-            <Button type="submit" size="lg" loading={isSubmitting} className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-light-green-400 text-navy-900 font-black hover:-translate-y-1 transition-all">
+            <Button type="submit" size="lg" loading={isSubmitting} className="rounded-full border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-light-green-400 text-navy-900 font-bold hover:-translate-y-1 transition-all">
               Save Changes
             </Button>
           )}
