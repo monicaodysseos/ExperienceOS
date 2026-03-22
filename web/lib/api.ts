@@ -668,6 +668,12 @@ class ApiClient {
     );
   }
 
+  async deleteExperience(slug: string) {
+    return this.fetch<void>(`/api/v1/experiences/${slug}/delete/`, {
+      method: "DELETE",
+    });
+  }
+
   async getExperiencesForMap(params?: Record<string, string>) {
     const query = params ? "?" + new URLSearchParams(params).toString() : "";
     return this.fetch<PaginatedResponse<ExperienceMapItem>>(

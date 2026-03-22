@@ -158,6 +158,23 @@ class MyExperiencesView(generics.ListAPIView):
         ).prefetch_related('images')
 
 
+class ExperienceDeleteView(APIView):
+    """Soft-delete an experience by setting status to archived."""
+    permission_classes = [permissions.IsAuthenticated, IsProviderOwner]
+
+    def delete(self, request, slug):
+        try:
+            experience = Experience.objects.get(
+                slug=slug, provider__user=request.user
+            )
+        except Experience.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        experience.status = 'archived'
+        experience.save(update_fields=['status'])
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class ExperienceImageUploadView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 

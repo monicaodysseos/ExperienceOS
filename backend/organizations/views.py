@@ -80,9 +80,17 @@ class IsOrgAdminOrDeptHead(permissions.BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated or not request.user.org_id:
             return False
-        return OrganisationMember.objects.filter(
+        # Check OrganisationMember role
+        if OrganisationMember.objects.filter(
             org=request.user.org, user=request.user, role__in=['admin', 'dept_head']
-        ).exists()
+        ).exists():
+            return True
+        # Fallback: check User model role for hr_manager or dept_head
+        if request.user.role in ('hr_manager', 'dept_head') and OrganisationMember.objects.filter(
+            org=request.user.org, user=request.user
+        ).exists():
+            return True
+        return False
 
 
 # ─── Organisation CRUD ───────────────────────────────────────────────────────

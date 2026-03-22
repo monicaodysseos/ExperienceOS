@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Plus, ExternalLink, Settings, Calendar } from "lucide-react";
+import { Plus, ExternalLink, Settings, Calendar, Trash2 } from "lucide-react";
 import { api, type ExperienceListItem } from "@/lib/api";
 import { ProviderGuard } from "@/components/ProviderGuard";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { toast } from "sonner";
 
 const STATUS_VARIANT: Record<string, "success" | "warning" | "info" | "default"> = {
   active: "success",
@@ -29,6 +30,17 @@ function ExperiencesListContent() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
+
+  const handleDelete = async (slug: string, title: string) => {
+    if (!confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) return;
+    try {
+      await api.deleteExperience(slug);
+      setExperiences((prev) => prev.filter((exp) => exp.slug !== slug));
+      toast.success(`"${title}" has been deleted.`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to delete experience");
+    }
+  };
 
   return (
     <div>
@@ -105,6 +117,13 @@ function ExperiencesListContent() {
                 >
                   <ExternalLink className="h-5 w-5" />
                 </Link>
+                <button
+                  onClick={() => handleDelete(exp.slug, exp.title)}
+                  className="rounded-full border-2 border-navy-900 bg-red-400 p-3 text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)] hover:shadow-sm hover:-translate-y-0.5 transition-all"
+                  title="Delete experience"
+                >
+                  <Trash2 className="h-5 w-5" />
+                </button>
               </div>
             </div>
           ))}
@@ -121,3 +140,4 @@ export default function ProviderExperiencesPage() {
     </ProviderGuard>
   );
 }
+
