@@ -2,6 +2,7 @@ import secrets
 from datetime import timedelta
 from decimal import Decimal
 
+from django.conf import settings as django_settings
 from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.db.models import Count, Sum, Q, F
@@ -155,7 +156,7 @@ class TeamMembersView(APIView):
 
 
 class TeamInviteView(APIView):
-    """Send an email invitation to join the organisation."""
+    """Send an email invitation or generate a shareable invite code."""
     permission_classes = [IsOrgAdminOrDeptHead]
 
     def post(self, request):
@@ -163,10 +164,21 @@ class TeamInviteView(APIView):
         serializer = TeamInviteSerializer(data=request.data, context={'org': org})
         serializer.is_valid(raise_exception=True)
 
-        email = serializer.validated_data['email']
+        email = serializer.validated_data.get('email', '')
         target_role = serializer.validated_data.get('target_role', 'member')
         target_department_id = serializer.validated_data.get('target_department_id')
         target_team_id = serializer.validated_data.get('target_team_id')
+
+        # Dept heads can only invite as 'member' to their own department's teams
+        membership = OrganisationMember.objects.filter(
+            org=org, user=request.user
+        ).first()
+        if membership and membership.role == 'dept_head':
+            if target_role != 'member':
+                return Response(
+                    {'detail': 'Department heads can only invite team members.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
 
         target_department = None
         target_team = None
@@ -175,35 +187,36 @@ class TeamInviteView(APIView):
         if target_team_id:
             target_team = Team.objects.get(id=target_team_id, department__org=org)
 
-        # Check if user already exists — add directly
-        try:
-            invitee = User.objects.get(email__iexact=email)
-            OrganisationMember.objects.create(
-                org=org, user=invitee, role=target_role,
-                invited_by=request.user, joined_at=timezone.now()
-            )
-            invitee.org = org
-            if target_role == 'dept_head':
-                invitee.role = 'dept_head'
-            elif target_role == 'member':
-                invitee.role = 'employee'
-            invitee.save(update_fields=['org', 'role'])
+        # If email provided and user already exists — add directly
+        if email:
+            try:
+                invitee = User.objects.get(email__iexact=email)
+                OrganisationMember.objects.create(
+                    org=org, user=invitee, role=target_role,
+                    invited_by=request.user, joined_at=timezone.now()
+                )
+                invitee.org = org
+                if target_role == 'dept_head':
+                    invitee.role = 'dept_head'
+                elif target_role == 'member':
+                    invitee.role = 'employee'
+                invitee.save(update_fields=['org', 'role'])
 
-            # Assign to department/team
-            if target_department and target_role == 'dept_head':
-                target_department.head = invitee
-                target_department.save(update_fields=['head'])
-            if target_team:
-                TeamMember.objects.get_or_create(team=target_team, user=invitee)
+                # Assign to department/team
+                if target_department and target_role == 'dept_head':
+                    target_department.head = invitee
+                    target_department.save(update_fields=['head'])
+                if target_team:
+                    TeamMember.objects.get_or_create(team=target_team, user=invitee)
 
-            return Response(
-                {'detail': f'{email} has been added to your organisation.'},
-                status=status.HTTP_201_CREATED
-            )
-        except User.DoesNotExist:
-            pass
+                return Response(
+                    {'detail': f'{email} has been added to your organisation.'},
+                    status=status.HTTP_201_CREATED
+                )
+            except User.DoesNotExist:
+                pass
 
-        # User doesn't exist — create invite token
+        # Create invite (email or code-only)
         token = secrets.token_urlsafe(48)
         invite = OrganisationInvite.objects.create(
             org=org,
@@ -215,16 +228,66 @@ class TeamInviteView(APIView):
             target_team=target_team,
             expires_at=timezone.now() + timedelta(days=7),
         )
-        send_team_invite_email.delay(invite.id)
-        invite_url = f"{settings.FRONTEND_URL}/join?code={invite.short_code}"
+
+        frontend_url = getattr(django_settings, 'FRONTEND_URL', 'https://experienceos.vercel.app')
+        invite_url = f"{frontend_url}/join?code={invite.short_code}"
+
+        # Send email only if email provided
+        if email:
+            send_team_invite_email.delay(invite.id)
+
         return Response(
             {
-                'detail': f'Invitation sent to {email}.',
+                'detail': f'Invitation created.' if not email else f'Invitation sent to {email}.',
                 'short_code': invite.short_code,
                 'invite_url': invite_url,
             },
             status=status.HTTP_201_CREATED
         )
+
+
+class TeamCodeInviteView(APIView):
+    """Generate a shareable one-time invite code for a team (dept head or admin)."""
+    permission_classes = [IsOrgAdminOrDeptHead]
+
+    def post(self, request, dept_id, team_id):
+        org = request.user.org
+        try:
+            team = Team.objects.select_related('department').get(
+                id=team_id, department_id=dept_id, department__org=org
+            )
+        except Team.DoesNotExist:
+            return Response({'detail': 'Team not found.'}, status=404)
+
+        # Dept heads can only generate for their own department
+        membership = OrganisationMember.objects.filter(
+            org=org, user=request.user
+        ).first()
+        if membership and membership.role == 'dept_head' and team.department.head != request.user:
+            return Response({'detail': 'Not your department.'}, status=403)
+
+        token = secrets.token_urlsafe(48)
+        invite = OrganisationInvite.objects.create(
+            org=org,
+            email='',
+            invited_by=request.user,
+            token=token,
+            target_role='member',
+            target_department=team.department,
+            target_team=team,
+            expires_at=timezone.now() + timedelta(days=7),
+        )
+
+        frontend_url = getattr(django_settings, 'FRONTEND_URL', 'https://experienceos.vercel.app')
+        invite_url = f"{frontend_url}/join?code={invite.short_code}"
+
+        return Response({
+            'short_code': invite.short_code,
+            'invite_url': invite_url,
+            'team_name': team.name,
+            'department_name': team.department.name,
+            'expires_at': invite.expires_at.isoformat(),
+        }, status=status.HTTP_201_CREATED)
 
 
 class AcceptInviteView(APIView):
@@ -298,9 +361,9 @@ class LookupInviteView(APIView):
             return Response({'detail': 'Code is required.'}, status=400)
 
         try:
-            invite = OrganisationInvite.objects.select_related('org').get(
-                short_code=code, accepted_at__isnull=True
-            )
+            invite = OrganisationInvite.objects.select_related(
+                'org', 'target_department', 'target_team'
+            ).get(short_code=code, accepted_at__isnull=True)
         except OrganisationInvite.DoesNotExist:
             return Response({'detail': 'Invalid or expired invite code.'}, status=404)
 
@@ -314,6 +377,8 @@ class LookupInviteView(APIView):
             'short_code': invite.short_code,
             'email': invite.email,
             'expires_at': invite.expires_at.isoformat(),
+            'target_department_name': invite.target_department.name if invite.target_department else None,
+            'target_team_name': invite.target_team.name if invite.target_team else None,
         })
 
 
@@ -321,21 +386,44 @@ class LookupInviteView(APIView):
 
 class DepartmentListCreateView(APIView):
     """List/Create departments for the org."""
-    permission_classes = [IsOrgAdmin]
+    permission_classes = [IsOrgAdminOrDeptHead]
 
     def get(self, request):
         departments = Department.objects.filter(
             org=request.user.org
         ).select_related('head')
+
+        # Dept heads only see their own departments
+        membership = OrganisationMember.objects.filter(
+            org=request.user.org, user=request.user
+        ).first()
+        if membership and membership.role == 'dept_head':
+            departments = departments.filter(head=request.user)
+
         serializer = DepartmentSerializer(departments, many=True)
         return Response({'results': serializer.data, 'count': len(serializer.data)})
 
     def post(self, request):
+        # Only admins can create departments
+        membership = OrganisationMember.objects.filter(
+            org=request.user.org, user=request.user, role='admin'
+        ).first()
+        is_hr = request.user.role == 'hr_manager' and OrganisationMember.objects.filter(
+            org=request.user.org, user=request.user
+        ).exists()
+        if not membership and not is_hr:
+            return Response({'detail': 'Only admins can create departments.'}, status=403)
+
         serializer = DepartmentCreateSerializer(
             data=request.data, context={'org': request.user.org}
         )
         serializer.is_valid(raise_exception=True)
         dept = serializer.save(org=request.user.org)
+
+        # If monthly_budget provided, also set budget_total for backward compat
+        if dept.monthly_budget > 0 and dept.budget_total == 0:
+            dept.budget_total = dept.monthly_budget
+            dept.save(update_fields=['budget_total'])
 
         # If budget > 0, create initial allocation transaction
         if dept.budget_total > 0:
@@ -413,7 +501,7 @@ class DepartmentDetailView(APIView):
 # ─── Budget ──────────────────────────────────────────────────────────────────
 
 class DepartmentBudgetView(APIView):
-    """Add/adjust budget for a department (HR Admin)."""
+    """Add/adjust budget for a department (HR Admin). PATCH to set monthly budget."""
     permission_classes = [IsOrgAdmin]
 
     def post(self, request, dept_id):
@@ -443,6 +531,26 @@ class DepartmentBudgetView(APIView):
         dept.refresh_from_db()
         return Response(DepartmentSerializer(dept).data)
 
+    def patch(self, request, dept_id):
+        """Update the monthly budget amount."""
+        try:
+            dept = Department.objects.get(id=dept_id, org=request.user.org)
+        except Department.DoesNotExist:
+            return Response({'detail': 'Department not found.'}, status=404)
+
+        monthly_budget = request.data.get('monthly_budget')
+        if monthly_budget is None:
+            return Response({'detail': 'monthly_budget is required.'}, status=400)
+
+        try:
+            monthly_budget = Decimal(str(monthly_budget))
+        except Exception:
+            return Response({'detail': 'Invalid amount.'}, status=400)
+
+        dept.monthly_budget = monthly_budget
+        dept.save(update_fields=['monthly_budget'])
+        return Response(DepartmentSerializer(dept).data)
+
 
 class DepartmentTransactionsView(APIView):
     """List budget transactions for a department."""
@@ -464,6 +572,19 @@ class DepartmentTransactionsView(APIView):
         txns = BudgetTransaction.objects.filter(
             department=dept
         ).select_related('created_by', 'booking')
+
+        # Filter by month: ?month=YYYY-MM (defaults to current month)
+        month_param = request.query_params.get('month')
+        if month_param:
+            try:
+                year, month = month_param.split('-')
+                txns = txns.filter(created_at__year=int(year), created_at__month=int(month))
+            except (ValueError, TypeError):
+                pass  # Invalid format — return all
+        else:
+            now = timezone.now()
+            txns = txns.filter(created_at__year=now.year, created_at__month=now.month)
+
         serializer = BudgetTransactionSerializer(txns, many=True)
         return Response({'results': serializer.data, 'count': len(serializer.data)})
 
@@ -642,10 +763,11 @@ class DeptBookingView(APIView):
         provider_payout = total_price - platform_fee
         participant_service_fee = (total_price * service_fee_rate).quantize(Decimal('0.01'))
 
-        # Check budget
-        if dept.budget_remaining < total_price:
+        # Check monthly budget (prefer monthly if set, fallback to static)
+        available = dept.monthly_budget_remaining if dept.monthly_budget > 0 else dept.budget_remaining
+        if available < total_price:
             return Response(
-                {'detail': f'Insufficient budget. Available: {dept.budget_remaining}, Required: {total_price}'},
+                {'detail': f'Insufficient budget. Available: {available}, Required: {total_price}'},
                 status=400
             )
 
@@ -947,6 +1069,8 @@ class DeptHeadDashboardView(APIView):
         dept_data = DepartmentSerializer(departments, many=True).data
         total_budget = sum(d.budget_total for d in departments)
         total_spent = sum(d.budget_spent for d in departments)
+        total_monthly_budget = sum(d.monthly_budget for d in departments)
+        total_monthly_spent = sum(d.current_month_spent for d in departments)
 
         team_count = Team.objects.filter(department__in=departments).count()
         member_count = TeamMember.objects.filter(team__department__in=departments).count()
@@ -966,6 +1090,9 @@ class DeptHeadDashboardView(APIView):
             'total_budget': str(total_budget),
             'total_spent': str(total_spent),
             'total_remaining': str(total_budget - total_spent),
+            'total_monthly_budget': str(total_monthly_budget),
+            'total_monthly_spent': str(total_monthly_spent),
+            'total_monthly_remaining': str(total_monthly_budget - total_monthly_spent),
             'team_count': team_count,
             'member_count': member_count,
             'active_polls': active_polls,
@@ -1117,18 +1244,23 @@ class OrgAnalyticsView(APIView):
             for row in by_department
         ]
 
-        # Budget utilization per department
+        # Budget utilization per department (monthly)
         departments = Department.objects.filter(org=org)
         budget_utilization = [
             {
                 'department': d.name,
                 'department_id': d.id,
-                'budget_total': str(d.budget_total),
-                'budget_spent': str(d.budget_spent),
-                'budget_remaining': str(d.budget_remaining),
+                'budget_total': str(d.monthly_budget if d.monthly_budget > 0 else d.budget_total),
+                'budget_spent': str(d.current_month_spent if d.monthly_budget > 0 else d.budget_spent),
+                'budget_remaining': str(d.monthly_budget_remaining if d.monthly_budget > 0 else d.budget_remaining),
                 'utilization_pct': float(
-                    (d.budget_spent / d.budget_total * 100) if d.budget_total > 0 else 0
+                    (d.current_month_spent / d.monthly_budget * 100) if d.monthly_budget > 0
+                    else (d.budget_spent / d.budget_total * 100) if d.budget_total > 0
+                    else 0
                 ),
+                'monthly_budget': str(d.monthly_budget),
+                'days_until_reset': d.days_until_reset,
+                'budget_period_label': d.budget_period_label,
             }
             for d in departments
         ]

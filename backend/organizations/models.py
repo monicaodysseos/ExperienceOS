@@ -1,8 +1,11 @@
+import calendar
 import secrets
 import string
+from decimal import Decimal
 
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 
 def _generate_short_code(length=8):
@@ -95,6 +98,7 @@ class Department(models.Model):
     )
     budget_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     budget_spent = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    monthly_budget = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     budget_period_start = models.DateField(null=True, blank=True)
     budget_period_end = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -111,6 +115,33 @@ class Department(models.Model):
     @property
     def budget_remaining(self):
         return self.budget_total - self.budget_spent
+
+    @property
+    def current_month_spent(self):
+        """Sum of BudgetTransaction amounts for the current calendar month."""
+        now = timezone.now()
+        return self.transactions.filter(
+            created_at__year=now.year,
+            created_at__month=now.month,
+            type__in=['booking', 'adjustment'],
+        ).aggregate(total=models.Sum('amount'))['total'] or Decimal('0')
+
+    @property
+    def monthly_budget_remaining(self):
+        return self.monthly_budget - self.current_month_spent
+
+    @property
+    def days_until_reset(self):
+        """Days remaining until the 1st of next month."""
+        now = timezone.now().date()
+        _, days_in_month = calendar.monthrange(now.year, now.month)
+        return days_in_month - now.day
+
+    @property
+    def budget_period_label(self):
+        """E.g. 'March 2026'."""
+        now = timezone.now()
+        return now.strftime('%B %Y')
 
 
 class Team(models.Model):
@@ -297,14 +328,14 @@ class OrganisationInvite(models.Model):
     org = models.ForeignKey(
         Organisation, on_delete=models.CASCADE, related_name='invites'
     )
-    email = models.EmailField()
+    email = models.EmailField(blank=True, default='')
     invited_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
         null=True, related_name='org_invites_sent'
     )
     token = models.CharField(max_length=64, unique=True)
     short_code = models.CharField(
-        max_length=9, unique=True, blank=True,
+        max_length=9, unique=True, blank=True, null=True,
         help_text='Human-readable invite code, e.g. VIVI-A3K9'
     )
     target_role = models.CharField(

@@ -64,7 +64,7 @@ class OrganisationMemberSerializer(serializers.ModelSerializer):
 # ─── Invite ──────────────────────────────────────────────────────────────────
 
 class TeamInviteSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    email = serializers.EmailField(required=False, default='')
     target_role = serializers.ChoiceField(
         choices=OrganisationMember.ROLE_CHOICES, default='member'
     )
@@ -72,6 +72,8 @@ class TeamInviteSerializer(serializers.Serializer):
     target_team_id = serializers.IntegerField(required=False, allow_null=True)
 
     def validate_email(self, value):
+        if not value:
+            return value
         org = self.context['org']
         if OrganisationMember.objects.filter(org=org, user__email__iexact=value).exists():
             raise serializers.ValidationError('This person is already a member of your organisation.')
@@ -97,6 +99,13 @@ class TeamInviteSerializer(serializers.Serializer):
             raise serializers.ValidationError('Team not found in your organisation.')
         return value
 
+    def validate(self, data):
+        if data.get('target_role') == 'dept_head' and not data.get('target_department_id'):
+            raise serializers.ValidationError(
+                {'target_department_id': 'Department is required when inviting a dept head.'}
+            )
+        return data
+
 
 # ─── Department ──────────────────────────────────────────────────────────────
 
@@ -112,6 +121,17 @@ class DepartmentSerializer(serializers.ModelSerializer):
     budget_remaining = serializers.DecimalField(
         max_digits=10, decimal_places=2, read_only=True
     )
+    monthly_budget = serializers.DecimalField(
+        max_digits=10, decimal_places=2
+    )
+    current_month_spent = serializers.DecimalField(
+        max_digits=10, decimal_places=2, read_only=True
+    )
+    monthly_budget_remaining = serializers.DecimalField(
+        max_digits=10, decimal_places=2, read_only=True
+    )
+    days_until_reset = serializers.IntegerField(read_only=True)
+    budget_period_label = serializers.CharField(read_only=True)
     team_count = serializers.SerializerMethodField()
     member_count = serializers.SerializerMethodField()
 
@@ -120,6 +140,8 @@ class DepartmentSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'head', 'head_detail',
             'budget_total', 'budget_spent', 'budget_remaining',
+            'monthly_budget', 'current_month_spent', 'monthly_budget_remaining',
+            'days_until_reset', 'budget_period_label',
             'budget_period_start', 'budget_period_end',
             'team_count', 'member_count',
             'created_at', 'updated_at',
@@ -136,7 +158,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class DepartmentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = ['name', 'head', 'budget_total', 'budget_period_start', 'budget_period_end']
+        fields = ['name', 'head', 'budget_total', 'monthly_budget', 'budget_period_start', 'budget_period_end']
 
     def validate_head(self, value):
         if value is None:

@@ -232,12 +232,12 @@ class ApiClient {
   }
 
   async inviteTeamMember(data: {
-    email: string;
+    email?: string;
     target_role?: 'admin' | 'dept_head' | 'member';
     target_department_id?: number;
     target_team_id?: number;
   }) {
-    return this.fetch<{ detail: string }>("/api/v1/org/team/invite/", {
+    return this.fetch<{ detail: string; short_code?: string; invite_url?: string }>("/api/v1/org/team/invite/", {
       method: "POST",
       body: JSON.stringify(data),
     });
@@ -265,6 +265,8 @@ class ApiClient {
       short_code: string;
       email: string;
       expires_at: string;
+      target_department_name: string | null;
+      target_team_name: string | null;
     }>(`/api/v1/org/invite/lookup/?code=${encodeURIComponent(code)}`);
   }
 
@@ -301,6 +303,7 @@ class ApiClient {
     name: string;
     head?: number;
     budget_total?: number;
+    monthly_budget?: number;
     budget_period_start?: string;
     budget_period_end?: string;
   }) {
@@ -338,10 +341,30 @@ class ApiClient {
     });
   }
 
-  async getDepartmentTransactions(deptId: number) {
+  async getDepartmentTransactions(deptId: number, month?: string) {
+    const q = month ? `?month=${encodeURIComponent(month)}` : '';
     return this.fetch<{ results: BudgetTransaction[]; count: number }>(
-      `/api/v1/org/departments/${deptId}/transactions/`
+      `/api/v1/org/departments/${deptId}/transactions/${q}`
     );
+  }
+
+  async updateDepartmentBudget(deptId: number, monthlyBudget: number) {
+    return this.fetch<Department>(`/api/v1/org/departments/${deptId}/budget/`, {
+      method: "PATCH",
+      body: JSON.stringify({ monthly_budget: monthlyBudget }),
+    });
+  }
+
+  async generateTeamInviteCode(deptId: number, teamId: number) {
+    return this.fetch<{
+      short_code: string;
+      invite_url: string;
+      team_name: string;
+      department_name: string;
+      expires_at: string;
+    }>(`/api/v1/org/departments/${deptId}/teams/${teamId}/invite/`, {
+      method: "POST",
+    });
   }
 
   // ─── Teams ────────────────────────────────────────────────────
@@ -1199,7 +1222,7 @@ export interface OrgAnalytics {
   monthly_spend: { month: string; spend: string; count: number }[];
   top_experiences: { title: string; slug: string; spend: string; count: number }[];
   department_breakdown: { department: string; department_id: number; spend: string; count: number }[];
-  budget_utilization: { department: string; department_id: number; budget_total: string; budget_spent: string; budget_remaining: string; utilization_pct: number }[];
+  budget_utilization: { department: string; department_id: number; budget_total: string; budget_spent: string; budget_remaining: string; utilization_pct: number; monthly_budget: string; days_until_reset: number; budget_period_label: string }[];
   top_voters: { user_id: number; name: string; vote_count: number }[];
   top_suggestions: { title: string; slug: string; suggestion_count: number; upvote_count: number }[];
 }
@@ -1222,6 +1245,11 @@ export interface Department {
   budget_total: string;
   budget_spent: string;
   budget_remaining: string;
+  monthly_budget: string;
+  current_month_spent: string;
+  monthly_budget_remaining: string;
+  days_until_reset: number;
+  budget_period_label: string;
   budget_period_start: string | null;
   budget_period_end: string | null;
   team_count: number;
@@ -1308,6 +1336,9 @@ export interface DeptHeadDashboard {
   total_budget: string;
   total_spent: string;
   total_remaining: string;
+  total_monthly_budget: string;
+  total_monthly_spent: string;
+  total_monthly_remaining: string;
   team_count: number;
   member_count: number;
   active_polls: number;

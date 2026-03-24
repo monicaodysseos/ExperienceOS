@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Wallet, ArrowUpRight, ArrowDownRight, TrendingUp, RefreshCw } from "lucide-react";
+import { Wallet, ArrowUpRight, ArrowDownRight, TrendingUp, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import { api, type Department, type BudgetTransaction } from "@/lib/api";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -19,6 +19,10 @@ export default function BudgetPage() {
   const [transactions, setTransactions] = useState<BudgetTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingTx, setLoadingTx] = useState(false);
+  const [viewMonth, setViewMonth] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  });
 
   useEffect(() => {
     api.getDepartments()
@@ -33,11 +37,23 @@ export default function BudgetPage() {
   useEffect(() => {
     if (!selectedDept) return;
     setLoadingTx(true);
-    api.getDepartmentTransactions(selectedDept)
+    api.getDepartmentTransactions(selectedDept, viewMonth)
       .then((d) => setTransactions(d.results))
       .catch(() => {})
       .finally(() => setLoadingTx(false));
-  }, [selectedDept]);
+  }, [selectedDept, viewMonth]);
+
+  const navigateMonth = (direction: -1 | 1) => {
+    const [year, month] = viewMonth.split('-').map(Number);
+    const d = new Date(year, month - 1 + direction, 1);
+    setViewMonth(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
+  };
+
+  const monthLabel = new Date(viewMonth + '-01').toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  const isCurrentMonth = (() => {
+    const now = new Date();
+    return viewMonth === `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  })();
 
   const dept = departments.find((d) => d.id === selectedDept);
 
@@ -90,55 +106,83 @@ export default function BudgetPage() {
       )}
 
       {/* Budget summary cards */}
-      {dept && (
-        <div className="grid gap-4 sm:grid-cols-3 mb-8">
-          <div className="rounded-[2rem] bg-green-300 p-6 border-4 border-navy-900 shadow-playful">
-            <p className="text-sm font-bold text-navy-900 mb-1">Total Budget</p>
-            <p className="font-display text-4xl font-bold text-navy-900">
-              €{parseFloat(dept.budget_total).toLocaleString()}
-            </p>
-            {dept.budget_period_start && dept.budget_period_end && (
-              <p className="mt-2 text-xs font-medium text-navy-700">
-                {new Date(dept.budget_period_start).toLocaleDateString()} – {new Date(dept.budget_period_end).toLocaleDateString()}
+      {dept && (() => {
+        const mb = parseFloat(dept.monthly_budget);
+        const isMonthly = mb > 0;
+        const budgetTotal = isMonthly ? mb : parseFloat(dept.budget_total);
+        const budgetSpent = isMonthly ? parseFloat(dept.current_month_spent) : parseFloat(dept.budget_spent);
+        const budgetRemaining = isMonthly ? parseFloat(dept.monthly_budget_remaining) : parseFloat(dept.budget_remaining);
+        const pctUsed = budgetTotal > 0 ? (budgetSpent / budgetTotal) * 100 : 0;
+        const pctRemaining = budgetTotal > 0 ? Math.min((budgetRemaining / budgetTotal) * 100, 100) : 0;
+
+        return (
+          <div className="grid gap-4 sm:grid-cols-3 mb-8">
+            <div className="rounded-[2rem] bg-green-300 p-6 border-4 border-navy-900 shadow-playful">
+              <p className="text-sm font-bold text-navy-900 mb-1">
+                {isMonthly ? "Monthly Budget" : "Total Budget"}
               </p>
-            )}
-          </div>
+              <p className="font-display text-4xl font-bold text-navy-900">
+                €{budgetTotal.toLocaleString()}
+              </p>
+              {isMonthly ? (
+                <p className="mt-2 text-xs font-bold text-navy-700">
+                  {dept.budget_period_label} · Resets in {dept.days_until_reset}d
+                </p>
+              ) : dept.budget_period_start && dept.budget_period_end ? (
+                <p className="mt-2 text-xs font-medium text-navy-700">
+                  {new Date(dept.budget_period_start).toLocaleDateString()} – {new Date(dept.budget_period_end).toLocaleDateString()}
+                </p>
+              ) : null}
+            </div>
 
-          <div className="rounded-[2rem] bg-blue-300 p-6 border-4 border-navy-900 shadow-playful">
-            <p className="text-sm font-bold text-navy-900 mb-1">Spent</p>
-            <p className="font-display text-4xl font-bold text-navy-900">
-              €{parseFloat(dept.budget_spent).toLocaleString()}
-            </p>
-            <p className="mt-2 text-xs font-medium text-navy-700">
-              {parseFloat(dept.budget_total) > 0
-                ? `${((parseFloat(dept.budget_spent) / parseFloat(dept.budget_total)) * 100).toFixed(0)}% used`
-                : "No budget set"}
-            </p>
-          </div>
+            <div className="rounded-[2rem] bg-blue-300 p-6 border-4 border-navy-900 shadow-playful">
+              <p className="text-sm font-bold text-navy-900 mb-1">
+                {isMonthly ? "Spent This Month" : "Spent"}
+              </p>
+              <p className="font-display text-4xl font-bold text-navy-900">
+                €{budgetSpent.toLocaleString()}
+              </p>
+              <p className="mt-2 text-xs font-medium text-navy-700">
+                {budgetTotal > 0 ? `${pctUsed.toFixed(0)}% used` : "No budget set"}
+              </p>
+            </div>
 
-          <div className="rounded-[2rem] bg-orange-300 p-6 border-4 border-navy-900 shadow-playful">
-            <p className="text-sm font-bold text-navy-900 mb-1">Remaining</p>
-            <p className="font-display text-4xl font-bold text-navy-900">
-              €{parseFloat(dept.budget_remaining).toLocaleString()}
-            </p>
-            <div className="mt-3 h-3 rounded-full bg-navy-900/20 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-navy-900 transition-all"
-                style={{
-                  width: `${parseFloat(dept.budget_total) > 0
-                    ? Math.min((parseFloat(dept.budget_remaining) / parseFloat(dept.budget_total)) * 100, 100)
-                    : 0}%`,
-                }}
-              />
+            <div className="rounded-[2rem] bg-orange-300 p-6 border-4 border-navy-900 shadow-playful">
+              <p className="text-sm font-bold text-navy-900 mb-1">Remaining</p>
+              <p className="font-display text-4xl font-bold text-navy-900">
+                €{budgetRemaining.toLocaleString()}
+              </p>
+              <div className="mt-3 h-3 rounded-full bg-navy-900/20 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-navy-900 transition-all"
+                  style={{ width: `${pctRemaining}%` }}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Transactions */}
       <div className="rounded-[2rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden">
-        <div className="px-6 py-5 border-b-2 border-navy-100">
-          <h2 className="font-bold text-xl text-navy-900">Transaction History</h2>
+        <div className="px-6 py-5 border-b-2 border-navy-100 flex items-center justify-between">
+          <h2 className="font-bold text-xl text-navy-900">Transactions</h2>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigateMonth(-1)}
+              className="p-1.5 rounded-lg hover:bg-navy-100 transition-colors"
+            >
+              <ChevronLeft className="h-5 w-5 text-navy-600" />
+            </button>
+            <span className="font-bold text-navy-700 min-w-[140px] text-center">{monthLabel}</span>
+            <button
+              onClick={() => navigateMonth(1)}
+              disabled={isCurrentMonth}
+              className="p-1.5 rounded-lg hover:bg-navy-100 transition-colors disabled:opacity-30"
+            >
+              <ChevronRight className="h-5 w-5 text-navy-600" />
+            </button>
+          </div>
         </div>
 
         {loadingTx ? (

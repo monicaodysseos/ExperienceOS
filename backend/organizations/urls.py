@@ -27,6 +27,7 @@ urlpatterns = [
     # Teams
     path('departments/<int:dept_id>/teams/', views.TeamListCreateView.as_view(), name='org-department-teams'),
     path('departments/<int:dept_id>/teams/<int:team_id>/', views.TeamDetailView.as_view(), name='org-team-detail'),
+    path('departments/<int:dept_id>/teams/<int:team_id>/invite/', views.TeamCodeInviteView.as_view(), name='org-team-invite-code'),
     path('departments/<int:dept_id>/teams/<int:team_id>/members/', views.TeamMemberAddView.as_view(), name='org-team-member-add'),
     path('departments/<int:dept_id>/teams/<int:team_id>/members/<int:user_id>/', views.TeamMemberRemoveView.as_view(), name='org-team-member-remove'),
 

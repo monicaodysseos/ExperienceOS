@@ -41,7 +41,9 @@ export default function TeamPage() {
   const [newDeptHead, setNewDeptHead] = useState<number | undefined>(undefined);
   const [newDeptBudget, setNewDeptBudget] = useState("");
   
-  const [lastInvite, setLastInvite] = useState<{ short_code: string; invite_url: string; email: string } | null>(null);
+  const [inviteRole, setInviteRole] = useState<'member' | 'dept_head'>('member');
+  const [inviteDeptId, setInviteDeptId] = useState<number | undefined>(undefined);
+  const [lastInvite, setLastInvite] = useState<{ short_code: string; invite_url: string; email: string; role: string; dept_name?: string } | null>(null);
   const [copied, setCopied] = useState(false);
 
   const {
@@ -77,16 +79,28 @@ export default function TeamPage() {
   const onInvite = async (data: InviteForm) => {
     setInviting(true);
     try {
-      const response = await api.inviteTeamMember({ email: data.email }) as { detail: string; short_code?: string; invite_url?: string };
-      toast.success(`Invitation sent to ${data.email}`);
+      const deptName = inviteRole === 'dept_head' && inviteDeptId
+        ? departments.find(d => d.id === inviteDeptId)?.name
+        : undefined;
+      const response = await api.inviteTeamMember({
+        email: data.email,
+        target_role: inviteRole,
+        target_department_id: inviteRole === 'dept_head' ? inviteDeptId : undefined,
+      });
+      const roleLabel = inviteRole === 'dept_head' ? 'Department Head' : 'Employee';
+      toast.success(`Invited ${data.email} as ${roleLabel}`);
       resetInvite();
       if (response.short_code) {
         setLastInvite({
           short_code: response.short_code,
           invite_url: response.invite_url || '',
           email: data.email,
+          role: roleLabel,
+          dept_name: deptName,
         });
       }
+      setInviteRole('member');
+      setInviteDeptId(undefined);
       const teamData = await api.getOrgTeam();
       setMembers(teamData.results || []);
     } catch (err) {
@@ -118,7 +132,7 @@ export default function TeamPage() {
       const dept = await api.createDepartment({
         name: newDeptName.trim(),
         head: newDeptHead,
-        budget_total: newDeptBudget ? parseFloat(newDeptBudget) : undefined,
+        monthly_budget: newDeptBudget ? parseFloat(newDeptBudget) : undefined,
       });
       setDepartments((prev) => [...prev, dept]);
       setNewDeptName("");
@@ -253,7 +267,7 @@ export default function TeamPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-extrabold text-navy-900 mb-2 uppercase tracking-wide">Allocated Budget</label>
+                    <label className="block text-sm font-extrabold text-navy-900 mb-2 uppercase tracking-wide">Monthly Budget</label>
                     <div className="relative">
                       <span className="absolute left-5 top-1/2 -translate-y-1/2 font-display text-lg font-bold text-navy-900">€</span>
                       <input
@@ -303,9 +317,14 @@ export default function TeamPage() {
           ) : (
             <div className="grid grid-cols-1 gap-6">
               {departments.map((dept) => {
-                const total = parseFloat(dept.budget_total);
-                const spent = parseFloat(dept.budget_spent);
+                const monthlyBudget = parseFloat(dept.monthly_budget);
+                const monthlySpent = parseFloat(dept.current_month_spent);
+                const monthlyRemaining = parseFloat(dept.monthly_budget_remaining);
+                const total = monthlyBudget > 0 ? monthlyBudget : parseFloat(dept.budget_total);
+                const spent = monthlyBudget > 0 ? monthlySpent : parseFloat(dept.budget_spent);
+                const remaining = monthlyBudget > 0 ? monthlyRemaining : total - spent;
                 const pct = total > 0 ? (spent / total) * 100 : 0;
+                const isMonthly = monthlyBudget > 0;
                 
                 return (
                   <div key={dept.id} className="relative rounded-[2.5rem] bg-white border-4 border-navy-900 shadow-playful overflow-hidden hover:-translate-y-1 hover:shadow-playful-hover transition-all group">
@@ -350,11 +369,23 @@ export default function TeamPage() {
                     {/* Budget Footer */}
                     <div className="bg-navy-900 p-6 text-white border-t-4 border-navy-900 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                       <div>
-                        <p className="text-xs font-bold text-navy-300 uppercase tracking-widest mb-1">Department Budget</p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <p className="text-xs font-bold text-navy-300 uppercase tracking-widest">
+                            {isMonthly ? "Monthly Budget" : "Department Budget"}
+                          </p>
+                          {isMonthly && (
+                            <span className="text-xs font-bold bg-navy-700 text-navy-200 px-2 py-0.5 rounded-full">
+                              Resets in {dept.days_until_reset}d
+                            </span>
+                          )}
+                        </div>
                         <div className="flex items-baseline gap-2">
-                          <span className="font-display text-3xl font-bold text-green-300">€{total > 0 ? (total - spent).toFixed(0) : "0"}</span>
+                          <span className="font-display text-3xl font-bold text-green-300">€{remaining.toFixed(0)}</span>
                           <span className="text-sm font-bold text-navy-400">remaining of €{total.toFixed(0)}</span>
                         </div>
+                        {isMonthly && (
+                          <p className="text-xs text-navy-400 mt-1">{dept.budget_period_label}</p>
+                        )}
                       </div>
                       
                       {total > 0 && (
@@ -390,6 +421,46 @@ export default function TeamPage() {
             </p>
             
             <form onSubmit={handleInviteSubmit(onInvite)} className="flex flex-col gap-4">
+              {/* Role selector */}
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => { setInviteRole('member'); setInviteDeptId(undefined); }}
+                  className={`flex-1 py-3 rounded-xl font-bold text-sm border-3 transition-all ${
+                    inviteRole === 'member'
+                      ? 'border-navy-900 bg-white text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]'
+                      : 'border-navy-300 bg-yellow-300/50 text-navy-600'
+                  }`}
+                >
+                  Employee
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInviteRole('dept_head')}
+                  className={`flex-1 py-3 rounded-xl font-bold text-sm border-3 transition-all ${
+                    inviteRole === 'dept_head'
+                      ? 'border-navy-900 bg-white text-navy-900 shadow-[2px_2px_0_theme(colors.navy.900)]'
+                      : 'border-navy-300 bg-yellow-300/50 text-navy-600'
+                  }`}
+                >
+                  Dept Head
+                </button>
+              </div>
+
+              {/* Department picker for dept_head */}
+              {inviteRole === 'dept_head' && (
+                <select
+                  value={inviteDeptId ?? ''}
+                  onChange={(e) => setInviteDeptId(e.target.value ? Number(e.target.value) : undefined)}
+                  className="w-full rounded-2xl border-4 border-navy-900 bg-white px-4 py-3 text-base font-bold text-navy-700 focus:outline-none focus:ring-4 focus:ring-yellow-200 shadow-[2px_2px_0_theme(colors.navy.900)]"
+                >
+                  <option value="">Assign to department...</option>
+                  {departments.map((d) => (
+                    <option key={d.id} value={d.id}>{d.name}</option>
+                  ))}
+                </select>
+              )}
+
               <div className="relative">
                 <input
                   type="email"
@@ -402,13 +473,14 @@ export default function TeamPage() {
               {inviteErrors.email && (
                 <p className="text-sm font-bold text-red-600 mt-[-8px] ml-2">{inviteErrors.email.message}</p>
               )}
-              <Button 
-                type="submit" 
-                loading={inviting} 
-                size="lg" 
+              <Button
+                type="submit"
+                loading={inviting}
+                disabled={inviteRole === 'dept_head' && !inviteDeptId}
+                size="lg"
                 className="w-full py-6 text-lg rounded-2xl border-4 border-navy-900 shadow-[4px_4px_0_theme(colors.navy.900)] bg-white hover:bg-navy-50 text-navy-900 font-bold hover:-translate-y-1 transition-all"
               >
-                Send Invite Link
+                {inviteRole === 'dept_head' ? 'Invite as Dept Head' : 'Send Invite Link'}
               </Button>
             </form>
 
@@ -420,7 +492,10 @@ export default function TeamPage() {
                     <QRCodeSVG value={lastInvite.invite_url} size={80} bgColor="transparent" fgColor="#1a1a2e" level="M" />
                   </div>
                   <div>
-                    <p className="text-base font-bold text-green-600 flex items-center gap-1"><Check className="h-4 w-4"/> Invited successfully</p>
+                    <p className="text-base font-bold text-green-600 flex items-center gap-1"><Check className="h-4 w-4"/> Invited as {lastInvite.role}</p>
+                    {lastInvite.dept_name && (
+                      <p className="text-xs font-bold text-navy-700 mt-0.5">Department: {lastInvite.dept_name}</p>
+                    )}
                     <p className="text-xs font-bold text-navy-500 mt-1">They will receive an email shortly.</p>
                   </div>
                 </div>
@@ -476,9 +551,16 @@ export default function TeamPage() {
                         )}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-bold text-navy-900 truncate">
-                          {member.first_name} {member.last_name}
-                        </p>
+                        <div className="flex items-center gap-2">
+                          <p className="font-bold text-navy-900 truncate">
+                            {member.first_name} {member.last_name}
+                          </p>
+                          {member.role === 'dept_head' && (
+                            <span className="text-[10px] font-extrabold bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full border border-orange-200 uppercase tracking-wide shrink-0">
+                              Dept Head
+                            </span>
+                          )}
+                        </div>
                         <p className="text-xs font-bold text-navy-400 truncate">{member.email}</p>
                       </div>
                     </div>
